@@ -1,6 +1,12 @@
 # DevStudy
 개발하는데 필요한것을 공부하고 기록하기위한 저장소
 
+### 참고
+[Android Interview Questions](https://github.com/MindorksOpenSource/android-interview-questions)
+[Technical Interview Guidelines for Beginners](https://github.com/JaeYeopHan/Interview_Question_for_Beginner)
+[tech-interview-for-developer](https://github.com/gyoogle/tech-interview-for-developer)
+[Tech Interview Handbook](https://techinterviewhandbook.org/)
+
 # Android
 
 ## [안드로이드 어플리케이션 컴포넌트](https://developer.android.com/guide/components/fundamentals.html#Components)
