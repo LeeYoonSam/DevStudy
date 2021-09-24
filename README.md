@@ -36,21 +36,20 @@
     - Prim algorithm
 
 # [Android](./Android)
+- [안드로이드 어플리케이션 컴포넌트](https://developer.android.com/guide/components/fundamentals.html#Components)
 
-## [안드로이드 어플리케이션 컴포넌트](https://developer.android.com/guide/components/fundamentals.html#Components)
+- [매니페스트 파일](https://developer.android.com/guide/components/fundamentals.html#Manifest)
 
-## [매니페스트 파일](https://developer.android.com/guide/components/fundamentals.html#Manifest)
+- [안드로이드 어플리케이션의 프로젝트 구조](https://developer.android.com/studio/projects)
 
-## [안드로이드 어플리케이션의 프로젝트 구조](https://developer.android.com/studio/projects)
+- [안드로이드 Context란?](https://blog.mindorks.com/understanding-context-in-android-application-330913e32514)
 
-## [안드로이드 Context란?](https://blog.mindorks.com/understanding-context-in-android-application-330913e32514)
+- [Activity 생명주기](https://developer.android.com/guide/components/activities/activity-lifecycle?hl=ko)
 
-## [Activity 생명주기](https://developer.android.com/guide/components/activities/activity-lifecycle?hl=ko)
+- 액티비티에서 onSavedInstanceState() 와 onRestoreInstanceState() 는 무엇인지?
 
-## 액티비티에서 onSavedInstanceState() 와 onRestoreInstanceState() 는 무엇인지?
+- [프래그먼트 생명주기](https://developer.android.com/guide/components/fragments#java)
 
-## [프래그먼트 생명주기](https://developer.android.com/guide/components/fragments#java)
+- [액티비티 launchMode 설명](https://blog.mindorks.com/android-activity-launchmode-explained-cbc6cf996802)
 
-## [액티비티 launchMode 설명](https://blog.mindorks.com/android-activity-launchmode-explained-cbc6cf996802)
-
-## 유용하게 사용하는 Extension
+- 유용하게 사용하는 Extension
