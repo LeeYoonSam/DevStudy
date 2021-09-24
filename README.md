@@ -50,6 +50,22 @@
 
 - [프래그먼트 생명주기](https://developer.android.com/guide/components/fragments#java)
 
+- Fragment 사용하는 이유
+
+- 언제 Activity가 아닌 Fragment를 사용 하는지?
+
+- FragmentPagerAdapter와 FragmentStatePagerAdapter의 차이점
+
+- Fragment 백스택에서 Add, Replace 차이점
+
+- 기본 생성자만 사용하여 fragment 를 만드는것이 권장되는 이유
+
+- 두 fragment 간 데이터 전달 방법
+
+- retained Fragment 란?
+
+- Fragment transaction 을 커밋하는 동안 addToBackStack()의 목적은?
+
 - [액티비티 launchMode 설명](https://blog.mindorks.com/android-activity-launchmode-explained-cbc6cf996802)
 
 - 유용하게 사용하는 Extension
