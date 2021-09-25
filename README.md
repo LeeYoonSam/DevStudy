@@ -36,36 +36,31 @@
     - Prim algorithm
 
 # [Android](./Android)
-- [안드로이드 어플리케이션 컴포넌트](https://developer.android.com/guide/components/fundamentals.html#Components)
-
-- [매니페스트 파일](https://developer.android.com/guide/components/fundamentals.html#Manifest)
-
-- [안드로이드 어플리케이션의 프로젝트 구조](https://developer.android.com/studio/projects)
-
-- [안드로이드 Context란?](https://blog.mindorks.com/understanding-context-in-android-application-330913e32514)
-
-- [Activity 생명주기](https://developer.android.com/guide/components/activities/activity-lifecycle?hl=ko)
-
-- 액티비티에서 onSavedInstanceState() 와 onRestoreInstanceState() 는 무엇인지?
-
-- [프래그먼트 생명주기](https://developer.android.com/guide/components/fragments#java)
-
+### Core Android
+- 안드로이드 어플리케이션 컴포넌트
+- 매니페스트 파일
+- 안드로이드 어플리케이션의 프로젝트 구조
+- Android Context
+### Activity and Fragment
+- Activity 생명주기
+- onSavedInstanceState onRestoreInstanceState
+- 프래그먼트 생명주기
 - Fragment 사용하는 이유
-
 - 언제 Activity가 아닌 Fragment를 사용 하는지?
-
 - FragmentPagerAdapter와 FragmentStatePagerAdapter의 차이점
-
 - Fragment 백스택에서 Add, Replace 차이점
-
 - 기본 생성자만 사용하여 fragment 를 만드는것이 권장되는 이유
-
 - 두 fragment 간 데이터 전달 방법
-
 - retained Fragment 란?
-
 - Fragment transaction 을 커밋하는 동안 addToBackStack()의 목적은?
+- 액티비티 launchMode 설명
 
-- [액티비티 launchMode 설명](https://blog.mindorks.com/android-activity-launchmode-explained-cbc6cf996802)
+### Views and ViewGroups
+- 안드로이드에서 View 란?
+- Custom View 만들기
+- ViewGroups 이란 무엇이며 View와 어떻게 다른지?
+- ConstraintLayout 이란?
+- ViewTreeObserver가 무엇인지?
 
+### Useful Kotlin Extension
 - 유용하게 사용하는 Extension
