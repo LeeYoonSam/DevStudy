@@ -45,6 +45,7 @@
 - [ListView 와 RecyclerView 의 차이점](#listview-와-recyclerview-의-차이점)
 - [ViewHolder 패턴을 사용하는 이유](#viewholder-패턴을-사용하는-이유)
 - [RecyclerView 최적화 방법](#recyclerview-최적화-방법)
+- [SnapHelper](#snaphelper)
 
 ### Useful Kotlin Extension
 - [유용하게 사용하는 Extension](#유용하게-사용하는-extension)
@@ -535,6 +536,27 @@ recyclerView.setItemViewCacheSize(cacheSize)
 - 오프스크린 뷰 캐시는 연결된 어댑터의 변경 사항을 계속 인식하므로 LayoutManager가 뷰를 다시 바인딩하기 위해 어댑터로 돌아갈 필요 없이 수정되지 않은 뷰를 재사용할 수 있습니다.
 -  RecyclerView를 스크롤하여 화면에서 거의 완전히 벗어난 뷰가 있을 때 RecyclerView는 해당 뷰를 계속 유지하므로 onBindViewHolder()를 다시 호출하지 않고도 뷰로 다시 스크롤할 수 있습니다.
 
+## [SnapHelper](https://blog.mindorks.com/using-snaphelper-in-recyclerview-fc616b6833e8)
+- SnapHelper는 RecyclerView의 자식 View 를 스냅하는데 사용하는 도우미 클래스입니다. 
+- 예를 들어, 플레이 스토어 애플리케이션에서 스크롤이 유휴 위치에 올 때 firstVisibleItem이 항상 완전히 표시되어야 한다면 RecyclerView의 firstVisibleItem을 스냅할 수 있습니다.
+- 아이템이 정확환 위치가 아닌 스크롤에 걸쳐있을때 정확환 위치로 snap 을 해준다.
+
+```kotlin
+SnapHelper snapHelper = new LinearSnapHelper();
+snapHelper.attachToRecyclerView(yourRecyclerView);
+```
+
+### [Custom SnapHelper 구현시](https://github.com/MindorksOpenSource/SnapHelperExample)
+1. calculateDistanceToFinalSnap 
+- 대상 뷰 또는 축의 컨테이너 뷰 내의 특정 지점에 스냅하려면 이 메서드를 재정의합니다.
+- 이 메서드는 SnapHelper가 플링을 가로채고 대상 뷰에 맞추기 위해 스크롤하는 데 필요한 정확한 거리를 알아야 할 때 호출됩니다.
+
+2. findSnapView
+- 특정 타겟에 snap을 하려면 이 메소드를 재정의
+- SnapHelper가 스냅을 시작할 준비가 되어 있고 스냅할 대상 뷰가 필요할 때 호출
+- 스크롤 후 스크롤 상태가 유휴 상태가 되면 명시적으로 호출됩니다.
+- SnapHelper가 플링 후 스냅을 준비하고 현재 자식 뷰 세트의 참조 뷰가 필요할 때도 호출됩니다.
+- 이 메서드가 null을 반환하면 SnapHelper는 어떤 뷰에도 스냅하지 않습니다.
 
 # Useful Kotlin Extension
 ## 유용하게 사용하는 Extension
