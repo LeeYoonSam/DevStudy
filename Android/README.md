@@ -41,6 +41,9 @@
 - [ConstraintLayout 이란?](#constraintlayout-이란)
 - [ViewTreeObserver가 무엇인지?](#viewtreeobserver가-무엇인지)
 
+### Displaying Lists of Content
+- [ListView 와 RecyclerView 의 차이점](#listview-와-recyclerview-의-차이점)
+
 ### Useful Kotlin Extension
 - [유용하게 사용하는 Extension](#유용하게-사용하는-extension)
 
@@ -442,6 +445,18 @@ int size = MeasureSpec.getSize(widthMeasureSpec);
 - 뷰 트리 옵저버는 뷰 트리의 전역 변경 사항을 알릴 수 있는 리스너를 등록하는 데 사용됩니다. 
 - 전역 이벤트에는 전체 트리의 레이아웃, 드로잉 패스의 시작, 터치 모드 변경이 포함되지만 이에 국한되지는 않습니다. 
 - ViewTreeObserver는 뷰 계층 구조에서 제공하는 것처럼 애플리케이션에서 인스턴스화해서는 안 됩니다. 
+
+# Displaying Lists of Content
+
+## ListView 와 RecyclerView 의 차이점
+1. 스크롤시 셀을 재활용 - ListView Adapter 에서도 ViewHolder 를 사용하면 가능하지만 옵션 사항이고, RecyclerView 는 adapter 구현시 기본으로 적용되는 방법이다.
+2. 컨테이너에서 List를 분리 - LayoutManager를 설정하여 런타임에 다른 컨테이너(linearLayout, horizontal, gridLayout)에 List를 쉽게 넣을 수 있다.
+```java
+mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//or
+mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+```
+3. 일반적인 List 작업에 애니메이션을 적용 - 애니메이션은 분리되어 ItemAnimator에 위임된다.
 
 # Useful Kotlin Extension
 ## 유용하게 사용하는 Extension
