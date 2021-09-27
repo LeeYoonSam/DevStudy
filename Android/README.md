@@ -32,3 +32,11 @@
 - ViewHolder 패턴을 사용하는 이유
 - RecyclerView 최적화 방법
 - SnapHelper
+
+## [Intent](./Intent)
+- Intent란?
+
+## [Long-running Operations](./LongRunningOperations)
+- ANR 이 무엇이며 어떻게 방지할 수 있는지?
+- AsyncTask 의 생명 주기와 액티비티의 관계 및 발생할수 있는 문제
+- Looper, Handler and HandlerThread
