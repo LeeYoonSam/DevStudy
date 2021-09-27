@@ -62,5 +62,11 @@
 - ConstraintLayout 이란?
 - ViewTreeObserver가 무엇인지?
 
-### Useful Kotlin Extension
+### Displaying Lists of Content
+- ListView 와 RecyclerView 의 차이점
+- ViewHolder 패턴을 사용하는 이유
+- RecyclerView 최적화 방법
+- SnapHelper
+
+# [Kotlin](./Kotlin)
 - 유용하게 사용하는 Extension
