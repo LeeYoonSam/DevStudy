@@ -1,8 +1,78 @@
 ### Displaying Lists of Content
+- [RecyclerView](#recyclerview)
 - [ListView 와 RecyclerView 의 차이점](#listview-와-recyclerview-의-차이점)
 - [ViewHolder 패턴을 사용하는 이유](#viewholder-패턴을-사용하는-이유)
 - [RecyclerView 최적화 방법](#recyclerview-최적화-방법)
 - [SnapHelper](#snaphelper)
+
+---
+
+## [RecyclerView](https://kimdabang.tistory.com/entry/Recycler-View-%EC%A0%9C%EB%8C%80%EB%A1%9C-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-RecyclerView-lifecycle)
+- Google은 2014년 롤리팝 출시와 함께 RecyclerView 를 공개
+- RecyclerView의 아이디어는 사용자가 스크롤 할때마다 뷰가 생성되는 게 아니라 **뷰는 처음 한번만 생성되고 필요할때마다 재사용** 하는 방법이다.
+- LayoutManager, ItemDecoration, ItemAnimator 등과 같은 다른 개선사항들을 제공
+- RecyclerView에서는 ViewHolder를 필수적으로 갖는것을 강제하고 있다.
+
+### Main Components
+- LayoutManager: 리스트 항목을 배치
+- ItemAnimator: 아이템 추가, 제거 정렬될 때의 애니메이션 처리
+- Adapter: 리스트의 항목을 구성
+
+### LayoutManager란?
+- LayoutManager 는 RecyclerView가 언제 child view 를 재사용할지 알려주는 역할을 한다.
+- LayoutManager 가 없다면 RecyclerView는 어떤 종류의 레이아웃을 화면에 배치해야하는지 알 수 없다.
+<br>
+
+**LayoutManager 종류**
+1. LinearLayoutManager : 간단한 수직 또는 수평의 레이아웃을 제공합니다
+2. GridLayoutManger : spans(colums)을 가지는 격자 레이아웃을 제공합니다
+3. StaggeredLayoutManager : 크기가 제각각인 엇갈린 레이아웃을 제공합니다.
+
+### Adapter 란?
+- 뷰와 데이터들을 bind 하는 역할
+- 일반적인 adapter는 데이터셋의 크기에 의해 결정되는 getCount()를 가지며, 새로운 뷰를 생성하고 그곳에 데이터를 bind 시키는것을 반복하는 일을 한다.
+- RecyclerView는 ViewHolder 를 기본적으로 사용
+- Adapter 는 뷰를 생성하지 않고, infalted(xml의 레이아웃이 메모리에 객체화된) 뷰를 갖는 ViewHolder 를 생성
+- ViewHolder 가 생성되어 cache 에 쌓이면 필요할때 재사용
+- ViewHolder 는 position 이 아닌 itemViewType 에 의해 생성된다는 것이다.
+
+### Life of a ViewHolder - Birth
+- LayoutManager 가 레이아웃을 찾는동안 RecyclerView 에게 뷰 객체를 요청(recyclerview.getViewForPosition())
+- RecyclerView 는 Cache 를 확인해서 찾는 view가 있다면 LayoutManager 에게 전달
+- Cache 에 없다면 RecyclerView 는 Adapter 에게 ViewType 을 가져온다(adapter.getViewType())
+- ViewType 을 알게되면 Recycled Pool 을 확인하여 이 타입의 ViewHolder 를 가져온다.
+- Recycled Pool 은 여러 RecyclerView 들 끼리 공유할 수 있는 Pool 이다.
+- Recycled Pool 에 ViewHolder 가 없다면 RecyclerView 는 adapter 에게 뷰홀더를 새로 만들것을 요청(createViewHolder())
+- Adapter 에게 bindViewHolder()를 호출해서 특정 position 에 이 ViewHolder 를 bind 하라고 요청
+- RecyclerView 는 리턴받은 뷰를 다시 LayoutManager 에게 전달
+- LayoutManager 는 RecyclerView 에게 이 뷰가 레이아웃에 추가되었다고 알리고, RecyclerView는 Adapter 에게 알린다.
+
+### Reserves
+> 사용자가 스크롤을 올려서 기존의 리스트가 화면에 보이지 않을때
+
+- LayoutManager 는 View 를 제거하고 나중에 재활용
+- LayoutManager 는 이를 RecyclerView 에게 알려주고 (removeAndRecyclerView()), RecyclerView 는 Adapter 에게 알려준다(onViewDetachedFromWindow())
+- 이 뷰가 이 position 에 유효한지 확인, 유효한 경우 cache 에 유지시키라고 지시
+- LayoutManager 가 이 position 에 대해 뷰를 다시 요청할 경우 Adapter 를 거칠 필요 없이 알려줄수 있다.
+- Cache 는 Pool 에게 오래된 항목이 삭제되었는지 알려주고, Pool은 Adapter 에게 메로리를 절약하기 위해 오래된 항목 내용을 삭제해도 된다고 알려준다.
+- 뷰가 유효하지 않을때, 예를 들어 아이템 항목하나가 제거되었다고 가정하면 그런 경우 더이상 유효하지 않기 때문에 이를 Pool 에게 보내고 Adapter 에게 알려준다.
+
+### Fancy Reserves
+> LayoutManager 가 다시 레이아웃을 계산하는 동안 Adapter 가 변경된 경우
+
+- 사용하지 않는 뷰는 각각 숨겨진 Adapter List 에 추가
+- itemAnimator 가 끝나고(onAnimationFinished())나서 Adapter 에게 알려주므로 (onViewDetachedFromWindow()) RecyclerView 가 Cache 를 업데이트하고 사용하지 않는 항목을 재활용
+
+### Death
+> 레이아웃에 뷰가 필요하지 않고 뷰가 trasient state(예를 들어 fading out)인 경우
+
+- 뷰가 재사용될 수 없으므로 Adapter 에게 요청(onFailedToRecycle())
+- Adapter 는 ViewHolder 의 상태를 다시 세팅하고 반환
+- Pool 은 유형별로 고정된 크기를 가지고, 가득 찬 경우 ViewHolder 가 삭제된다.
+
+### 참고
+- [RecyclerView ins and outs - Google I/O 2016](https://www.youtube.com/watch?v=LqBlYJTfLP4)
+- [Android Recycler View Lifecycle diagrams and notes](http://landenlabs.com/android/info/recycler/recycler.html)
 
 ---
 
@@ -16,10 +86,14 @@ mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 ```
 3. 일반적인 List 작업에 애니메이션을 적용 - 애니메이션은 분리되어 ItemAnimator에 위임된다.
 
+---
+
 ## ViewHolder 패턴을 사용하는 이유
 - 스크롤하는 동안 findViewById()를 자주 호출하여 성능을 저하시킬 수 있다.
 - 어댑터가 재활용을 위해 `inflated view`를 반환하더라도 여전히 요소를 찾아 업데이트해야 한다.
 - findViewById()를 반복적으로 사용하는 방법은 "뷰 홀더" 디자인 패턴을 사용하는 것
+
+---
 
 ## RecyclerView 최적화 방법
 1. 이미지 로드 라이브러리 사용하기
@@ -90,6 +164,8 @@ recyclerView.setItemViewCacheSize(cacheSize)
 - 공식 문서에 따르면 잠재적으로 공유된 재활용 뷰 풀에 추가하기 전에 유지할 오프스크린 뷰 수를 설정
 - 오프스크린 뷰 캐시는 연결된 어댑터의 변경 사항을 계속 인식하므로 LayoutManager가 뷰를 다시 바인딩하기 위해 어댑터로 돌아갈 필요 없이 수정되지 않은 뷰를 재사용할 수 있습니다.
 -  RecyclerView를 스크롤하여 화면에서 거의 완전히 벗어난 뷰가 있을 때 RecyclerView는 해당 뷰를 계속 유지하므로 onBindViewHolder()를 다시 호출하지 않고도 뷰로 다시 스크롤할 수 있습니다.
+
+---
 
 ## [SnapHelper](https://blog.mindorks.com/using-snaphelper-in-recyclerview-fc616b6833e8)
 - SnapHelper는 RecyclerView의 자식 View 를 스냅하는데 사용하는 도우미 클래스입니다. 
