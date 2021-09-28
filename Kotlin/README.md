@@ -1,5 +1,459 @@
-# Useful Kotlin Extension
+# Kotlin
 - [유용하게 사용하는 Extension](#유용하게-사용하는-extension)
+- [코틀린 기초](#코틀린-기초)
+- [람다로 프로그래밍](#람다로-프로그래밍)
+- [코틀린 타입 시스템](#코틀린-타입-시스템)
+- [연산자 오버로딩과 기타 관례](#연산자-오버로딩과-기타-관례)
+- [고차 함수: 파라미터와 반환 값으로 람다 사용](#고차-함수-파라미터와-반환-값으로-람다-사용)
+- [제네릭스](#제네릭스)
+
+### 참고
+- [Kotlin in Action](http://acornpub.co.kr/book/kotlin-in-action)
+
+---
+
+## 코틀린 기초
+
+### 값 객체(value object)
+- 코드가 없이 데이터만 저장하는 클래스
+
+### 코틀린 기본 가시성
+- 비공개(private)
+
+### val
+- 값을 뜻하는 value 에서 따옴
+- 변경 불가능한(immutable) 참조를 저장하는 변수
+- 읽기 전용 프로퍼티
+- 코틀린은 비공개 필드와 (공개)게터를 만듬
+
+### var
+- 변수를 뜻하는 variable 에서 따옴
+- 변경 가능한(mutable) 참조
+- 쓰기 가능한 프로퍼티
+- 코틀린은 비공개 필드와 (공개)게터/세터를 만듬
+
+### 프로퍼티(property)
+- 자바에서는 필드와 접근자를 한데 묶어 프로퍼티라고 부름
+- 코틀린에서는 기본 제공
+
+### 필드(field)
+- 대부분의 프로퍼티에는 그 프로퍼티의 값을 저장하기 위한 필드가 있다.
+    - 프로퍼티를 뒷받침하는 필드(backing field)
+
+### 소프트 키워드
+- 코틀린에서의 enum
+
+### 스마트 캐스트(smart cast)
+- 어떤 변수를 원하는 타입으로 캐스팅 하지 않아도 마치 처음부터 그 변수가 원하는 타입으로 선언된 것처럼 사용할 수 있다.
+- 실제로는 컴파일러가 캐스팅을 수행을 해준다.
+
+### 수열(progression)
+- 어떤 범위에 속한 값을 일정한 순서로 Iteration 하는 것
+
+### 확장함수(extension function)
+- 어떤 클래스의 멤버 메서드인것처럼 호출 할 수 있지만 그 클래스의 밖에 선언된 함수
+- 수신 객체 타입(receiver type)
+    - 클래스의 이름
+- 수신 객체(receiver object)
+    - 확장 함수가 호출되는 대상이 되는 값
+
+```kotlin
+fun String.lastChar(): Char = this.get(this.length -1)
+```
+- String: 수신 객체 타입
+- this: 수신 객체
+
+### 확장 프로퍼티
+- 기존 클래스 객체에 대한 프로퍼티 형식의 구문으로 사용할 수 있는 API 를 추가할 수 있다.
+
+### vararg(가변인자) 키워드
+- 호출시 인자 개수가 달라질 수 있는 함수를 정의
+
+### 중위(infix) 함수 호출
+- 인자가 하나뿐인 메서드를 간편하게 호출
+
+### 구조 분해 선언(restructuring declaration)
+- 복합적인 값을 분해해서 여러 변수에 나눠 담는다.
+
+```kotlin
+val (number, name) = 1 to “one"
+```
+- 구조분해를 사용해서 number, name 변수에 나눠 담음
+- to: 중위(infix) 함수
+
+### 스프레드(spread) 연산자
+- 이미 배열에 들어있는 원소를 가변 길이 인자로 넘길 때, 배열을 명시적으로 풀어서 배열의 각 원소가 인자로 전달되게 해야 할 때 사용
+
+```kotlin
+fun main(args: List<String>) {
+    val list = listOf(“test”, *args)
+}
+```
+- * : 스프레드 연산자
+
+### 가시성 변경자(visibility modifier)
+- 코드 기반에 있는 선언에 대한 클래스 외부 접근을 제어한다.
+
+### 모듈(module)
+- 한꺼번에 컴파일 되는 코틀린 파일들을 의미
+
+### interanl(가시성 변경자)
+- internal 은 모듈 내부에서만 볼 수 있음
+
+### 주(primary) 생성자
+- 클래스 이름 뒤에 오는 괄호로 둘러 쌓인 코드
+- 클래스를 초기화 할 때 주로 사용하는 간략한 생성자로, 클래스 본문 밖에서 정의
+
+### 부(secondary) 생성자
+- 클래스 본문 안에서 정의
+
+### object
+- 싱글턴 객체 선언
+- 클래스를 정의함과 동시에 객체를 생성
+
+### 프로퍼티 접근자
+- 게터/세터
+
+---
+
+## 람다로 프로그래밍
+
+### 람다가 포획(capture)한 변수
+- 람다안에서 사용하는 외부 변수
+
+### 클로저(Closure)
+- 람다를 실행 시점에 표현하는 데이터 구조는 람다에서 시작하는 모든 참조가 포함된 닫힌(closed) 객체 그래프를 람다 코드와 함께 저장하는 데이터 구조
+
+### 멤버참조(member reference)
+- :: 를 사용하는 식
+
+### 에타변환(eta conversion, eta 는 그리스 알파벳 n)
+- 함수 f 와 람다 { x -> f(x) } 를 서로 바꿔쓰는 것을 뜻한다.
+
+### 고차함수(HOF, High Order Function)
+- 람다나 다른 함수를 인자로 받거나 함수를 반환하는 함수
+
+### 컴비네이터 패턴(combinator pattern)
+- 고차함수와 단순한 함수를 이리저리 조합해서 모드를 작성하는 기법
+
+### 컴비네이터(combinator)
+- 컴비네이터 패턴에서 복잡한 연산을 만들기 위해 값이나 함수를 조합할때 사용하는 고차함수
+
+### filter 함수
+- 컬렉션을 이터레이션 하면서 주어진 람다에 각 원소를 넘겨서 람다가 true 를 변환하는 원소만 모은다.
+
+### predicate(술어)
+- 참/거짓을 반환하는 함수
+
+### map 함수
+- 주어진 람다를 컬렉션의 각 원소에 적용한 결과를 모아서 새 컬렉션으로 만든다.
+
+### all, any
+- 컬렉션의 모든 원소가 어떤 조건을 만족하는지 판단하는 연산
+
+### groupBy
+- 리스트를 여러 그룹으로 이루어진 맵으로 변경
+
+### flatMap, flatten
+> 중첩된 컬렉션 안의 원소 처리
+
+- flatMap
+    - 중첩된 리스트의 원소를 한 리스트로 모아야 할 때 사용
+    - 먼저 인자가 주어진 람다를 컬렉션의 모든 객체에 적용하고(또는 매핑하기) 람다를 적용한 결과 얻어지는 여러 리스트를 한 리스로 한데 모은다.(또는 펼치기 - flatten)
+- flatten
+    - 특별히 반환해야 할 내용이 없다면 리스트의 리스트를 평평하게 펼치기만 한다.
+
+### 지연계산(lazy) 컬렉션 연산
+- 시퀀스(sequence)를 사용하면 중간 임시 컬렉션을 사용하지 않고도 컬렉션 연산을 연쇄 할 수 있다.
+- 시퀀스의 원소는 필요할 때 비로소 계산된다.
+
+```kotlin
+people.asSequence.map(Person::name).filter{it.startWith(“A"}
+```
+
+### 중간(intermediate) 연산
+- 다른 시퀀스를 반환
+
+### 최종(terminal) 연산
+- 결과를 반환
+
+```kotlin
+sequence.map{…}.filter{…}.toList()
+```
+- 중간 계산
+    - map {...}
+    - filter {...}
+- 최종 계산
+    - toList()
+
+### 즉시계산(컬렉션 사용)과 지연계산(시퀀스 사용)
+- 즉시 계산은 전체 컬렉션에 연산을 적용하지만 지연 계산은 원소를 한번에 하나씩 처리
+
+### 함수형 인터페이스(functional Interface) / SAM 인터페이스(단일 추상 메소드, single abstract method)
+- 추상 메소드가 단 하나만 있는 인터페이스
+
+### 수신객체 지정 람다(lambda with receiver)
+- 수신 객체를 명시하지 않고 람다의 본문안에서 다른 객체의 메소드를 호출 할 수 있게 하는 것
+
+### with 함수
+- 어떤 객체의 이름을 반복하지 않고도 그 객체에 대해 다양한 연산을 수행
+- 첫번째 인자로 받은 객체를 두번째 인자로 받은 람다의 수신객체로 만든다.
+- 실제로 파라미터가 2개며, 첫번째는 전달된 객체, 두번째는 람다 이다.
+- with가 반환하는 값은 람다 코드를 실행할 결과며, 그 결과는 람다식의 본문에 있는 마지막 식의 값
+
+### apply 함수
+- `with` 와 동일하며, 유일한 차이는 apply는 항상 자신에게 전달된 객체(즉 수신객체)를 반환한다.
+- 객체의 인스턴스를 만들면서 즉시 프로퍼티 중 일부를 초기화 해야하는 경우에 유용하다
+
+---
+
+## 코틀린 타입 시스템
+
+### 코드의 가독성을 향상시키는데 도움이 되는 특성
+- 널이 될수 있는 타입(nullable type)
+- 읽기전용 컬렉션
+
+### 코틀린의 원시 타입
+- Int
+- Boolean
+- Any 등
+
+### 원시 타입 (Primitive type) 
+- int 등의 변수에는 그 값이 직접 들어가지만, 참조 타입(reference type) String 등의 변수에는 메모리상의 객체 위치가 들어간다.
+
+### 자바 원시 타입 종류
+- 정수 타입 : Byte, Short, Int, Long
+- 부동소수점 수 타입 : Float, Double
+- 문자 타입 : Char
+- 불리언 타입 : Boolean
+
+### Any, Unit, Nothing 타입
+- Any: 모든 널이 될수없는 타입의 조상 타입
+	- 최상위 타입 
+	- Int 등의 원시타입을 포함한 모든 타입의 조상 타입
+	- 코틀린 함수가 Any를 사용하면 자바 바이트코드의 Object 로 컴파일
+- Unit 타입: 코틀린의 void
+	- 관심을 가질만한 내용을 전혀 반환하지 않는 함수의 반환타입으로 Unit 을 쓸 수 있다.
+	- 자바의 void 와 차이점
+		- Unit은 모든 기능을 갖는 일반적인 타입
+		- void와 달리 Unit을 타입 인자로 쓸 수 있다.
+		- Unit 타입의 함수는 Unit 값을 묵시적으로 반환
+		- 제네릭 파라미터를 반환하는 함수를 오버라이드 하면서 반환 타입을 Unit 을 쓸 때 유용
+
+```kotlin
+interface Processor<T> {
+    fun process(): T
+}
+
+class NoResultProcessor: Processor<Unit> {
+    override fun process() {
+        // 업무처리 (return을 명시할 필요 없음)
+    }
+}
+```
+
+### Nothing 타입: 이 함수는 결코 정상적으로 끝나지 않는다.
+```kotlin
+fun fail(message: String): Nothing {
+    throw IllegalStateException(message)
+}
+
+>>> fail(“Error occurred”)
+java.lang.IllegalStateException: Error occurred
+```
+- Nothing 타입은 아무 값도 포함하지 않는다.
+
+### 방어적 복사 (defensive copy)
+- 어떤 컴포넌트의 내부 상태에 컬렉션이 포함된다면 그 컬렉션을 MutableCollection을 인자로 받는 함수에 전달할 때는 어쩌면 원본의 변경을 막기 위해 컬렉션을 복사해야 할 수 도 있다. 이런 패턴을 방어적 복사 라고 부른다.
+
+---
+
+## 연산자 오버로딩과 기타 관례
+
+### 관례 (Convention)
+- 어떤 언어 기능과 미리 정해진 이름의 함수를 연결해주는 기법을 코틀린에서는 관례라고 부른다.
+- 어떤 클래스 안에 plus 라는 이름의 특별한 메소드를 정의하면 그 클래스의 인스턴스에 대해 + 연산자를 사용 할 수 있다.
+
+```kotlin
+data class Point(val x: Int, val y: Int) {
+    operator fun plus(other: Point): Point {
+        return Point(x + other.x, y + other.y)
+    }
+}
+
+>>> val p1 = Point(10, 20)
+>>> val p2 = Point(30, 40)
+>>> println(p1 + p2)
+Point(x=40, y=60)
+```
+- plus 함수 앞에 operator 키워드를 붙여야 한다.
+
+### 오버로딩 가능한 이항 산술 연산자
+
+| 식 | 함수이름 |
+| --- | --- |
+| a * b | times |
+| a / b | div |
+| a % b | mod(1.1부터 rem) |
+| a + b | plus |
+| a - b | minus |
+
+### 복합 대입(compound assignment) 연산자
+- plus 와 같은 연산자를 오버로딩하면 코틀린은 + 연산자뿐 아니라 그와 관련 있는 연산자인 += 도 자동으로 함께 지원한다.
+- +=, -= 등의 연산자는 복합대입 연산자라고 불린다.
+
+### 오버로딩 할 수 있는 단항 산술 연산자
+
+| 식 | 함수이름 |
+| --- | --- |
+| +a | times |
+| -a | div |
+| !a | mod(1.1부터 rem) |
+| ++a,a++ | plus |
+| --a, a-- | minus |
+
+### 구조 분해 선언(destructuring declaration)
+- 구조 분해를 사용하면 복합적인 값을 분해해서 여러 다른 변수를 한꺼번에 초기화할 수 있다.
+```kotlin
+>>> val p = Point(10, 20)
+>>> val (x, y) = p
+>>> println(x)
+10
+>>> println(y)
+20
+
+// 컴파일
+val (x, y) -> 
+val x = p.component1()
+val y = p.component2()
+```
+- 구조 분해 선언의 각 변수를 초기화하기 위해 componentN 이라는 함수를 호출
+
+### 위임 프로퍼티(delegated property)
+- 코틀린이 제공하는 관례에 의존하는 특성 중에 독특하면서 강력한 기능인 위임 프로퍼티
+- 위임 프로퍼티를 사용하면 값을 뒷받침하는 필드에 단순히 저장하는 것보다 더 복잡한 방식으로 작동하는 프로퍼티를 손쉽게 구현 가능
+- 프로퍼티는 위임을 사용해 자신의 값을 필드가 아니라 데이터베이스 테이블이나 브라우저, 세션, 맵 등에 저장 할 수 있다.
+```kotlin
+class Foo {
+    var p: Type by Delegate()
+}
+```
+- p 프로퍼티는 접근자 로직을 다른 객체에게 위임
+
+```kotlin
+class Foo {
+    private val delegate = Delegate() //  컴파일러가 생성한 도우미 프로퍼티
+    var p: Type // p 프로퍼티를 위해 컴파일러가 생성한 접근자는 “delegate”의 getValue와 getValue 메소드를 호출
+    set(value: Type) = delegate.setValue(…, value)
+    get() = delegate.getValue(…)
+}
+```
+- 프로퍼티 위임 관례를 따르는 Delegate 클래스는 getValue 와 setValue 메소드를 제공해야 한다.
+- 관례를 사용하는 다른 경우와 마찬가지로 getValue와 setValue는 멤버 메소드이거나 확장 함수일 수 있다.
+
+### 지연 초기화(lazy initialization)
+- 객체의 일부분을 초기화하지 않고 남겨뒀다가 실제로 그 부분의 값이 필요할 경우 초기화할 때 흔히 쓰이는 패턴
+- 초기화 과정에 자원을 많이 사용하거나 객체를 사용할 때마다 꼭 초기화하지 않아도 되는 프로퍼티에 대해 지연 초기화 패턴을 사용 할 수 있다.
+```kotlin
+class Email { /*…*/ }
+fun loadEmails(person: Person): List<Email> {
+    println(“${person.name}의 이메일을 가져옴”)
+    return listOf(/*…*/)
+}
+
+// 지연 초기화를 뒷받침하는 프로퍼티를 통해 구현하기
+class Person(val name: String) {
+    private var _emails: List<Email>? = null
+    val emails: List<Email>
+        get() {
+            if(_emails == null) {
+                _emails = loadEmails(this)
+            }
+            return _emails!!
+        }
+}
+
+>>> val p = Person(“Alice”)
+>>> p.emails
+Load emails for Alice
+>>> p.emails
+```
+- 여기서는 뒷받침하는 프로퍼티(backing property)라는 기법을 사용한다.
+
+### 뒷받침하는 프로퍼티(backing property)
+- _emails 라는 프로퍼티는 값을 저장하고, 다른 프로퍼티인 emails 는 _emails 라는 프로퍼티에 대한 읽기 연산을 제공
+- _emails 는 널이 될 수 있는 타입인 반면 emails는 널이 될수 없는 타입이므로 프로퍼티를 두 개 사용해야 한다.
+
+```kotlin
+// 지연 초기화를 위임 프로퍼티를 통해 구현하기
+class Person(val name: String) {
+    val emails by lazy { loadEmails(this) }
+}
+```
+- lazy 함수는 코틀린 관례에 맞는 시그니처의 getValue 메소드가 들어있는 객체를 반환한다.
+- lazy 를 by 키워드와 함께 사용해 위임 프로퍼티를 만들 수 있다.
+- lazy 함수는 기본적으로 스레드 안전한다.
+
+### 확장 가능한 객체(expando object)
+- 자신의 프로퍼티를 동적으로 정의할 수 있는 객체를 만들 때 위임 프로퍼티를 활용하는 경우가 자주 있다. 그런 객체를 확장 가능한 객체 라고 부르기도 한다.
+- 예를 들어 연락처 관리 시스템에서 연락처별로 임의의 정보를 저장할 수 있게 허용하는 경우
+
+---
+
+## 고차 함수: 파라미터와 반환 값으로 람다 사용
+
+### 고차함수(high order function)
+- 람다를 인자로 받거나 반환하는 함수
+- 고차함수로 코드를 더 간결하게 다듬고 코드 중복을 없애고 더 나은 추상화를 구축
+
+### 인라인(inline) 함수
+- 람다를 사용함에 따라 발생할 수 있는 성능상 부가 비용을 없애고 람다 안에서 더 유연하게 흐름을 제어할 수 있는 코틀린 특성
+
+### 코틀린 use 
+- 자바 try-with-resource 와 같은 기능을 제공
+- 닫을 수 있는 자원에 대한 확장 함수며, 람다를 인자로 받는다.
+- use는 람다를 호출한 다음에 자원을 닫아준다.
+
+---
+
+## 제네릭스
+
+### 실체화한 타입 파라미터(reified type parameter)
+- 실체화한 타입 파라미터를 사용하면 인라인 함수 호출에서 타입 인자로 쓰인 구체적인 타입을 실행 시점에 알 수 있다.
+
+### 선언 지점 변성(declaration-site variance)
+- 선언 지점 변성을 사용하면 기저 타입은 같지만 타입 인자가 다른 두 제네릭 타입 `Type<A>`와 `Type<B>`가 있을 때 타입 인자 A와 B의 상위/하위 타입 관계에 따라 두 제네릭 타입의 상위/하위 타입 관계가 어떻게 되는지 지정할 수 있다.
+- 예를 들어 `List<Any>` 를 인자로 받는 함수에게 `List<Int>` 타입의 값을 전달할 수 있을지 여부를 선언 지점 변성을 통해 지정할 수 있다.
+
+### 사용 지점 변성(use-site variance)
+- 같은 목표(제네릭 타입 값 사이의 상위/하위 타입 관계 지정)를 제네릭 타입 값을 사용하는 위치에서 파라미터 타입에 대한 제약을 표시하는 방식으로 달성
+
+### 제네릭 타입 파라미터
+- 타입 파라미터 (type parameter)
+
+```kotlin
+Map<K, V>
+List<Any>
+List<String>
+```
+- 타입 인자 (type argument)
+
+```kotlin
+val readers: MutableList<String> = mutableListOf()
+val readers = mutableListOf<String>
+```
+
+### 타입 파라미터 제약(type parameter constraint)
+- 클래스나 함수에 사용할 수 있는 타입 인자를 제한하는 기능
+- 예를 들어 리스트에 속한 모든 원소의 합을 구하는 sum 함수를 생각해보면 List<Int> 나 List<Double>에 그 함수를 적용할 수 있지만 List<String>등에는 그 함수를 적용할 수 없다. sum 함수가 타입 파라미터로 숫자 타입만을 허용하게 정의하면 이런조건을 표현할 수 있다.
+- 어떤 타입을 제네릭 타입의 타입 파라미터에 대한 상한(upper bound)으로 지정하면 그 제네릭 타입을 인스턴스화할 때 사용하는 타입 인자는 반드시 그 상한 타입이거나 그 상한 타입의 하위 타입이어야 한다.
+
+```kotlin
+fun <T: Number> List<T>.sum(): T
+```
+- 타입 파라미터 뒤에 상한을 지정함으로써 제약을 정의할 수 있다.
+
+---
 
 ## 유용하게 사용하는 Extension
 ### 각 타입별 null or 초기화 값 할당
