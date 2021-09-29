@@ -76,6 +76,17 @@
 - AsyncTask 의 생명 주기와 액티비티의 관계 및 발생할수 있는 문제
 - Looper, Handler and HandlerThread
 
+### Architecture
+- Architecture 란?
+- 아키텍처 패턴
+- MVVM Architecture
+- MVP Architecture
+- MVC Architecture
+- MVI Architecture
+- Clean Architecture
+- 모바일 클린 아키텍처
+- Clean Code
+
 # [Kotlin](./Kotlin)
 - 코틀린 기초
 - 람다로 프로그래밍
