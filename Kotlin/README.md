@@ -1,9 +1,14 @@
 # Kotlin
 - [코틀린 기초](#코틀린-기초)
+- [Data class](#data-class)
+- [Sealed Class](#sealed-class)
+- [Scope functions](#scope-functions)
 - [람다로 프로그래밍](#람다로-프로그래밍)
 - [코틀린 타입 시스템](#코틀린-타입-시스템)
 - [연산자 오버로딩과 기타 관례](#연산자-오버로딩과-기타-관례)
 - [고차 함수: 파라미터와 반환 값으로 람다 사용](#고차-함수-파라미터와-반환-값으로-람다-사용)
+- [inline, noinline, crossinline, reified](#inline-noinline-crossinline-reified)
+- [Kotlin 클로저](#kotlin-클로저)
 - [제네릭스](#제네릭스)
 - [유용하게 사용하는 Extension](#유용하게-사용하는-extension)
 
@@ -115,6 +120,213 @@ fun main(args: List<String>) {
 - 게터/세터
 
 ---
+
+## Sealed Class
+> Sealed Class 및 인터페이스는 상속에 대한 더 많은 제어를 제공하는 제한된 클래스 계층을 나타냅니다.<br>
+sealed class 의 모든 하위 클래스는 컴파일 시간에 알려지므로 sealed class 가 있는 모듈이 컴파일된 후에는 다른 하위 클래스가 나타날 수 없습니다.
+<br>
+어떤 의미에서 sealed class는 enum class와 유사합니다. enum type 에 대한 값 집합도 제한되지만 각 enum 상수는 단일 인스턴스로만 존재하는 반면 sealed class의 하위 클래스에는 각각 고유한 속성이 있는 여러 인스턴스가 있을 수 있습니다.
+
+```kotlin
+sealed interface Error
+
+sealed class IOError(): Error
+
+class FileReadError(val f: File): IOError()
+class DatabaseError(val source: DataSource): IOError()
+
+object RuntimeError : Error
+```
+
+### 장점
+- 서브 클래스에 대해서 여러가지 다양한 인스턴스 생성 가능
+- when 표현식을 사용해서 else 구문 제거 가능
+- enum과 가장 큰 차이는 서로 다른 생성자를 갖는 점이다.
+
+### 단점
+- 최초 지정한 타입 클래스에 의존적인 처리가 필요하지만 제네릭을 통해 일반화 하면 공통적으로 여러곳에서 재사용 가능
+
+---
+
+## Data class
+> 데이터를 보관하는 것이 주 목적인 클래스를 만드는 것은 드문 일이 아닙니다. 이러한 클래스에서 일부 표준 기능과 일부 유틸리티 기능은 종종 데이터에서 기계적으로 파생됩니다. Kotlin에서는 이를 data class라고 하며 데이터로 표시됩니다.
+
+```kotlin
+data class User(val name: String, val age: Int)
+```
+<br>
+
+### 컴파일러는 기본 생성자에 선언된 모든 속성에서 다음 멤버를 자동으로 파생합니다.
+- equals()/hashCode() 쌍 
+- "User(name=John, age=42)" 형식의 toString() 
+- componentN() 함수는 선언 순서대로 속성에 해당합니다. 
+- copy() 함수
+
+### 생성된 코드의 일관성과 의미 있는 동작을 보장하기 위해 데이터 클래스는 다음 요구 사항을 충족해야 합니다.
+- 기본 생성자에는 최소한 하나의 매개변수가 있어야 합니다.
+- 모든 기본 생성자 매개변수는 val 또는 var로 표시해야 합니다.
+- 데이터 클래스는 abstract, open, sealed, inner 가 될 수 없습니다.
+
+### 클래스 본문에 선언된 속성
+- 컴파일러는 자동으로 생성된 함수에 대해 기본 생성자 내부에 정의된 속성만 사용합니다. 
+- 생성된 구현에서 속성을 제외하려면 클래스 본문 내에서 속성을 선언합니다.
+
+```kotlin
+data class Person(val name: String) {
+    var age: Int = 0
+}
+```
+- toString(), equals(), hashCode() 및 copy() 구현 내에서는 속성 이름만 사용되며 구성 요소 함수 component1()은 하나만 있습니다. 두 개의 Person 개체는 다른 연령을 가질 수 있지만 동일한 것으로 처리됩니다.
+
+```kotlin
+data class Person(val name: String) {
+    var age: Int = 0
+}
+fun main() {
+    val person1 = Person("John")
+    val person2 = Person("John")
+    person1.age = 10
+    person2.age = 20
+    println("person1 == person2: ${person1 == person2}")
+    println("person1 with age ${person1.age}: ${person1}")
+    println("person2 with age ${person2.age}: ${person2}")
+}
+
+>>>
+person1 == person2: true
+person1 with age 10: Person(name=John)
+person2 with age 20: Person(name=John)
+```
+
+---
+
+## Scope functions
+
+> Kotlin 표준 라이브러리에는 객체 컨텍스트 내에서 코드 블록을 실행하는 것이 유일한 목적인 여러 함수가 포함되어 있습니다.<br>
+제공된 람다 식이 있는 개체에서 이러한 함수를 호출하면 임시 범위가 형성됩니다. 이 범위에서는 이름 없이 개체에 액세스할 수 있습니다. <br>
+이러한 기능을 Scope functions이라고 합니다.<br>
+`let`, `run`, `with`, `apply`, `also` 5가지 scope function 이 존재한다.
+
+### let
+> 컨텍스트 개체는 인수(it)로 사용할 수 있습니다. 반환 값은 람다 결과입니다.
+
+
+```kotlin
+val numbers = mutableListOf("one", "two", "three", "four", "five")
+numbers.map { it.length }.filter { it > 3 }.let { 
+    println(it)
+    // and more function calls if needed
+} 
+```
+
+```kotlin
+val str: String? = "Hello"   
+//processNonNullString(str)       // compilation error: str can be null
+val length = str?.let { 
+    println("let() called on $it")        
+    processNonNullString(it)      // OK: 'it' is not null inside '?.let { }'
+    it.length
+}
+```
+- let은 null이 아닌 값으로만 ​​코드 블록을 실행하는 데 자주 사용됩니다. null이 아닌 개체에 대해 작업을 수행하려면 안전 호출 연산자 ?를 사용합니다. 람다에 있는 작업으로 let을 호출합니다.
+
+```kotlin
+val numbers = listOf("one", "two", "three", "four")
+val modifiedFirstItem = numbers.first().let { firstItem ->
+    println("The first item of the list is '$firstItem'")
+    if (firstItem.length >= 5) firstItem else "!" + firstItem + "!"
+}.uppercase()
+println("First item after modifications: '$modifiedFirstItem'")
+```
+- let을 사용하는 또 다른 경우는 코드 가독성을 향상시키기 위해 제한된 범위의 지역 변수를 도입하는 것입니다. 컨텍스트 개체에 대한 새 변수를 정의하려면 기본값 대신 사용할 수 있도록 해당 이름을 람다 인수로 제공합니다.
+
+### with
+> 비확장 함수: 컨텍스트 개체는 인수로 전달되지만 람다 내부에서는 수신기(this)로 사용할 수 있습니다. 반환 값은 람다 결과입니다.
+<br>
+
+람다 결과를 제공하지 않고 컨텍스트 개체에서 함수를 호출하는 경우 with를 사용하는 것이 좋습니다. 코드에서 with는 "이 개체를 사용하여 다음을 수행합니다."로 읽을 수 있습니다.
+```kotlin
+val numbers = mutableListOf("one", "two", "three")
+with(numbers) {
+    println("'with' is called with argument $this")
+    println("It contains $size elements")
+}
+```
+<br>
+
+with의 또 다른 사용 사례는 속성이나 기능이 값을 계산하는 데 사용되는 도우미 개체를 도입하는 것입니다.
+```kotlin
+val numbers = mutableListOf("one", "two", "three")
+val firstAndLast = with(numbers) {
+    "The first element is ${first()}," +
+    " the last element is ${last()}"
+}
+println(firstAndLast)
+```
+
+### run
+> 컨텍스트 개체는 수신기(this)로 사용할 수 있습니다. 반환 값은 람다 결과입니다.
+<br>
+
+- run은 with와 동일하지만 컨텍스트 개체의 확장 기능으로 let-을 호출합니다.
+- run 은 람다에 개체 초기화와 반환 값 계산이 모두 포함되어 있을 때 유용합니다.
+
+```kotlin
+val service = MultiportService("https://example.kotlinlang.org", 80)
+
+val result = service.run {
+    port = 8080
+    query(prepareRequest() + " to port $port")
+}
+
+// the same code written with let() function:
+val letResult = service.let {
+    it.port = 8080
+    it.query(it.prepareRequest() + " to port ${it.port}")
+}
+```
+
+- 수신기 개체에서 실행을 호출하는 것 외에도 확장 기능이 아닌 함수로 사용할 수 있습니다. 비확장 실행을 사용하면 표현식이 필요한 여러 명령문의 블록을 실행할 수 있습니다.
+
+```kotlin
+val hexNumberRegex = run {
+    val digits = "0-9"
+    val hexDigits = "A-Fa-f"
+    val sign = "+-"
+
+    Regex("[$sign]?[$digits$hexDigits]+")
+}
+
+for (match in hexNumberRegex.findAll("+1234 -FFFF not-a-number")) {
+    println(match.value)
+}
+```
+
+### apply
+> 컨텍스트 개체는 수신기(this)로 사용할 수 있습니다. 반환 값은 개체 자체입니다.
+
+- 값을 반환하지 않고 주로 수신자 개체의 구성원에 대해 작동하는 코드 블록에 적용을 사용합니다. 적용의 일반적인 경우는 개체 구성입니다. 이러한 호출은 "다음 할당을 개체에 적용"으로 읽을 수 있습니다.
+
+```kotlin
+val adam = Person("Adam").apply {
+    age = 32
+    city = "London"        
+}
+println(adam)
+```
+
+### also
+> 컨텍스트 개체는 인수(it)로 사용할 수 있습니다. 반환 값은 개체 자체입니다.
+
+- 컨텍스트 개체를 인수로 사용하는 일부 작업을 수행하는 데도 좋습니다. 속성 및 기능보다 개체에 대한 참조가 필요한 작업이나 외부 범위에서 이 참조를 숨기고 싶지 않은 경우에도 사용합니다.
+- 코드에서도 볼 수 있는 경우 "그리고 객체에 대해 다음을 수행합니다."로 읽을 수도 있습니다.
+
+```kotlin
+val numbers = mutableListOf("one", "two", "three")
+numbers
+    .also { println("The list elements before adding new one: $it") }
+    .add("four")
+```
 
 ## 람다로 프로그래밍
 
@@ -413,6 +625,221 @@ class Person(val name: String) {
 - 자바 try-with-resource 와 같은 기능을 제공
 - 닫을 수 있는 자원에 대한 확장 함수며, 람다를 인자로 받는다.
 - use는 람다를 호출한 다음에 자원을 닫아준다.
+
+---
+
+## [inline, noinline, crossinline, reified](https://leveloper.tistory.com/171)
+
+### inline
+> 고차 함수를 사용하면 런타임 패널티가 있기 때문에 함수 구현 자체를 코드에 넣음으로써 오버헤드를 줄일 수 있다.
+
+```kotlin
+fun doSomething(action: () -> Unit) { 
+    action() 
+} 
+
+fun callFunc() { 
+    doSomething { 
+        println("문자열 출력!") 
+    } 
+}
+```
+- 일반적인 고차함수가 있고 자바로 변환하면 아래 코드로 변환된다.
+
+```java
+public void doSomething(Function action) { 
+    action.invoke(); 
+} 
+
+public void callFunc() { 
+    doSomething(System.out.println("문자열 출력!"); 
+}
+```
+- 그리고 이 자바 코드는 아래 코드로 변환된다.
+
+```java
+public void callFunc() { 
+    doSomething(new Function() { 
+        @Override 
+        public void invoke() { 
+            System.out.println("문자열 출력!"); 
+        } 
+    } 
+}
+```
+- 여기서 내부적으로 객체 생성과 함께 함수 호출을 하게 되어 있어서, 이런 부분에서 오버헤드가 생길 수 있다. 
+- inline 키워드는 이런 오버헤드를 없애기 위해 사용한다.
+
+```kotlin
+inline fun doSomething(action: () -> Unit) { 
+    action() 
+} 
+
+fun callFunc() { 
+    doSomething { 
+        println("문자열 출력!") 
+    } 
+}
+```
+- 위의 코드를 자바로 변환하면 아래 코드로 변환된다.
+
+```java
+public void callFunc() { 
+    System.out.println("문자열 출력!"); 
+}
+```
+- 위와 같이 Function 인스턴스를 만들지 않고, callFunc() 내부에 삽입되어 바로 선언된다. 
+- 위의 코드가 컴파일될 때 컴파일러는 함수 내부의 코드를 호출하는 위치에 복사한다. 
+- 컴파일되는 바이트코드의 양은 많아지겠지만, 함수 호출을 하거나 추가적인 객체 생성은 없다.
+- 이와 같은 이유로 inline 함수는 일반 함수보다 성능이 좋다. 
+- 하지만 inline 함수는 내부적으로 코드를 복사하기 때문에, 인자로 전달받은 함수는 다른 함수로 전달되거나 참조할 수 없다.
+
+```kotlin
+inline fun doSomething(action1: () -> Unit, action2: () -> Unit) {
+    action1()
+    anotherFunc(action2) // error
+}
+
+fun anotherFunc(action: () -> Unit) {
+    action()
+}
+
+fun main() {
+    doSomething({
+        println("1")
+    }, {
+        println("2")
+    })
+}
+```
+- 위의 코드에서 doSomething()에 두 번째 인자로 넘겨받은 action2를 또 다른 고차 함수인 anotherFunc()에 인자로 넘겨주려 하고 있다. 
+- 이때 doSomething()은 inline 함수로 선언되어 있기 때문에 인자로 전달받은 action2를 참조할 수 없기 때문에 전달하는 것이 불가능하다. 
+
+### noinline
+> 모든 인자를 inline으로 처리하고 싶지 않을 때 사용하는 것이 noinline 키워드다.<br>
+인자 앞에 noinline 키워드를 붙이면 해당 인자는 inline에서 제외된다.<br>
+따라서 noinline 키워드가 붙은 인자는 다른 함수의 인자로 전달하는 것이 가능하다.
+
+```
+inline fun doSomething(action1: () -> Unit, noinline action2: () -> Unit) { 
+    action1() 
+    anotherFunc(action2) 
+} 
+
+fun anotherFunc(action: () -> Unit) { 
+    action() 
+} 
+
+fun main() { 
+    doSomething({ 
+        println("1") 
+    }, { 
+        println("2") 
+    }) 
+}
+```
+
+### crossinline
+> 일부 인라인 함수는 파라미터로 전달받은 람다를 호출할 때 함수 몸체에서 직접 호출하지 않고 다른 실행 컨텍스트를 통해(예, 로컬 객체나 중첩 함수,스레드) 호출해야 할 때 람다 안에서 비-로컬 흐름을 제어할 수 없다.<br>
+이럴 때 사용하는 것이 crossinline 키워드다.
+
+```kotlin
+inline fun View.click(block: (View) -> Unit) {
+    setOnClickListener { view ->
+        block(view) // error
+    }
+}
+```
+- View의 클릭 이벤트를 보다 쉽게 연결해주기 위한 확장 함수다.
+
+```kotlin
+inline fun View.click(crossinline block: (View) -> Unit) { 
+    setOnClickListener { view -> 
+        block(view) 
+    } 
+}
+```
+- 람다 함수에 crossinline 키워드를 사용해서 함수 안에서 비-로컬 흐름을 제어
+
+### reified
+> inline 함수에서 특정 타입을 가졌는지 판단할 수 없기때문에 타입을 한정하기 위해 사용
+<br>
+
+- 타입 파라미터에 reified 키워드를 붙여주면 마치 클래스처럼 타입 파라미터에 접근할 수 있다. 
+- 인라인 함수이므로 리플렉션이 필요 없고 is나 as와 같은 일반 연산자가 동작합니다. 
+- 참고로 인라인이 아닌 일반 함수에는 reified를 사용할 수 없습니다.
+
+<br>
+
+위의 예시에서 보인 확장 함수를 제네릭을 사용해서 좀 더 확장해보자.
+
+```kotlin
+inline fun <T: View> T.click(crossinline block: (T) -> Unit) { 
+    setOnClickListener { view -> 
+        block(view as T) 
+    } 
+}
+```
+- 위의 코드는 제네릭을 사용해서 block의 인자로 View가 아닌 T를 넣어준다. 예를 들어, TextView.click으로 사용한다고 하면 인자로 TextView를 받기 위함이다. 위의 코드에서는 오류는 아니지만 경고 메시지가 뜬다.
+`Unchecked cast: View! as T`
+-  view를 T로 캐스팅하려고 할 때 발생하는 경고 메시지이다. 이는 inline 함수에서 특정 타입을 가졌는지 판단할 수 없기 때문이다. 이럴 때 reified 키워드를 사용한다.
+
+```kotlin
+inline fun <reified T: View> T.click(crossinline block: (T) -> Unit) { 
+    setOnClickListener { view -> 
+        block(view as T) 
+    } 
+}
+```
+- 타입 파라미터에 reified 키워드를 붙여주면 마치 클래스처럼 타입 파라미터에 접근할 수 있다.
+
+---
+
+## [Kotlin 클로저](https://blog.naver.com/lys1900/222085445500)
+> 코틀린 함수는 종종 함수 밖에 있는 요소에 접근한다. 그 요소는 패키지 수준의 프로퍼티이거나 클래스나 객체의 프로퍼티일 수 있다.<br>
+심지어 함수가 다른 클래스의 동반 객체나 다른 패키지의 멤버에 접근할 수도 있다.<br>
+순수 함수가 참조 투명성을 지키는 함수, 이는 함수를 반환하는 것 외에 외부에서 관찰 가능한 효과가 없어야 한다는 뜻이다.<br>
+하지만 반환 값이 자신의 인자뿐 아니라 자신을 둘러싸고 있는 영역에 있는 요소에 의해서도 결정된다면? 이런 경우 자신을 둘러싸고 있는 영역의 요소를 함수가 사용하는 암시적 파라미터로 간주할 수 있다.<br>
+자바 람다와 달리 코틀린 람다는 자신을 둘러싸고 있는 영역에 있는 가변 변수에 자유롭게 접근할 수 있다.<br>
+
+```kotlin
+fun main() {
+    println("클로저 사용: ${addTax(12.0)}")
+    
+    println("클로저 대신 튜플을 인자로 받는 함수를 사용: ${addTax(taxRate, 12.0)}")
+    
+    println("함수 값에 적용: ${addTaxFunctionValue(taxRate, 12.0)}")
+    
+    println("커리한 버전: ${addTaxCurried(taxRate)(12.0)}")
+}
+```
+
+```kotlin
+val taxRate = 0.09
+fun addTax(price: Double) = price + price * taxRate
+
+```
+- 이 코드에서 addTax 함수는 taxRate 라는 변수에 대해 닫혀 있다.
+- 여기서 addTax 가 price의 함수가 아니라는 점이 중요하다. 이유는 인자가 같아도 결과가 달라질 수 있기 때문이다.
+- 하지만 이를 (price, taxRate)라는 튜플에 대한 함수로 볼 수 있다.
+
+```kotlin
+// 클로저 대신 튜플을 인자로 받는 함수 사용
+fun addTax(taxRate: Double, price: Double) = price + price * taxRate
+
+// 동일한 방법을 함수 값에도 적용
+val addTaxFunctionValue = { taxRate: Double, price: Double -> price + price * taxRate }
+
+// addTax를 함수 값으로 사용하는 커리한 버전
+val addTaxCurried = 
+    { taxRate: Double -> 
+        { price: Double -> 
+            price + price * taxRate
+        }
+    }
+```
+### 참고
+- [테스트 코드](https://pl.kotl.in/vNESIM-zS)
 
 ---
 
