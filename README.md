@@ -89,9 +89,14 @@
 
 # [Kotlin](./Kotlin)
 - 코틀린 기초
+- Data class
+- Sealed Class
+- Scope functions
 - 람다로 프로그래밍
 - 코틀린 타입 시스템
 - 연산자 오버로딩과 기타 관례
 - 고차 함수: 파라미터와 반환 값으로 람다 사용
+- inline, noinline, crossinline, reified
+- Kotlin 클로저
 - 제네릭스
 - 유용하게 사용하는 Extension
