@@ -7,6 +7,11 @@
 - [tech-interview-for-developer](https://github.com/gyoogle/tech-interview-for-developer)
 - [Tech Interview Handbook](https://techinterviewhandbook.org/)
 
+# [OS](./OS)
+- 프로세스
+- 문맥 교환(Context Switching)
+- 스레드
+
 # [자료구조](./DataStructure)
 - Array vs Linked List
 - Stack and Queue
