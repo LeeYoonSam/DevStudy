@@ -3,6 +3,9 @@
 - [매니페스트 파일](#매니페스트-파일)
 - [안드로이드 어플리케이션의 프로젝트 구조](#안드로이드-어플리케이션의-프로젝트-구조)
 - [Android Context](#android-context)
+- [What is requireActivity?](#what-is-requireactivity)
+- [Pro-guard 의 용도는?](#pro-guard-의-용도는)
+- [Pending Intent 를 사용해서 액티비티를 시작하는 방법은?](#pending-intent-를-사용해서-액티비티를-시작하는-방법은)
 
 ---
 
@@ -81,3 +84,20 @@ Few important points about the context:
 
 ### Activity Context
 - 이 컨텍스트는 액티비티의 수명 주기와 연결됩니다. 액티비티 범위에서 컨텍스트를 전달하거나 현재 컨텍스트에 라이프사이클이 연결된 컨텍스트가 필요할 때 액티비티 컨텍스트를 사용해야 합니다.
+
+## What is requireActivity?
+- null이 아닌 Activity 인스턴스를 Fragment 로 반환하거나 예외를 throw하는 requireActivity() 메서드.
+- 프래그먼트의 생명 주기에서 액티비티를 사용할때 requireActivity()를 사용. activity 가 null 이면 throw 를 발생 시킨다.
+- requireActivity 를 사용하지 않으면 fragment 에서 activity 가 null 이 될 가능성이 있으면 NullPointerException을 피하기 위해 try-catch 블록 안에 넣어야 한다.
+
+## Pro-guard 의 용도는?
+- 애플리케이션의 크기를 줄입니다. 
+- Android 애플리케이션의 64K 메서드 개수 제한에 기여하는 사용되지 않는 클래스 및 메서드를 제거합니다. 
+- 코드를 난독화하여 애플리케이션을 리버스 엔지니어링하기 어렵게 만듭니다.
+
+## Pending Intent 를 사용해서 액티비티를 시작하는 방법은?
+```java
+Intent intent = new Intent(getApplicationContext(), ActivityToLaunch.class);
+intent.putExtra(<oneOfThePutExtraFunctions>);
+PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
+```

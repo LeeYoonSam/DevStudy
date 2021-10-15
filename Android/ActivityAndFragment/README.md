@@ -46,7 +46,6 @@
 - onSavedInstanceState() - 액티비티가 일시 중지하기 전에 데이터를 저장하는 데 사용
 - onRestoreInstanceState() - 액티비티가 소멸된 후 다시 생성될때 액티비티의 저장된 상태를 복구하는 데 사용, 따라서 onRestoreInstanceState()는 인스턴스 상태 정보가 포함된 번들을 수신
 
-
 ## [프래그먼트 생명주기](https://developer.android.com/guide/components/fragments#java)
 - onAttach : 프래그먼트가 액티비티에 추가 되었음을 알기위해 호출, 프래그먼트를 호스팅할 액티비티를 전달
 - onCreate : 프래그먼트 인스턴스가 초기화될 때 호출
