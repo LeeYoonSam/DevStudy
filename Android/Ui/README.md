@@ -1,10 +1,10 @@
-# View and ViewGroups
+# Ui
 - [안드로이드에서 View 란?](#안드로이드에서-view-란)
 - [Custom View 만들기](#custom-view-만들기)
 - [ViewGroups 이란 무엇이며 View와 어떻게 다른지?](#viewgroups-이란-무엇이며-view와-어떻게-다른지)
 - [ConstraintLayout 이란?](#constraintlayout-이란)
 - [ViewTreeObserver가 무엇인지?](#viewtreeobserver가-무엇인지)
-
+- [include, merge, ViewStub 차이](#include-merge-viewstub-차이)
 ---
 
 ## [안드로이드에서 View 란?](https://blog.mindorks.com/create-your-own-custom-view)
@@ -120,3 +120,69 @@ int size = MeasureSpec.getSize(widthMeasureSpec);
 - 뷰 트리 옵저버는 뷰 트리의 전역 변경 사항을 알릴 수 있는 리스너를 등록하는 데 사용됩니다. 
 - 전역 이벤트에는 전체 트리의 레이아웃, 드로잉 패스의 시작, 터치 모드 변경이 포함되지만 이에 국한되지는 않습니다. 
 - ViewTreeObserver는 뷰 계층 구조에서 제공하는 것처럼 애플리케이션에서 인스턴스화해서는 안 됩니다. 
+
+
+## [include, merge, ViewStub 차이]
+
+### include
+> 재사용하고 싶은 컴포넌트를 레이아웃에 넣을 때, include 를 사용한다.
+
+ex) Toolbar 와 같이 재사용하는 컴포넌트를 적용할때 유용
+
+### merge
+> merge는 include 태그와 함께 더미뷰를 생성해 준다. include 됐을 때, merge 태그는 무시되고 그 자식 View 들을 태그의 부모 View 에 추가한다.
+
+- 레이아웃을 그릴 때 depth 가 깊어 질수록 성능은 저하된다. merge 태그를 사용해 depth 를 줄여 성능을 개선할 수 있다.
+
+**activity_main.xml**
+```xml
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="mathc_parent">
+    
+    <include
+    	layout="@layout/merge_button"/>
+   
+</LinearLayout>
+```
+
+**merge_button.xml**
+```xml
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="add"/>
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="delete"/>
+
+</merge>
+```
+
+### ViewStub
+> ViewStub 는 사이즈가 0인 더미 뷰이다. 기능은 include 와 동일하고 `setVisibility()` 또는 `inflate` 되었을 때, view 를 그리기 시작한다. 즉 `lazy include` 라고 생각하면 된다.
+
+```
+주의: viewstub 선언할 때, inflate 된 후 선언해야 한다. 그렇지 않으면 NullPointerException 이 발생한다.
+```
+
+### 정리
+정리
+- 뷰의 재활용 및 좀 더 나은 구조의 레이아웃을 그릴 수 있는 3가지 태그에 대해 알아봤습니다.
+
+- **include** - 뷰의 재활용을 통해 유지보수의 이점이 있습니다.
+
+- **viewStub** - 자주 사용하지 않은 뷰를 그릴때 지정해 주면 불필요하게 레이아웃을 그릴 필요가 없어 성능 개선에 도움이 됩니다.
+
+- **merge** - 레이아웃을 그릴 때 depth 가 깊어 질수록 성능은 저하됩니다. merge 태그를 사용해 depth 를 줄여 성능을 개선할 수 있습니다.
+
+### 참고
+- https://black-jin0427.tistory.com/180
+- https://velog.io/@woga1999/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-xml-%ED%83%9C%EA%B7%B8-include-merge-ViewStub-%EC%B0%A8%EC%9D%B4

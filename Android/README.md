@@ -20,12 +20,13 @@
 - Fragment transaction 을 커밋하는 동안 addToBackStack()의 목적은?
 - 액티비티 launchMode 설명
 
-## [View and ViewGroups](./ViewAndViewGroups)
+## [Android UI](./Ui)
 - 안드로이드에서 View 란?
 - Custom View 만들기
 - ViewGroups 이란 무엇이며 View와 어떻게 다른지?
 - ConstraintLayout 이란?
 - ViewTreeObserver가 무엇인지?
+- include, merge, ViewStub 차이
 
 ## [Displaying Lists of Content](./RecyclerView)
 - ListView 와 RecyclerView 의 차이점
