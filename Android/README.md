@@ -5,6 +5,8 @@
 - 매니페스트 파일
 - 안드로이드 어플리케이션의 프로젝트 구조
 - Android Context
+- 안드로이드 앱 프로세스 분리하기
+- 서비스와 액티비티 간에 활용할 수 있는 IPC
 
 ## [Activity and Fragment](./ActivityAndFragment)
 - Activity 생명주기

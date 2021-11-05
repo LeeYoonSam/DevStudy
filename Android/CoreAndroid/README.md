@@ -6,6 +6,8 @@
 - [What is requireActivity?](#what-is-requireactivity)
 - [Pro-guard 의 용도는?](#pro-guard-의-용도는)
 - [Pending Intent 를 사용해서 액티비티를 시작하는 방법은?](#pending-intent-를-사용해서-액티비티를-시작하는-방법은)
+- [안드로이드 앱 프로세스 분리하기](#안드로이드-앱-프로세스-분리하기)
+- [서비스와 액티비티 간에 활용할 수 있는 IPC](#서비스와-액티비티-간에-활용할-수-있는-ipc)
 
 ---
 
@@ -101,3 +103,45 @@ Intent intent = new Intent(getApplicationContext(), ActivityToLaunch.class);
 intent.putExtra(<oneOfThePutExtraFunctions>);
 PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
 ```
+
+## [안드로이드 앱 프로세스 분리하기](https://brunch.co.kr/@huewu/4)
+> 안드로이드 앱을 구현할 때 경우에 따라 서비스를 별도의 프로세스로 구분하는 것이 유리할 수 있습니다.
+프로세스를 분리하면 어떤 장점이 있는지, 그리고 이때 서비스와 액티비티 간 통신을 위해 어떤 방법을 사용할 수 있는지 정리
+
+## [서비스와 액티비티 간에 활용할 수 있는 IPC](https://brunch.co.kr/@huewu/4)
+> 안드로이드에서 제공하는 IPC(Inter Process Communication) 메커니즘을 이용해 기존 비즈니스 로직을 수정해야 합니다. 안드로이드에서 IPC는 기본적으로 바인더(Binder) 라는 고성능의 RPC(Remote Procedure Call) 메커니즘을 근간으로 구현되어 있습니다.
+
+### Parcel과 Parcelable
+> 프로세스를 분리하면, 두 프로세스는 각기 별도의 힙 공간을 부여받으며, 서로 메모리 공간을 공유하지 않습니다.
+다시 말해 데이터를 주고 받을 때 객체 인스턴스를 직접 주고받을 수 없고, 프로세스를 건너 객체 인스턴스를 전달하기 위해서는 해당 인스턴스를 직렬화(Serialization) 하여 별도의 포맷으로 변경해야 합니다.
+안드로이드는 프로세스를 띄어 넘어 전달될 수 있는 Parcel 객체라는 컨테이너 포맷을 제공하며, 모든 객체는 Parcelable 인터페이스를 구현하여 자신이 Parcel 형태로 변환될 수 있다는 것을 나타낼 수 있습니다.
+백그라운드 서비스와 액티비티 간에 주고받아야 하는 객체가 있다면, 해당 클래스는 Parcelable 인터페이스를 구현하고 있어야 하며, 해당 객체를 Parcel 형태로 변환하고 Parcel 형태에서 다시 해당 객체를 생성할 수 있도록 직렬화/역직렬화 방법이 정의되어 있어야 합니다.
+
+### 인텐트(Intent)
+> 인텐트는 액션, 카테고리 등등 정해진 형식의 데이터와 번들(Bundle) 형태로 포장된 임의의 데이터를 포함할 수 있습니다. 그리고 플랫폼에서 제공하는 API 를 활용해 프로세스를 건너 다른 애플리케이션 구성요소로 전달될 수 있습니다. 특히, 서비스와 액티비티 간의 통신을 위해서는 인텐트와 startService 그리고 sendBroadcast 메서드를 조합하여 사용할 수 있습니다.
+
+**서비스와 액티비티 간 데이터 통신을 활용하는 예**
+- 백그라운드 파일 다운로드처럼 비교적 UI와의 연결고리가 약하고 비동기로 작업을 수행하는 서비스는 이 방법을 활용 가능합니다. 액티비티가 필요한 요청이 있을 때마다 startService 를 통해 다운로드할 파일 정보를 전달하고, 다운로드가 진행될 때마다, 브로드캐스트 인텐트를 통해 액티비티에 다운로드 진척상황을 전달합니다. 특히, 인텐트를 수신해 작업을 처리하는데 특화된 [인텐트 서비스(IntentService)](https://developer.android.com/reference/android/app/IntentService.html) 클래스를 활용하면 좀 더 쉽게 이러한 구조를 갖는 앱을 구현할 수 있습니다.
+
+### 메신저(Messenger)
+> 백그라운드 서비스와 액티비티가 매우 빈번하게 데이터를 주고받아야 하는 경우에 인텐트와 브로드캐스트 리시버를 활용하는 것은 너무 무겁게 느껴질 수 있습니다. 두 구성 요소 간 커뮤니케이션이 빈번하지만, 서로 주고받는 메시지의 종료가 복잡하지 않고 작업 요청과 결과 수신을 비동기식으로 처리할 수 있다면, 안드로이드 플랫폼이 제공하는 또 하나의 IPC 수단인 메신저 객체를 활용할 수 있습니다.
+메신저는 안드로이드는 핸들러(Handler)를 활용하여 구현되었습니다. 일반적으로 핸들러는 서로 다른 스레드 간에 메시지를 주고받을 때 사용됩니다. 메신저 객체를 활용해 프로세스의 경계를 넘어 서로 다른 프로세스에 존재하는 핸들러로 메시지를 전달하거나 받을 수 있습니다. 메신저는 특정 핸들러 인스턴스 참조를 갖고 있으면서, 동시에 Parcelable 인터페이스를 구현하고 있고, RPC 형태로 호출될 수 있는 간단한 바인더 메서드를 포함하고 있습니다.
+특정 핸들러 인스턴스를 기반으로 메신저 객체를 생성한 후, 해당 객체를 다른 프로세스로 전달하고, 이후 메신저의 send() 메서드를 이용해 프로세스 너머에 있는 핸들러에 메시지를 전달할 수 있습니다.
+
+**구체적인 구현 방법 - API 데모에 포함된 샘플 코드**
+- [MessengerService](https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/MessengerService.java)
+
+- [MessengerServiceActivities](https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/MessengerServiceActivities.java)
+
+### AIDL(Android Interface Definition Language)
+> 백그라운드 서비스와 액티비티 간에 주고받아야 하는 메시지의 종류가 다양하고 특히 동기식으로 함수 호출의 결과를 바로 받아야 할 필요가 있는 경우, 메신저를 활용하는데 어려움이 있을 수 있습니다.
+메시지 종류가 많아지면, 필연적으로 이를 처리하는 핸들러 구현도 복잡해지며, 메신저를 통해서는 일반 함수 호출과 같이 바로 특정 함수의 호출 결과를 확인할 수 없습니다. 이런 경우 AIDL을 이용해 바인더 인터페이스를 정의하고, 해당 바인더를 전달받은 액티비티가 다른 프로세스에서 동작하고 있는 서비스에서 제공하는 API를 RPC 형식으로 바로 호출할 수 있도록 구현할 수 있습니다.
+
+- 다양한 종류의 함수와 `동기식/비동기식` 호출 방법을 모두 제공하는 안드로이드 시스템 서비스들이 이러한 방식으로 구현되어 있습니다. 서비스가 제공해야 하는 API 명세를 `AIDL` 스펙에 맞게 정의하면, 안드로이드 개발 도구를 활용해 이를 `바인더 인터페이스와 Stub 추상 클래스로 변환`할 수 있습니다. 이후, `Stub` 클래스를 구현하고 서비스 `bind/unbind` 주기에 맞춰 해당 바인더를 연결된 액티비티에 넘겨주면, 액티비티는 마치 안드로이드 시스템 서비스를 사용하는 것처럼, 자유롭게 프로세스를 건너 `AIDL`에 정의된 함수를 호출할 수 있습니다.
+
+- `AIDL`을 사용하는 데는 어느 정도의 코드 작업이 필요하긴 하지만, 안드로이드 스튜디오에서는 비교적 수월하게 이를 구현할 수 있습니다. `File > NEW > AIDL` 메뉴를 통해 새로운 AIDL 파일을 추가하면 자동으로 필요한 폴더와 참고할 수 있는 코드 조각이 포함된 `AIDL` 파일이 생성됩니다. 필요한 인터페이스를 정의한 후 `compileDebugAidl` Gradle Task 를 수행하면 자동으로 Stub 객체가 생성됩니다. 백그라운드 서비스에서 해당 Stub 객체의 실제 로직을 구현하고, onBind 콜백에서 이를 넘겨 줍니다. `AIDL` 을 사용하는 방법에 관해서는 [자세한 가이드](http://developer.android.com/guide/components/aidl.html)가 제공되고 있고 [API Demo 샘플](https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/RemoteService.java)에도 관련 예제가 첨부되어 있습니다.
+
+### 그 외 영구적으로 저장되는 데이터들
+1. [SharedPreference](https://developer.android.com/reference/android/content/SharedPreferences.OnSharedPreferenceChangeListener.html)
+2. [FileObserver](https://developer.android.com/reference/android/os/FileObserver.html)
+3. [ContentProvider와 ContentObserver](http://developer.android.com/reference/android/database/ContentObserver.html)
