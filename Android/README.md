@@ -54,3 +54,6 @@
 - Clean Architecture
 - 모바일 클린 아키텍처
 - Clean Code
+
+## [ImageGraphic](./ImageGraphic)
+- 비트맵 처리
