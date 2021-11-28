@@ -48,15 +48,15 @@
 - Looper, Handler and HandlerThread
 
 ## [Architecture](./Architecture)
-- Architecture 란?
-- 아키텍처 패턴
-- MVVM Architecture
-- MVP Architecture
-- MVC Architecture
-- MVI Architecture
-- Clean Architecture
-- 모바일 클린 아키텍처
-- Clean Code
+- [Architecture 란?](./Architecture#architecture-란)
+- [아키텍처 패턴](./Architecture#아키텍처-패턴)
+- [MVVM Architecture](./Architecture#mvvm-architecture)
+- [MVP Architecture](./Architecture#mvp-architecture)
+- [MVC Architecture](./Architecture#mvc-architecture)
+- [MVI Architecture](./Architecture#mvi-architecture)
+- [Clean Architecture](./Architecture#clean-architecture)
+- [모바일 클린 아키텍처](./Architecture#모바일-클린-아키텍처)
+- [Clean Code](./Architecture#clean-code)
 
 ## [ImageGraphic](./ImageGraphic)
 - 비트맵 처리
