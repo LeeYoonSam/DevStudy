@@ -59,7 +59,7 @@
 - [Clean Code](./Architecture#clean-code)
 
 ## [ImageGraphic](./ImageGraphic)
-- 비트맵 처리
+- [비트맵 처리](./ImageGraphic#비트맵-처리)
 
 ## [Library](./Library)
 - Dagger, Hilt, Koin 비교
