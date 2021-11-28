@@ -946,3 +946,215 @@ fun Context.view(uri: Uri, onAppMissing: () -> Unit) {
 
 ### 참고
 [Useful Kotlin Extensions for Android](https://medium.com/nerd-for-tech/useful-kotlin-extensions-for-android-d8652f64bca8)
+
+## 코틀린 버전별 비교
+### 1.1
+1. 타입 별명
+    - 기존 타입에 대한 별명(alias)을 만드는 기능으로 typealias 라는 키워드가 생김
+    - 새로운 타입을 정의하지는 않지만 기존 타입을 다른 이름으로 부르거나 더 짧은 이름으로 부를 수 있다.
+
+    ```kotlin
+    // 콜백 함수 타입에 대한 타입 별명
+    typealias MyHandler = (Int, String, Any) -> Unit
+
+    // MyHandler 를 받는 고차 함수
+    fun addHandler(h:MyHandler) { ... }
+    ```
+
+2. 봉인 클래스와 데이터 클래스 
+    - 봉인 클래스의 하위 클래스를 봉인 클래스 내부에 정의할 필요가 없고 같은 소스 파일 안에만 정의
+    - 데이터 클래스로 봉인 클래스를 확장하는 것도 가능
+    - 데이터 클래스로 봉인 클래스를 상속하는 경우 재귀적인 계층 구조의 값을 자연스럽게 표시해주는 toString 함수를 쉽게 얻을 수 있다는 장점이 있다.(보기는 좋지 않음)
+
+    ```kotlin
+    sealed class Expr
+    data class Num(val value: Int) : Expr()
+    data class Sum(val left: Expt, val right: Expr) : Expr()
+    ```
+
+3. 바운드 멤버 참조
+    - 코틀린 1.0에서는 클래스의 메소드나 프로퍼티에 대한 참조를 얻은 다음에 그 참조를 호출할때 인스턴스 객체를 제공해야 했다.
+    - 코틀린 1.1부터는 바운드 멤버참조를 지원
+    - 바운드 멤버 참조를 사용하면 멤버 참조를 생성할때 클래스 인스턴스를 함께 저장한 다음 나중에 그 인스턴스에 대해 멤버를 호출해준다.
+    - 수신 대상 객체를 별도로 지정해줄 필요가 없다.
+
+    ```kotlin
+    val p = Person("albert", 20)
+    val ageFunction = p::age << 바운드 멤버 참조
+    println(ageFunction())
+    ```
+
+    - `ageFunction`은 인자가 하나이지만, `ageFunction` 은 인자가 없는(참조를 만들 때 p가 가리키던 사람의 나이를 반환) 함수라는 점에 유의
+
+4. 람다 파라미터에서 구조 분해 사용
+> 구조 분해 선언을 람다의 파라미터 목록에서도 사용할 수 있다.
+
+```kotlin
+val nums = listOf(1,2,3)
+val names = listOf("One", "Two", "Three")
+(nums zip names).forEach { (num, name) -> println("$(num)") }
+
+// 결과
+1 == One
+2 == Two
+3 == Three
+```
+
+5. 밑줄(_)로 파라미터 무시
+> 람다를 정의하면서 여러 파라미터 중에 사용하지 않는 파라미터가 있다면 _을 그 위치에 넣으면 따로 파라미터 이름을 붙이지 않고 람다를 정의할 수 있다. 마찬가지로 구조분해 시에도 관심이 없는 값을 _로 무시할 수 있다.
+
+```kotlin
+data class YMD(val year: Int, val month: Int, val day: Int)
+
+typealias YMDFUN = (YMD) -> Unit
+
+fun aplyYMD(v: YMD, f: YMDFUN) = f(v)
+
+val now = YMD(2017, 10, 9)
+val 삼일운동 = YMD(1919, 3, 1)
+val (삼일운동이_일어난_해, _, _) = 삼일운동 // 1919
+applyYMD(now) { (year, month, _) -> println("year = ${year}, month = $(month)") }
+
+// 결과
+year = 2017, month = 10
+```
+
+6. 식이 본문인 게터만 있는 읽기 전용 프로퍼티의 타입 상략
+> 읽기 전용 프로퍼티를 정의할 때 게터의 분문이 시식이라면 타입을 생략해도 컴파일러가 프로퍼티 타입을 추론해준다.
+
+```kotlin
+data class Foo(val value: Int) {
+    val double get() = value * 2
+}
+```
+
+7. 프로퍼티 접근자 인라이닝
+> 접근자를 inline 으로 선언할 수 있다. 게터뿐 아니라 세터도 인라이닝이 가능하며, 일반 멤버 프로퍼티뿐 아니라 확장 멤버 프로퍼티나 최상위 프로퍼티도 인라이닝이 가능하다.
+
+- 프로퍼티에 뒷받침하는 필드가 있으면 그 프로퍼티의 게터나 세터를 인라이닝 할 수 없다.
+
+```kotlin
+val toplevel: Double
+    inline get() = Math.PI // 게터 인라이닝
+
+class InlinePropExample(var value: Int) {
+    val setOnly: Int
+    get() = value
+    inline set(v) { value = v } // 세터 인라이닝
+
+    // 컴파일 오류: Inline property cannot have backing field
+    val backing: Int = 10
+    inline get() = field * 1000
+}
+
+inline var InlinePropExample.square: Int // 게터 세터 인라이닝
+    get() = value * value
+    set(v) { value = Math.sqrt(v.toDouble()).toInt() }
+```
+
+8. 제네릭 타입으로 이넘 값 접근
+> 제네릭 파라미터로 쓰이는 이넘의 모든 이념 값을 이터레이션하거나 값을 찾아봐야 하는 경우, 인라인 제네릭 함수 안에서 실체화한(reified) 타입을 활용해 이넘에 제네릭하게 접근할 수 있다.
+
+9. DSL 의 수신 객체 제한
+
+10. 로컬 변수 등을 위임
+> 클래스나 객체의 프로퍼티 외에 로컬 변수나 최상위 수준의 변수에도 이험을 사용할 수 있다.
+
+11. 위임 객체 프로바이더
+- provideDelegate() 연산자 안에서는 프로퍼티가 위임 객체에 자신을 위임하는 시점에 프로퍼티 이름과 객체에 따라 적절한 프로퍼티 검증을 진행하거나 상황에 맞는 적절한 프로퍼티 위임 객체를 제공하는 등의 작업을 수행 할 수 있다.
+
+12. mod 와 rem
+> mod 대신 rem 이 % 연산자로 해석된다. 이유는 기존 자바 BigInteger 구현과 다른 정수형 타입(Int 등의)의 % 연산 결과를 맞추기 위험
+
+13. 표준 라이브러리 변화
+    - 문자열-숫자 변환
+        - 문자열을 수로 변환할 때 예외를 던지는 대신 Null 을 돌려주는 메소드가 추가되었다.
+    - onEach()
+    - also(), takeIf(), takeUnless()
+        - also 는 apply 와 비슷하지만 람다 안에서 this 가 바뀌지 않기 때문에 수신 객체를 it 으로 활용해야 한다는 점이 다르다.
+        - this가 가려지면 불편한 경우 also 가 유용하다.
+    - groupingBy()
+        - groupingBy는 컬렉션을 키에 따라 분류한다. 이때 Grouping 이라는 타입의 값을 변환한다는 점에 유의
+    - Map.toMap() 과 Map.toMutableMap()
+        - 맵을 복사할 때 사용한다.
+    - minOf(), maxOf()
+        - 둘 또는 세 값 중 최소(minOf)나 최대(maxOf)인 값을 구할 때 사용한다. 
+    - 람다를 사용한 리스트 초기화
+        - Array 생성자처럼 리스트 생성자 중에도 람다를 파라미터로 받는 생성자가 생겼다.
+        ```kotlin
+        fun initListWithConst(v: Int, size: Int) = MutableList(size) { V }
+        val evens = List(10) { 2 * it }
+        val thirtyZeros = initListWithConst(0, 30)
+        ```
+
+    - Map.getValue()
+    - 추상 컬렉션 클래스
+    - 배열 연산 추가
+
+### 1.2
+1. 애노테이션의 배열 리터럴
+    - 1.1 까지는 애노테이션에서 여러 값을 배열로 넘길 때 arrayOf 를 써야 했다.
+    - 1.2 에서는 [] 사이에 원소를 넣어서 표시할 수 있다.
+
+2. 지연 초기화(lateinit) 개선
+3. 인라인 함수의 디폴트 함수 타입 파라미터 지원
+4. 함수/메소드 참조 개선
+5. 타입 추론 개선
+6. 경고를 오류로 처리
+> 커맨드라인 옵션에 -Werror 지정하면 모든 경고를 오류로 처리한다.
+
+```gradle
+compileKotlin {
+    kotlinOptions.warningsAsErrors = true
+}
+```
+
+7. 스마트 캐스트 개선
+8. 이넘 원소 안의 클래스는 내부 클래스로
+9. (기존 코드를 깨는 변경) try 블록의 스마트 캐스트 안전성 향상
+10. 사용 금지 예고된 기능
+    - 다른 클래스를 상속한 하위 데이터 클래스의 자동 생성 copy로 인한 문제
+    - 이넘 원소 안에서 중첩 타입 정의
+    - 가변 인자에게 이름 붙은 인자로 원소 하나만 넘기기
+    - Throwable 을 확장하는 제네릭 클래스의 내부 클래스
+    - 읽기 전용 프로퍼티를 뒷받침하는 필드 덮어쓰기
+
+11. 표준 라이브러리
+    - 호환 패키지 분리
+    - 컬렉션
+    - kotlin.math
+    - Regex 클래스를 직렬화 가능하게 바꿈
+
+12. JVM 백엔드 변경
+    - 생성자 호출 정규화
+    자바 디폴트 메소드 호출
+    (기존 코드를 깨는 변경) 플랫폼 코드의 x.equals(null) 동작 일관성
+
+### 1.3
+> 코루틴과 코루틴을 활용한 비동기 프로그래밍(async/await)이 1.3부터 정식 버전으로 포함됐다.
+
+1. 코틀린 네이티브 개선
+2. 다중 플랫폼 프로젝트
+3. 컨트랙트(Contract, 계약) - null 가능한 타입에 대해 스마트 캐스트가 되도록 구현
+    - 사용자 정의 컨트랙트
+4. When 의 대상을 변수에 포획 - When 의 대상에 변수를 선언해서 사용하고 When 문 바깥의 코드를 깔끔하게 유지 
+5. 인터페이스의 동반 객체에 있는 멤버를 @JvmStatic 이나 @JvmField 로 애노테이션
+    - 애노테이션 클래스 안에 선언을 중첩시킬 수 있음
+6. 파라미터 없는 메인
+7. 함수 파라미터 수 제한 완화
+8. 프로그래시브 모드
+9. 인라인 클래스(실험적 기능)
+10. 부호 없는 정수(실험적 기능)
+11. @JvmDefault(실험적 기능)
+12. 표준 라이브러리 변화
+    - Random 다중 플랫폼 지원
+    - isNullOrEmpty와 orEmpty 확장을 여러 클래스에 추가
+    - 배열 원소 복사 확장 함수 copyInto() 추가
+    - 맵 연관 쌍 추가 함수 associateWith()
+    - ifEmpty 와 ifBlank 함수
+    - 봉인 클래스에 접근할 수 있는 리플렉션 추가
+    - 기타 소소한 변경
+        - Boolean 에 동반 객체가 생김
+        - Any?.hashCode() 확장이 null에 대해 0을 반환
+        - Char 도 MIN_VALUE 와 MAX_VALUE 를 제공
+        - 기본 타입들의 동반 객체에 SIZE_BYTES 와 SIZE_BITS 를 추가
