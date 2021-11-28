@@ -43,9 +43,9 @@
 - Intent란?
 
 ## [Long-running Operations](./LongRunningOperations)
-- ANR 이 무엇이며 어떻게 방지할 수 있는지?
-- AsyncTask 의 생명 주기와 액티비티의 관계 및 발생할수 있는 문제
-- Looper, Handler and HandlerThread
+- [ANR 이 무엇이며 어떻게 방지할 수 있는지?](./LongRunningOperations#anr-이-무엇이며-어떻게-방지할-수-있는지)
+- [AsyncTask 의 생명 주기와 액티비티의 관계 및 발생할수 있는 문제](./LongRunningOperations#asynctask-의-생명-주기와-액티비티의-관계-및-발생할수-있는-문제)
+- [Looper, Handler and HandlerThread](./LongRunningOperations#looper-handler-and-handlerthread)
 
 ## [Architecture](./Architecture)
 - [Architecture 란?](./Architecture#architecture-란)
