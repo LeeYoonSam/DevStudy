@@ -34,10 +34,11 @@
 - [include, merge, ViewStub 차이](./Ui#include-merge-viewstub-차이)
 
 ## [Displaying Lists of Content](./RecyclerView)
-- ListView 와 RecyclerView 의 차이점
-- ViewHolder 패턴을 사용하는 이유
-- RecyclerView 최적화 방법
-- SnapHelper
+- [RecyclerView](./RecyclerView#recyclerview)
+- [ListView 와 RecyclerView 의 차이점](./RecyclerView#listview-와-recyclerview-의-차이점)
+- [ViewHolder 패턴을 사용하는 이유](./RecyclerView#viewholder-패턴을-사용하는-이유)
+- [RecyclerView 최적화 방법](./RecyclerView#recyclerview-최적화-방법)
+- [SnapHelper](./RecyclerView#snaphelper)
 
 ## [Intent](./Intent)
 - [Intent란?](./Intent#intent란)
