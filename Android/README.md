@@ -40,7 +40,7 @@
 - SnapHelper
 
 ## [Intent](./Intent)
-- Intent란?
+- [Intent란?](./Intent#intent란)
 
 ## [Long-running Operations](./LongRunningOperations)
 - [ANR 이 무엇이며 어떻게 방지할 수 있는지?](./LongRunningOperations#anr-이-무엇이며-어떻게-방지할-수-있는지)
