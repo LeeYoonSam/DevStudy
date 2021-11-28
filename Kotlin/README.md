@@ -11,6 +11,7 @@
 - [Kotlin 클로저](#kotlin-클로저)
 - [제네릭스](#제네릭스)
 - [유용하게 사용하는 Extension](#유용하게-사용하는-extension)
+- [코틀린 버전별 비교](#코틀린-버전별-비교)
 
 ### 참고
 - [Kotlin in Action](http://acornpub.co.kr/book/kotlin-in-action)
