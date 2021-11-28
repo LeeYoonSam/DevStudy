@@ -13,39 +13,23 @@
 - 스레드
 
 # [자료구조](./DataStructure)
-- Array vs Linked List
-- Stack and Queue
-- Tree
-  - Binary Tree
-  - Full Binary Tree
-  - Complete Binary Tree
-- BST (Binary Search Tree)
-- Binary Heap
-- Red-Black Tree
-  - 정의
-  - 특징
-  - 삽입
-  - 삭제
-- Hash Table
-  - Hash Function
-  - Resolve Collision
-    - Open Addressing
-    - Separate Chaining
-  - Resize
-- Graph
-  - Graph 용어 정리
-  - Graph 구현
-  - Graph 탐색
-  - Minimum Spanning Tree
-    - Kruskal algorithm
-    - Prim algorithm
+- [Array vs Linked List](./DataStructure#array-vs-linked-list)
+- [Stack and Queue](./DataStructure#stack-and-queue)
+- [Tree](./DataStructure#tree)
+- [Binary Heap](./DataStructure#binary-heap)
+- [Red Black Tree](./DataStructure#red-black-tree)
+- [Hash Table](./DataStructure#hash-table)
+- [Graph](./DataStructure#graph)
+ 
 
 # [Android](./Android)
+
 ### Core Android
 - 안드로이드 어플리케이션 컴포넌트
 - 매니페스트 파일
 - 안드로이드 어플리케이션의 프로젝트 구조
 - Android Context
+
 ### Activity and Fragment
 - Activity 생명주기
 - onSavedInstanceState onRestoreInstanceState
