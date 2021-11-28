@@ -8,9 +8,9 @@
 - [Tech Interview Handbook](https://techinterviewhandbook.org/)
 
 # [OS](./OS)
-- 프로세스
-- 문맥 교환(Context Switching)
-- 스레드
+- [프로세스](./OS#프로세스)
+- [문맥 교환(Context Switching)](./OS#문맥-교환context-switching)
+- [스레드](./OS#스레드)
 
 # [자료구조](./DataStructure)
 - [Array vs Linked List](./DataStructure#array-vs-linked-list)
@@ -20,7 +20,7 @@
 - [Red Black Tree](./DataStructure#red-black-tree)
 - [Hash Table](./DataStructure#hash-table)
 - [Graph](./DataStructure#graph)
- 
+
 
 # [Android](./Android)
 
