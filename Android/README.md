@@ -62,4 +62,4 @@
 - [비트맵 처리](./ImageGraphic#비트맵-처리)
 
 ## [Library](./Library)
-- Dagger, Hilt, Koin 비교
+- [Dagger Hilt Koin 비교](./Library#dagger-hilt-koin-비교)
