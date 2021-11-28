@@ -24,57 +24,71 @@
 
 # [Android](./Android)
 
-### Core Android
-- 안드로이드 어플리케이션 컴포넌트
-- 매니페스트 파일
-- 안드로이드 어플리케이션의 프로젝트 구조
-- Android Context
+## [Core Android](./Android/CoreAndroid)
+- [안드로이드 어플리케이션 컴포넌트](./Android/CoreAndroid#안드로이드-어플리케이션-컴포넌트)
+- [매니페스트 파일](./Android/CoreAndroid#매니페스트-파일)
+- [안드로이드 어플리케이션의 프로젝트 구조](./Android/CoreAndroid#안드로이드-어플리케이션의-프로젝트-구조)
+- [Android Context](./Android/CoreAndroid#android-context)
+- [What is requireActivity?](./Android/CoreAndroid#what-is-requireactivity)
+- [Pro-guard 의 용도는?](./Android/CoreAndroid#pro-guard-의-용도는)
+- [Pending Intent 를 사용해서 액티비티를 시작하는 방법은?](./Android/CoreAndroid#pending-intent-를-사용해서-액티비티를-시작하는-방법은)
+- [안드로이드 앱 프로세스 분리하기](./Android/CoreAndroid#안드로이드-앱-프로세스-분리하기)
+- [서비스와 액티비티 간에 활용할 수 있는 IPC](./Android/CoreAndroid#서비스와-액티비티-간에-활용할-수-있는-ipc)
 
-### Activity and Fragment
-- Activity 생명주기
-- onSavedInstanceState onRestoreInstanceState
-- 프래그먼트 생명주기
-- Fragment 사용하는 이유
-- 언제 Activity가 아닌 Fragment를 사용 하는지?
-- FragmentPagerAdapter와 FragmentStatePagerAdapter의 차이점
-- Fragment 백스택에서 Add, Replace 차이점
-- 기본 생성자만 사용하여 fragment 를 만드는것이 권장되는 이유
-- 두 fragment 간 데이터 전달 방법
-- retained Fragment 란?
-- Fragment transaction 을 커밋하는 동안 addToBackStack()의 목적은?
-- 액티비티 launchMode 설명
+## [Activity and Fragment](./Android/ActivityAndFragment)
+- [Activity 생명주기](./Android/ActivityAndFragment#activity-생명주기)
+- [onSavedInstanceState onRestoreInstanceState](./Android/ActivityAndFragment#onsavedinstancestate-onrestoreinstancestate)
+- [프래그먼트 생명주기](./Android/ActivityAndFragment#프래그먼트-생명주기)
+- [Fragment 사용하는 이유](./Android/ActivityAndFragment#fragment-사용하는-이유)
+- [언제 Activity가 아닌 Fragment를 사용 하는지?](./Android/ActivityAndFragment#언제-activity가-아닌-fragment를-사용-하는지)
+- [FragmentPagerAdapter와 FragmentStatePagerAdapter의 차이점](./Android/ActivityAndFragment#fragmentpageradapter와-fragmentstatepageradapter의-차이점)
+- [Fragment 백스택에서 Add, Replace 차이점](./Android/ActivityAndFragment#fragment-백스택에서-add-replace-차이점)
+- [기본 생성자만 사용하여 fragment 를 만드는것이 권장되는 이유](./Android/ActivityAndFragment#기본-생성자만-사용하여-fragment-를-만드는것이-권장되는-이유)
+- [두 fragment 간 데이터 전달 방법](./Android/ActivityAndFragment#두-fragment-간-데이터-전달-방법)
+- [retained Fragment 란?](./Android/ActivityAndFragment#retained-fragment-란)
+- [Fragment transaction 을 커밋하는 동안 addToBackStack()의 목적은?](./Android/ActivityAndFragment#fragment-transaction-을-커밋하는-동안-addtobackstack의-목적은)
+- [액티비티 launchMode 설명](./Android/ActivityAndFragment#액티비티-launchmode-설명)
 
-### Views and ViewGroups
-- 안드로이드에서 View 란?
-- Custom View 만들기
-- ViewGroups 이란 무엇이며 View와 어떻게 다른지?
-- ConstraintLayout 이란?
-- ViewTreeObserver가 무엇인지?
+## [Android UI](./Android/Ui)
+- [안드로이드에서 View 란?](./Android/Ui#안드로이드에서-view-란)
+- [Custom View 만들기](./Android/Ui#custom-view-만들기)
+- [ViewGroups 이란 무엇이며 View와 어떻게 다른지?](./Android/Ui#viewgroups-이란-무엇이며-view와-어떻게-다른지)
+- [ConstraintLayout 이란?](./Android/Ui#constraintlayout-이란)
+- [ViewTreeObserver가 무엇인지?](./Android/Ui#viewtreeobserver가-무엇인지)
+- [include, merge, ViewStub 차이](./Android/Ui#include-merge-viewstub-차이)
 
-### Displaying Lists of Content
-- ListView 와 RecyclerView 의 차이점
-- ViewHolder 패턴을 사용하는 이유
-- RecyclerView 최적화 방법
-- SnapHelper
+## [Displaying Lists of Content](./Android/RecyclerView)
+- [RecyclerView](./Android/RecyclerView#recyclerview)
+- [ListView 와 RecyclerView 의 차이점](./Android/RecyclerView#listview-와-recyclerview-의-차이점)
+- [ViewHolder 패턴을 사용하는 이유](./Android/RecyclerView#viewholder-패턴을-사용하는-이유)
+- [RecyclerView 최적화 방법](./Android/RecyclerView#recyclerview-최적화-방법)
+- [SnapHelper](./Android/RecyclerView#snaphelper)
 
-### Intent
-- Intent란?
+## [Intent](./Android/Intent)
+- [Intent란?](./Android/Intent#intent란)
 
-### Long-running Operations
-- ANR 이 무엇이며 어떻게 방지할 수 있는지?
-- AsyncTask 의 생명 주기와 액티비티의 관계 및 발생할수 있는 문제
-- Looper, Handler and HandlerThread
+## [Long-running Operations](./Android/LongRunningOperations)
+- [ANR 이 무엇이며 어떻게 방지할 수 있는지?](./Android/LongRunningOperations#anr-이-무엇이며-어떻게-방지할-수-있는지)
+- [AsyncTask 의 생명 주기와 액티비티의 관계 및 발생할수 있는 문제](./Android/LongRunningOperations#asynctask-의-생명-주기와-액티비티의-관계-및-발생할수-있는-문제)
+- [Looper, Handler and HandlerThread](./Android/LongRunningOperations#looper-handler-and-handlerthread)
 
-### Architecture
-- Architecture 란?
-- 아키텍처 패턴
-- MVVM Architecture
-- MVP Architecture
-- MVC Architecture
-- MVI Architecture
-- Clean Architecture
-- 모바일 클린 아키텍처
-- Clean Code
+## [Architecture](./Android/Architecture)
+- [Architecture 란?](./Android/Architecture#architecture-란)
+- [아키텍처 패턴](./Android/Architecture#아키텍처-패턴)
+- [MVVM Architecture](./Android/Architecture#mvvm-architecture)
+- [MVP Architecture](./Android/Architecture#mvp-architecture)
+- [MVC Architecture](./Android/Architecture#mvc-architecture)
+- [MVI Architecture](./Android/Architecture#mvi-architecture)
+- [Clean Architecture](./Android/Architecture#clean-architecture)
+- [모바일 클린 아키텍처](./Android/Architecture#모바일-클린-아키텍처)
+- [Clean Code](./Android/Architecture#clean-code)
+
+## [ImageGraphic](./Android/ImageGraphic)
+- [비트맵 처리](./Android/ImageGraphic#비트맵-처리)
+
+## [Library](./Android/Library)
+- [Dagger Hilt Koin 비교](./Android/Library#dagger-hilt-koin-비교)
+
 
 # [Kotlin](./Kotlin)
 - [코틀린 기초](./Kotlin/#코틀린-기초)
