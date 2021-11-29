@@ -12,6 +12,7 @@
 - [제네릭스](#제네릭스)
 - [유용하게 사용하는 Extension](#유용하게-사용하는-extension)
 - [코틀린 버전별 비교](#코틀린-버전별-비교)
+- [코루틴과 Async/Await](#코루틴과-asyncawait)
 
 ### 참고
 - [Kotlin in Action](http://acornpub.co.kr/book/kotlin-in-action)
@@ -1159,3 +1160,212 @@ compileKotlin {
         - Any?.hashCode() 확장이 null에 대해 0을 반환
         - Char 도 MIN_VALUE 와 MAX_VALUE 를 제공
         - 기본 타입들의 동반 객체에 SIZE_BYTES 와 SIZE_BITS 를 추가
+
+
+## 코루틴과 Async/Await
+> 코틀린 1.3부터는 코루틴이 표준 라이브러리에 정식 포함이 되었다.
+
+### 1. 코루틴이란?
+
+**위키피디아 코루틴 정의**
+
+```
+코루틴은 컴퓨터 프로그램 구성 요소 중 하나로 비선점형 멀티태스킹(non-preemptive multitasking)을 수행하는 일반화한 서브루틴(subroutine) 이다.
+코루틴은 실행을 일시 중단(suspend)하고 재개(resume) 할 수 있는 여러 진입 지점(entry point)을 허용한다.
+```
+- 서브루틴은 여러 명령어를 모아 이름을 부여해서 반복 호출할 수 있게 정의한 프로그램 구성 요소로, 다른 말로 함수라고 부르기도 한다.
+- 객체지향 언어에서는 메소드도 서브루틴이라 할 수 있다.
+- 어떤 서브루틴에 진입하는 방법은 오직 한 가지(해당 함수를 호출하면 서브루틴의 맨 처음부터 실행이 시작된다.)뿐이며, 그때마다 활성 레코드(activation record)라는 것이 스택에 할당되면서 서브루틴 내부의 로컬 변수 등이 초기화된다.
+- 서브루틴 안에서 여러 번 return 을 사용할 수 있기 때문에 서브루틴이 실행을 중단하고 제어를 호출한쪽(caller)에게 돌려주는 지점은 여럿 있을 수 있다.
+- 서브루틴에서 반환되고 나면 활성 레코드가 스택에서 사리지기 때문에 실행 중이던 모든 상태를 잃어버린다. 그래서 서브루틴을 여러 번 반복 실행해도 (전역 변수나 다른 부수 효과가 있지 않는 한) 항상 같은 결과를 반복해서 얻게 된다.
+- 멀티태스킹은 여러 작업을(적어도 사용자가 볼 때는) 동시에 수행하는 것처럼 보이거나 실제로 동시에 수행하는 것이다.
+- 코루틴이란 서로 협력해서 실행을 주고 받으면서 작동하는 여러 서브루틴을 말한다.
+- 코루틴의 대표격인 제네레이터(generator)를 예로 들면 어떤 함수 A가 실행되다가 제네레이터인 코루틴 B를 호출하면 A가 실행을 A에 양보한다(yiedl 라는 명령을 사용하는 경우가 많다.) A는 다시 코루틴을 호출했단 바로 다음 부분부터 실행을 계속 진행하다가 또 코루틴 B를 호출한다. 이때 B가 일반적인 함수라면 로컬 변수를 초기화하면서 처음부터 실행을 다시 시작하겠지만, 코루틴이면 이전에 yield 로 실행을 양보했던 지점부터 실행을 계속하게 된다.
+
+### 2. 코틀린의 코루틴 지원: 일반적인 코루틴
+> 언어에 따라 제네레이터 등 특정 형태의 코루틴만을 지원하는 경우도 있고, 좀 더 일반적인 코루틴을 만들 수 있는 기능을 언어가 기본 제공하고, 제네레이터, async/await 등 다양한 코루틴은 그런 기본 기능을 활용해 직접 사용자가 만들거나 라이브러리를 통해 사용하도록 하는 형태가 있다. 제네레이터만 제공하는 경우에도 yield 시 퓨처 등 비동기 처리가 가능한 객체를 넘기는 방법을 사용하면 async/await 등을 비교적 쉽게 구현할 수 있다.
+
+- 코틀린이 지원하는 기본 기능을 활용해 만든 다양한 형태의 코루틴들은 kotlinx.coroutines 패키지 밑에 있다.
+
+### 2.1 여러 가지 코루틴
+> 다음은 kotlinx.coroutines.core 모듈에 들어있는 코루틴이다. 정확히 이야기하자면 각각은 코루틴을 만들어주는 코루틴 빌더라고 부른다. 코틀린에서는 코루틴 빌더에 원하는 동작을 람다로 념겨서 코루틴을 만들어 실행하는 방식으로, 코루틴을 활용한다.
+
+**kotlinx.coroutines.CoroutineScope.launch**
+- launch 는 코루틴을 잡(Job) 으로 변환하며, 만들어진 코루틴은 기본적으로 즉시 실행, 원하면 launch 가 반환한 Job 의 cancel() 을 호출해 코루틴 실행을 중단시킬 수 있다.
+- launch 가 작동하려면 CoroutineScope 객체가 블록의 this 로 지정돼야 하는데(API 문서나 소스를 보면 launch 가 받는 블록의 타입이 suspend CoroutineScope.() -> Unit 임을 알 수 있다.)
+- 다른 suspend 함수 내부라면 해당 함수가 사용 중인 CoroutineScope 가 있겠지만, 그렇지 않은 경우에는 GlobalScope 를 사용하면 된다.
+- 메인 함수와 GlobalScope.launch 가 만들어낸 코루틴이 서로 다른 스레드에서 실행된다.
+- GlobalScope는 메인 스레드가 실행중인 동안만 코루틴의 동작을 보장해준다.
+- 코루틴의 실행이 끝날 때까지 현재 스레드를 블록시키는 함수로 runBlocking 이 있다. runBlocking 은 CoroutineScope 의 확장 함수가 아닌 일반 함수이기 때문에 별도의 코루틴 스코프 객체 없이 사용 가능하다.
+
+```kotli
+fun yieldExample() {
+    runBlocking {
+        launch {
+            log("1")
+            yield()
+            log("3")
+            yield()
+            log("5")
+        }
+
+        log("after first launch")
+
+        launch {
+            log("2")
+            delay(1000L)
+            log("4")
+            delay(1000L)
+            log("6")
+        }
+
+        log("after second launch")
+    }
+}
+
+Thread[main]: after first launch
+Thread[main]: after second launch
+Thread[main]: 1
+Thread[main]: 2
+Thread[main]: 3
+Thread[main]: 5
+Thread[main]: 4
+Thread[main]: 6
+```
+- launch 는 즉시 반환
+- runBlocking 은 내부 코루틴이 모두 끝난 다음에 반환
+- delay() 를 사용한 코루틴은 그 시간이 지날 때까지 다른 코루틴에게 실행을 양보한다. 앞 코드에서 delay(1000L) 대신 yield() 를 쓰면 차례대로 1,2,3,4,5,6 이 표시 될것이다. yield() 를 했지만 다른 코루틴이 delay() 상태에 있으면 다시 제어가 돌아온다.
+
+**kotlinx.coroutines.CoroutineScope.async**
+- async 는 사실상 launch 와 같은 일을 한다. 유일한 차이는 launch 가 Job을 반환하는 반면 async 는 Deferred 를 반환한다는 점뿐이다. 심지어 Deferred 는 Job 을 상속한 클래스이기 때문에 launch 대신 async를 사용해도 항상 아무 문제가 없다. 
+- Deferred 와 Job 의 차이는, Job 은 아무 타입 파라미터가 없는데 Deferred 는 타입 파라미터가 있는 제네릭 타입이라는 점과 Deferred 안에는 await() 함수가 정의돼 있다는 점이다.
+- Deferred 의 타입 파라미터는 바로 Deferred 코루틴이 계산을 하고 돌려주는 값의 타입이다. Job 은 Unit 을 돌려주는 Deferred<Unit> 이라고 생각할 수도 있다.
+- 따라서 async 는 코드 블록을 비동기로 실행할 수 있고(제공하는 코루틴 컨텍스트에 따라 여러 스레드를 사용하거나 한 스레드 안에서 제어만 왔다 갔다 할 수도 있다), async 가 반환하는 Deferred 의 await 을 사용해서 코루틴이 결과 값을 내놓을 때까지 기다렸다가 결과 값을 얻어낼 수 있다.
+
+```kotlin
+fun sumAll() {
+    runBlocking {
+        val d1 = async { delay(1000L); 1)}
+        log("after async(d1)")
+        val d2 = async { delay(2000L); 2)}
+        log("after async(d2)")
+        val d3 = async { delay(3000L); 3)}
+        log("after async(d3)")
+
+        log("1+2+3 = ${ d1.await() + d2.await() + d3.await() }")
+        log("after await all & add")
+    }
+}
+
+결과
+Thread[main]: after async(d1)
+Thread[main]: after async(d2)
+Thread[main]: after async(d3)
+Thread[main]: 1+2+3 = 6
+Thread[main]: await all & add
+```
+- 잘 살펴보면 d1, d2, d3 을 하나하나 순서대로(병렬 처리에서 이 런 경우를 직렬화해 실행한다고 말한다) 실행하면 총 6초 이상이 걸려야 하지만, 6이라는 결과를 얻을 때까지 총 3초가 걸렸음을 알 수 있다. 또한 async 로 코드를 실행하는 데는 시간이 거의 걸리지 않음을 알 수 있다. 그럼에도 불구하고 스레드 여럿 사용하는 병럴 처리와 달리 모든 async 함수들이 메인 스레드 안에서 실행됨을 볼 수 있다. 이 부분이 async/await 과 스레드를 사용한 병렬 처리의 큰 차이다.
+- 특히 이 예제에서는 겨우 3개의 비동기 코드만을 실행했지만, 비동기 코드가 늘어남에 따라 async/await 을 사용한 비동기가 빛을 발한다.
+- 실행하려는 작업이 시간이 얼마 걸리지 않거나 I/O 에 의한 대기 시간이 크고, CPU 코어 수가 작아 동시에 실행할 수 있는 스레드 개수가 한정된 경우에는 특히 코루틴과 일반 스레드를 사용한 비동기 처리 사이에 차이가 커진다.
+
+### 2.2 코루틴 컨텍스트와 디스패처
+> launch, async 등은 모두 CoroutineScope 의 확장 함수다. 그런데 CoroutineScope 에는 CoroutineContext 타입의 필드 하나만 들어있다. 사실 CoroutineScope 는 CoroutineContext 필드를 launch 등의 확장 함수 내부에서 사용하기 위한 매개체 역할만을 담당한다. 원한다면 launch 등에 CoroutineContext 를 넘길 수도 있다는 점에서 실제로 CoroutineScope 보다 CoroutineContext 가 코루틴 실행에 더 중요한 의미가 있음을 유추할 수 있을 것이다.
+
+- CoroutineContext 는 실제로 코루틴이 실행 중인 여러 작업(Job 타입)과 디스패처를 저장하는 일종의 맵이라 할 수 있다.
+- 코틀린 런타임은 이 CoroutineContext 를 사용해서 다음에 실행할 작업을 선정하고, 어떻게 스레드에 배정할지에 대한 방법을 결정한다.
+
+### 2.3 코루틴 빌더와 일시 중단 함수
+> launch 나 async, runBlocking 은 모두 코루틴 빌더라고 불린다. 이들은 코루틴을 만들어주는 함수다.
+
+- `kotlinx-coroutines-core` 모듈이 제공하는 코루틴 빌더는 다음과 같이 2가지가 더 있다.
+    - produce: 정해진 채널로 데이터를 스트림으로 보내는 코루틴을 만든다. 이 함수는 ReceiveChannel<>을 반환한다. 그 채널로부터 메시지를 전달받아 사용할 수 있다.
+    - actor: 정해진 채널로 메시지를 받아 처리하는 액터를 코루틴으로 만든다. 이 함수가 반환하는 SendChannel<> 채널의 send() 메소드를 통해 액터에게 메시지를 보낼 수 있다.
+
+- 한편 delay() 와 yield() 는 코루틴 안에서 특별한 의미를 지니는 함수들이다. 이런 함수를 일시 중단(suspending) 함수라고 부른다. 예제에서 살펴본 delay() 와 yield() 외에 다음 함수들이 `kotlinx-coroutines-core` 모듈의 최상위에 정의된 일시 중단 함수들이다.
+    - withContext: 다른 컨텍스트로 코루틴을 전환한다.
+    - withTimeout: 코루틴이 정해진 시간 안에 실행되지 않으면 예외를 발생시키게 한다.
+    - withTimeoutOrNull: 코루틴이 정해진 시간 안에 실행되지 않으면 null을 결과로 돌려준다.
+    - awaitAll: 모든 작업의 성공을 기다린다. 작업 중 어느 하나가 예외로 실패하면 awaitAll 도 그 예외로 실패한다.
+    - joinAll: 모든 작업이 끝날 때까지 현재 작업을 일시 중단시킨다.
+
+### 3 suspend 키워드와 코틀린의 일시 중단 함수 컴파일 방법
+> 함수 정의의 `fun` 앞에 `suspend` 를 넣으면 일시 중단 함수를 만들 수 있다.
+예를 들어 launch 시 호출할 코드가 복잡하다면 별도의 suspend 함수를 정의해 호출하는것도 가능하다
+
+```kotlin
+suspend fun yieldThreeTimes() {
+    log("1")
+    delay(1000L)
+    yield()
+    log("2")
+    delay(1000L)
+    yield()
+    log("3")
+    delay(1000L)
+    yield()
+    log("4")
+}
+
+fun suspendExample() {
+    GlobalScope.launch { yieldThreeTimes() }
+}
+```
+
+- suspend 함수는 어떻게 동작하는 것인가? 예를 들어 일시 중단 함수 안에서 yield()를 해야 하는 경우 어떤 동작이 필요할 것인가?
+    - 코루틴에 진입할 때와 코루틴에서 나갈 때 코루틴이 실행 중이던 상태를 저장하고 복구하는 등의 작업을 할 수 있어야 한다.
+    - 현재 실행 중이던 위치를 저장하고 다시 코루틴이 재개될 때 해당 위치부터 실행을 재개할 수 있어야 한다.
+    - 다음에 어떤 코루틴을 실행할지 결정한다.
+
+- 이 세가지 중 마지막 동작은 코루틴 컨텍스트에 있는 디스패치에 의해 수행된다. 일시 중단 함수를 컴파일하는 컴파일러는 앞의 두 가지 작업을 할 수 있는 코드를 생성해내야 한다. 이때 코틀린은 컨티뉴에이션 패싱 스타일(CPS, continuation passing style) 변환과 상태기계(state machine)를 활용해 코드를 생성해낸다.
+- CPS 변환은 프로그램의 실행 중 특정 시점 이후에 진행해야 하는 내용을 별도의 함수로 뽑고(이런 함수를 컨티뉴에이션 이라 부른다), 그 함수에게 현재 시점까지 실행한 결과를 넘겨서 처리하게 만드는 소스코드 변환 기술이다.
+
+### 4 코루틴 빌더 만들기
+> 일반적으로 직접 코루틴 빌더를 만들 필요는 없다. 기존 async, launch 만으로도 상당히 다양한 작업을 처리할 수 있기 때문이다.
+간단히 코틀린 코루틴 예제에 들어있는 제네레이터 빌더를 살펴본다.
+
+### 4.1 제네레이터 빌더 사용법
+```kotlin
+fun idMaker() = generate(Int, Unit) {
+    var index = 0
+    while (index < 3)
+        yield(index++)
+}
+
+fun main(args: Array<String>) {
+    val gen = idMaker()
+    println(gen.next(Unit)) // 0
+    println(gen.next(Unit)) // 1
+    println(gen.next(Unit)) // 2
+    println(gen.next(Unit)) // null
+}
+```
+- 파이썬이나 자바스크립트 등의 다른 언어에 있는 제네레이터와 그리 다르지 않다.
+
+### 4.2 제네레이터 빌더 구현
+
+**launch 구현**
+
+```kotlin
+fun launch(context: CoroutineContext = EmptyCoroutineContext, block: suspend () -> Unit) = 
+    block.startCoroutine(Continuation(context) { result -> 
+        result.onFailure { exception ->
+            val currentThread = Thread.currentThread()
+            currentThread.uncaughExceptionHandler.uncaughException(currentThread, exception)
+        }
+    })
+```
+- 여기서는 즉시 코루틴을 실행하며, 익명 클래스를 사용해 Continuation 클래스를 직접 만들어서 startCorouine 에 전달하다.
+- 블록을 코루틴으로 실행하고 나면 아무 처리도 필요 없기 때문에 result 의 onSuccess 쪽에는 아무 콜백을 지정하지 않고, 예외로 실패한 경우에만 예외를 다시 던진다.
+- result는 코루틴(launch에 전달한 블록)이 반환하는 값을 코틀린 런타임이 Continuation 에 전달해 준다는 점에 유의
+
+### 5 결론
+> 주체 자체가 처음 접하는 개발자에겐 어려울 수 있는 주제이므로 코루틴 빌더 구현까지 이해하려면 여러 예제를 보면서 비교하고 중간 중간 로그와 스택 트레이스를 넣어가면서 쫓아가 볼 필요가 있다.
+하지만 코루틴 빌더 구현 쪽을 이해하지 못하더라도 launch, async, await 정도의 기본 제공 코루틴 빌더만으로도 충분히 코딩이 가능하다.
+비동기 코딩에서 async/await 를 사용하는 경우와 콜백이나 퓨처를 사용하는 경우의 어려움을 비교해보고, async/await 을 사용하는 간결한 프로그래밍을 해보자.
+
+### 참고
+Kotlin IN ACTION
+[코루틴 가이드](https://kotlinlang.org/docs/coroutines-guide.html)
+[kotlinx.coroutines](https://github.com/Kotlin/kotlinx.coroutines)
+[actor](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/actor.html)
+[produce](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/produce.html)
