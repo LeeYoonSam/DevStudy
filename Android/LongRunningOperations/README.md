@@ -180,12 +180,12 @@ private class MyHandlerThread extends HandlerThread {
 ### 안드로이드에 비동기 프로그래밍이 필요한 이유?
 - 새로고침 빈도
     - 안드로이드에서 최소로 보장하는 Refresh frequency -> 최소 60Hz(16ms), 90Hz(11ms)~120Hz(8ms)
-    -> 1초에 60회 새로고침, 1회 새로고침하는데 16ms, 사용자들이 볼수있는 화면을 그리는데 16ms 가 걸림
+    - 1초에 60회 새로고침, 1회 새로고침하는데 16ms -> 사용자들이 볼수있는 화면을 그리는데 16ms 가 걸림
 - 화면을 그리기 위해서 앱에서 하는 작업
     - xml 코드 파싱
     - xml 코드 inflate
     - 화면을 그림
-    - 동시에 사용자들이 할수 있는 interaction 을 Listening
+    - 위 작업들과 동시에 사용자들이 할수 있는 interaction 을 Listening
 
 - 안드로이드에서는 이와 같은 작업을 `Main Thread` 에서 진행
 - 화면에 그리는 작업 외에 데이터를 가져오는 작업 등 모든 작업을 메인 스레드에서 하게 되면 16ms 안에 작업을 끝내지 못하면 지연이되어 결국 ANR 을 발생 시키는 원인이 된다.
@@ -194,7 +194,7 @@ private class MyHandlerThread extends HandlerThread {
 - 멀티쓰레딩 문제를 해결하기 위해 나온 효과적이고 최신기술 `RxJava`, `Coroutine` 
 
 ### RxJava
-> RxJava는 관찰 가능한 시퀀스를 사용하여 비동기 및 이벤트 기반 프로그램을 구성하기 위한 라이브러리인 Reactive Extensions의 Java VM 구현입니다.
+> ReactiveX는 관찰 가능한 시퀀스를 사용하여 비동기 및 이벤트 기반 프로그램을 구성하기 위한 라이브러리입니다.
 데이터/이벤트의 시퀀스를 지원하도록 관찰자 패턴을 확장하고 낮은 수준의 스레딩, 동기화, 스레드 안전성 및 동시 데이터 구조와 같은 문제를 추상화하면서 선언적으로 시퀀스를 함께 구성할 수 있는 연산자를 추가합니다.
 
 **특징**
