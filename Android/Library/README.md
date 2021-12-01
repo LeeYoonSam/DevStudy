@@ -246,17 +246,120 @@ Observe On : pool-1-thread-1 | value : Third
 - 기본적으로 Glide는 사용자 지정 HttpUrlConnection 기반 스택을 사용하지만 대신 Google의 Volley 프로젝트 또는 Square의 OkHttp 라이브러리에 플러그인하는 유틸리티 라이브러리도 포함합니다.
 - Glide의 주목할점은 모든 종류의 이미지 목록을 가능한 한 부드럽고 빠르게 스크롤하는 것이지만 Glide는 원격 이미지를 가져오고, 크기를 조정하고, 표시해야 하는 경우에도 효과적입니다.
 
+### [Caching in Glide](https://bumptech.github.io/glide/doc/caching.html#caching-in-glide)
+> 기본적으로 Glide는 이미지에 대한 새 요청을 시작하기 전에 여러 계층의 캐시를 확인합니다.
+
+1. Active resources - 이 이미지가 지금 다른 뷰에 표시되고 있습니까?
+2. Memory cache - 이 이미지가 최근에 로드되었고 여전히 메모리에 있습니까?
+3. Resource - 이 이미지가 이전에 디코딩, 변환 및 디스크 캐시에 기록되었습니까?
+4. Data - 이 이미지를 가져온 데이터가 이전에 디스크 캐시에 기록되었습니까?
+
+- 처음 두 단계는 리소스가 메모리에 있는지 확인하고 그렇다면 즉시 이미지를 반환합니다. 
+- 두 번째 두 단계는 이미지가 디스크에 있는지 확인하고 신속하게 비동기식으로 반환되는지 확인합니다.
+- 4단계 모두 이미지를 찾지 못하면 Glide는 데이터(원본 파일, Uri, Url 등)를 검색하기 위해 원래 소스로 돌아갑니다.
+
+### [Cache Keys](https://bumptech.github.io/glide/doc/caching.html#cache-keys)
+> 실제로 1-3단계(활성 리소스, 메모리 캐시, 리소스 디스크 캐시)의 캐시 키에는 다음을 비롯한 여러 다른 데이터 조각도 포함됩니다.
+
+1. 너비와 높이
+2. 선택적 변환
+3. 추가된 옵션
+4. 요청된 데이터 유형(Bitmap, GIF 등)
+
+- 활성 리소스 및 메모리 캐시에 사용되는 키도 비트맵 또는 기타 디코딩 시간 전용 매개변수의 구성에 영향을 미치는 것과 같은 메모리 옵션을 수용하기 위해 리소스 디스크 캐시에서 사용되는 키와 약간 다릅니다.
+- 디스크에 디스크 캐시 키의 이름을 생성하기 위해 키의 개별 요소를 해시하여 단일 문자열 키를 만든 다음 디스크 캐시에서 파일 이름으로 사용합니다.
+
+### Cache Configuration
+> Glide는 로드가 요청별로 Glide의 캐시와 상호 작용하는 방식을 선택할 수 있는 다양한 옵션을 제공합니다.
+
+**Disk Cache Strategies**
+- `DiskCacheStrategy`는 `diskCacheStrategy` 메서드와 함께 개별 요청에 적용할 수 있습니다. 사용 가능한 전략을 사용하면 로드에서 디스크 캐시를 사용하거나 쓰는 것을 방지하거나 로드를 지원하는 수정되지 않은 원본 데이터만 캐시하거나 로드에 의해 생성된 변환된 축소판만 캐시하거나 둘 다 캐시하도록 선택할 수 있습니다.
+- 기본 전략인 `AUTOMATIC`은 로컬 및 원격 이미지에 대해 최적의 전략을 사용하려고 시도합니다. 
+원격 데이터를 다운로드하는 것은 디스크에 이미 있는 데이터의 크기를 조정하는 것보다 비용이 많이 들기 때문에 `AUTOMATIC`은 URL에서와 같이 원격 데이터를 로드할 때 로드를 뒷받침하는 수정되지 않은 데이터만 저장합니다. 로컬 데이터의 경우 두 번째 썸네일 크기 또는 유형을 생성해야 하는 경우 원본 데이터를 검색하는 비용이 저렴하기 때문에 `AUTOMATIC`은 변환된 썸네일만 저장합니다.
+
+```
+Glide.with(fragment)
+  .load(url)
+  .diskCacheStrategy(DiskCacheStrategy.ALL)
+  .into(imageView);
+```
+
+**Loading only from cache**
+- 어떤 경우에는 이미지가 아직 캐시에 없으면 로드가 실패하기를 원할 수 있습니다. 이렇게 하려면 요청별로 `onlyRetrieveFromCache` 메서드를 사용할 수 있습니다.
+
+```
+Glide.with(fragment)
+  .load(url)
+  .onlyRetrieveFromCache(true)
+  .into(imageView);
+```
+- 이미지가 메모리 캐시나 디스크 캐시에서 발견되면 로드됩니다. 그렇지 않고 이 옵션이 true로 설정되면 로드가 실패합니다.
+
+**Skipping the cache**
+- 특정 요청이 디스크 캐시나 메모리 캐시 또는 둘 다를 건너뛰도록 하려면 Glide가 몇 가지 대안을 제공합니다. 
+
+- 메모리 캐시만 건너뛰려면 skipMemoryCache()를 사용하십시오.
+```
+Glide.with(fragment)
+  .load(url)
+  .skipMemoryCache(true)
+  .into(view);
+```
+
+- 디스크 캐시만 건너뛰려면 DiskCacheStrategy.NONE을 사용합니다.
+```
+Glide.with(fragment)
+  .load(url)
+  .diskCacheStrategy(DiskCacheStrategy.NONE)
+  .into(view);
+```
+
+- 메모리, 디스크 캐시를 둘다 건너 뛰려면 같이 사용 가능합니다.
+```
+Glide.with(fragment)
+  .load(url)
+  .diskCacheStrategy(DiskCacheStrategy.NONE)
+  .skipMemoryCache(true)
+  .into(view);
+```
+- 일반적으로 캐시를 건너뛰는 것을 피하려고 합니다. 
+- 이미지를 검색, 디코딩 및 변환하여 새 축소판을 만드는 것보다 캐시에서 이미지를 로드하는 것이 훨씬 빠릅니다.
+
+
+### Memory cache
+- 기본적으로 Glide는 LRU 제거와 함께 고정된 양의 메모리를 사용하는 MemoryCache 인터페이스의 기본 구현인 LruResourceCache를 사용합니다. 
+- LruResourceCache의 크기는 Glide의 MemorySizeCalculator 클래스에 의해 결정됩니다. 
+- 이 클래스는 장치 메모리 클래스, 장치의 램이 낮은지 여부 및 화면 해상도를 확인합니다.
+- 응용 프로그램은 MemorySizeCalculator를 구성하여 applyOptions(Context, GlideBuilder) 메서드를 사용하여 AppGlideModule의 MemoryCache 크기를 사용자 지정할 수 있습니다.
+
+**MemorySizeCalculator**
+- 일부 상수와 장치 화면 밀도, 너비 및 높이를 기반으로 주어진 장치의 캐시 크기를 지능적으로 결정하려고 시도하는 계산기입니다.
+
+### Bitmap pool
+- Glide는 LruBitmapPool을 기본 BitmapPool로 사용합니다. 
+- LruBitmapPool은 LRU 축출을 사용하는 메모리 BitmapPool의 고정 크기입니다. 
+- 기본 크기는 해당 장치의 화면 크기와 밀도, 메모리 클래스 및 isLowRamDevice의 반환 값을 기반으로 합니다. 
+- 특정 계산은 Glide의 MemoryCache에 대해 크기가 결정되는 방식과 유사하게 Glide의 MemorySizeCalculator에 의해 수행됩니다.
+- 응용 프로그램은 MemorySizeCalculator를 구성하여 applyOptions(Context, GlideBuilder) 메서드로 AppGlideModule의 BitmapPool 크기를 사용자 지정할 수 있습니다.
+
+**BitmapPool**
+- 사용자가 Bitmap 개체를 재사용할 수 있도록 하는 풀용 인터페이스입니다.
+
+**LruBitmapPool**
+- LruPoolStrategy를 사용하여 Bitmaps를 버킷화한 다음 LRU 제거 정책을 사용하여 풀을 주어진 최대 크기 제한 아래로 유지하기 위해 가장 최근에 사용된 버킷에서 Bitmaps를 제거하는 BitmapPool 구현입니다.
+
+### Disk Cache
+- Glide는 DiskLruCacheWrapper를 기본 DiskCache로 사용합니다.
+- DiskLruCacheWrapper는 LRU 제거 기능이 있는 고정 크기 디스크 캐시입니다. 
+- 기본 디스크 캐시 크기는 250MB이며 응용 프로그램 캐시 폴더의 특정 디렉터리에 있습니다.
+
+### [Log level](https://bumptech.github.io/glide/javadocs/420/com/bumptech/glide/GlideBuilder.html#setLogLevel-int-)
+- 요청이 실패할 때 기록되는 행을 포함하여 형식이 잘 지정된 로그의 하위 집합의 경우 Android의 Log 클래스 값 중 하나와 함께 setLogLevel을 사용할 수 있습니다. 
+
 ### 이미지 로드 과정
 1. User -> Key 를 사용해서 데이터 요청 -> 메모리 캐시에 조회 -> 데이터 반환, 존재하지 않을 경우 2번으로 이동
 2. 디스크 캐시 조회 -> 메모리 캐시에 데이터 저장 -> 데이터 반환, 존재하지 않을 경우 3번 이동
 3. Network 에서 데이터를 받아옴 -> 디스크 캐시 저장 -> 메모리 캐시 저장 -> 데이터 반환
-
-### 캐시 관리
-1. skipMemoryCache(Boolean)
-    - 로딩한 데이터를 캐시에 저장하길 원하지 않는다면 true 로 세팅
-2. diskCacheStrategy(DiskCacheStrategy strategy)
-    - 동일한 리소스(data)를 다양한 크기로 여러 번 사용하고 대역폭 사용을 줄이는 대신 일부 속도 및 디스크 공간을 절충하려면 DiskCacheStrategy.DATA 나 DiskCacheStrategy.ALL 을 사용
-    - 캐시에 어떠한 data 도 저장하지 않고 싶다면 DiskCacheStrategy.NONE 을 사용
 
 ### 캐시 무효화
 - 한번 캐시된 데이터를 같은 URL 에서 불러올때 이미지는 변경이 되었지만 Glide에 업로드가 되지 않는 경우가 있는데, 이는 캐시에 남아있는 데이터가 먼저 호출되기 때문이다.
@@ -268,3 +371,100 @@ signiture(objectkey("metaData"))
 ```
 - 해당 메서드를 사용해서 해시키 값을 변경 가능
 - `metaData` 에는 수정된 날짜, mime type, mediaStore item 등 다양한 데이터를 넣어주면 된다.
+
+### Glide Custom Key 로 Cache 하기
+- dynamic url 을 사용해서 매번 URL 이 변경되면 매번 다른 이미지로 인식해서 저장소 사용량이 빠르게 증가한다.
+- 이때 `GlideUrl` 을 사용해서 Custom Key 를 구현 가능하다
+
+```java
+import androidx.annotation.NonNull; 
+import com.bumptech.glide.load.model.GlideUrl; 
+import com.bumptech.glide.util.Preconditions; 
+
+public class GlideUrlWithCacheKey extends GlideUrl { 
+    private String url; 
+    private String cacheKey; 
+    
+    public GlideUrlWithCacheKey(String url, String cacheKey) { 
+        super(url); 
+
+        Preconditions.checkNotNull(url); 
+        Preconditions.checkNotEmpty(url); 
+        Preconditions.checkNotNull(cacheKey); 
+        Preconditions.checkNotEmpty(cacheKey); 
+
+        this.url = url; 
+        this.cacheKey = cacheKey; 
+    } 
+        
+    @Override 
+    public String getCacheKey() { 
+        return cacheKey; 
+    } 
+    
+    @NonNull 
+    @Override 
+    public String toString() { 
+        return url; 
+    } 
+}
+
+// 사용
+Glide.with(activity).load(new GlideUrlWithCacheKey(url, key))
+```
+- 개발자가 임의로 해당 이미지에 맞는 캐시 키를 구현해서 사용할 수 있다.
+
+### [Resource Management](https://bumptech.github.io/glide/doc/caching.html#resource-management)
+
+- Glide의 디스크 및 메모리 캐시는 LRU입니다. 즉, 한계에 도달하거나 한계 근처에서 지속적으로 사용할 한계에 도달할 때까지 점점 더 많은 메모리 및/또는 디스크 공간을 차지합니다. 유연성을 추가하기 위해 Glide는 응용 프로그램에서 사용하는 리소스를 관리할 수 있는 몇 가지 추가 방법을 제공합니다.
+- 더 큰 메모리 캐시, 비트맵 풀 및 디스크 캐시는 일반적으로 적어도 어느 정도는 더 나은 성능을 제공합니다. 캐시 크기를 변경하는 경우 성능/크기 균형이 합당한지 확인하기 위해 변경 전후의 성능을 주의 깊게 측정해야 합니다.
+
+**Memory Cache**
+- 기본적으로 Glide의 메모리 캐시와 BitmapPool은 ComponentCallbacks2에 응답하고 프레임워크가 제공하는 수준에 따라 다양한 정도로 콘텐츠를 자동으로 축출합니다. 결과적으로 일반적으로 캐시 또는 BitmapPool을 동적으로 모니터링하거나 지울 필요가 없습니다. 그러나 필요한 경우 Glide는 몇 가지 수동 옵션을 제공합니다.
+
+- 영구적인 크기 변경
+    - 응용 프로그램에서 Glide에 사용할 수 있는 RAM의 양을 변경하려면 [구성 페이지를 참조](https://bumptech.github.io/glide/doc/configuration.html#memory-cache)하십시오.
+
+- 일시적인 크기 변경
+    - 일시적으로 Glide가 앱의 특정 부분에서 더 많거나 적은 메모리를 사용하도록 허용하려면 `setMemoryCategory`를 사용할 수 있습니다.
+
+    ```java
+    Glide.get(context).setMemoryCategory(MemoryCategory.LOW);
+    // Or:
+    Glide.get(context).setMemoryCategory(MemoryCategory.HIGH);
+    ```
+    
+    - 앱의 메모리 또는 성능에 민감한 영역을 떠날 때 메모리 범주를 다시 재설정해야 합니다.
+
+    ```java
+    Glide.get(context).setMemoryCategory(MemoryCategory.NORMAL);
+    ```
+- 메모리 지우기
+    - Glide의 메모리 캐시 및 BitmapPool을 간단히 지우려면 clearMemory를 사용하십시오.
+
+    ```java
+    // This method must be called on the main thread.
+    Glide.get(context).clearMemory();
+    ```
+    - 모든 메모리를 지우는 것은 특히 효율적이지 않으며 버벅거림과 로딩 시간 증가를 피하기 위해 가능한 한 피해야 합니다.
+
+
+**Disk Cache**
+> Glide는 런타임에 디스크 캐시 크기에 대해 제한된 제어만 제공하지만 크기와 구성은 AppGlideModule에서 변경할 수 있습니다.
+
+- 영구적인 크기 변경
+    - 응용 프로그램 전체에서 `Glide`의 디스크 캐시에 사용할 수 있는 `sdcard` 공간의 양을 변경하려면 [구성 페이지를 참조](https://bumptech.github.io/glide/doc/configuration.html#disk-cache)하십시오.
+
+- 디스크 캐시 지우기
+    - 디스크 캐시의 모든 항목을 지우려면 `clearDiskCache`를 사용할 수 있습니다.
+
+    ```java
+    new AsyncTask<Void, Void, Void> {
+       @Override
+        protected Void doInBackground(Void... params) {
+            // This method must be called on a background thread.
+            Glide.get(applicationContext).clearDiskCache();
+            return null;
+        }
+    }
+    ```
