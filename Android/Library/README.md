@@ -1,6 +1,7 @@
 # Library
 - [Dagger Hilt Koin 비교](#dagger-hilt-koin-비교)
 - [RxJava](#rxjava)
+- [Glide](#glide)
 
 ---
 
@@ -235,3 +236,35 @@ Observe On : pool-1-thread-1 | value : Third
 - [ReactiveX](http://reactivex.io/intro.html)
 - [Scheduler](http://reactivex.io/documentation/scheduler.html)
 - [[RxJava] RxJava 이해하기 - 5. 스케줄러](https://4z7l.github.io/2020/12/14/rxjava-5.html)
+
+
+## Glide
+> Glide는 미디어 디코딩, 메모리 및 디스크 캐싱, 리소스 풀링을 간단하고 사용하기 쉬운 인터페이스로 래핑하는 Android용 빠르고 효율적인 오픈 소스 미디어 관리 및 이미지 로딩 프레임워크입니다.
+
+- Glide는 비디오 스틸, 이미지 및 애니메이션 GIF 가져오기, 디코딩 및 표시를 지원합니다. 
+- Glide에는 개발자가 거의 모든 네트워크 스택에 연결할 수 있는 유연한 API가 포함되어 있습니다. 
+- 기본적으로 Glide는 사용자 지정 HttpUrlConnection 기반 스택을 사용하지만 대신 Google의 Volley 프로젝트 또는 Square의 OkHttp 라이브러리에 플러그인하는 유틸리티 라이브러리도 포함합니다.
+- Glide의 주목할점은 모든 종류의 이미지 목록을 가능한 한 부드럽고 빠르게 스크롤하는 것이지만 Glide는 원격 이미지를 가져오고, 크기를 조정하고, 표시해야 하는 경우에도 효과적입니다.
+
+### 이미지 로드 과정
+1. User -> Key 를 사용해서 데이터 요청 -> 메모리 캐시에 조회 -> 데이터 반환, 존재하지 않을 경우 2번으로 이동
+2. 디스크 캐시 조회 -> 메모리 캐시에 데이터 저장 -> 데이터 반환, 존재하지 않을 경우 3번 이동
+3. Network 에서 데이터를 받아옴 -> 디스크 캐시 저장 -> 메모리 캐시 저장 -> 데이터 반환
+
+### 캐시 관리
+1. skipMemoryCache(Boolean)
+    - 로딩한 데이터를 캐시에 저장하길 원하지 않는다면 true 로 세팅
+2. diskCacheStrategy(DiskCacheStrategy strategy)
+    - 동일한 리소스(data)를 다양한 크기로 여러 번 사용하고 대역폭 사용을 줄이는 대신 일부 속도 및 디스크 공간을 절충하려면 DiskCacheStrategy.DATA 나 DiskCacheStrategy.ALL 을 사용
+    - 캐시에 어떠한 data 도 저장하지 않고 싶다면 DiskCacheStrategy.NONE 을 사용
+
+### 캐시 무효화
+- 한번 캐시된 데이터를 같은 URL 에서 불러올때 이미지는 변경이 되었지만 Glide에 업로드가 되지 않는 경우가 있는데, 이는 캐시에 남아있는 데이터가 먼저 호출되기 때문이다.
+- 디스크의 캐시들은 해싱된 키 값이기 때문에 이들을 모두 추적해서 캐시를 삭제하는 방법은 쉽지 않다.
+- 원하는 이미지를 로드하려면 콘텐츠가 변경될 때 이를 식별하는 식별자를 매번 다르게 하여 캐시가 저장하지 않은 데이터라고 인식하게 하는 것이다.
+
+```
+signiture(objectkey("metaData"))
+```
+- 해당 메서드를 사용해서 해시키 값을 변경 가능
+- `metaData` 에는 수정된 날짜, mime type, mediaStore item 등 다양한 데이터를 넣어주면 된다.
