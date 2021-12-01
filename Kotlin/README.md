@@ -13,6 +13,7 @@
 - [유용하게 사용하는 Extension](#유용하게-사용하는-extension)
 - [코틀린 버전별 비교](#코틀린-버전별-비교)
 - [코루틴과 Async/Await](#코루틴과-asyncawait)
+- [코루틴 Dispatchers](#코루틴-dispatchers)
 
 ### 참고
 - [Kotlin in Action](http://acornpub.co.kr/book/kotlin-in-action)
@@ -1364,8 +1365,58 @@ fun launch(context: CoroutineContext = EmptyCoroutineContext, block: suspend () 
 비동기 코딩에서 async/await 를 사용하는 경우와 콜백이나 퓨처를 사용하는 경우의 어려움을 비교해보고, async/await 을 사용하는 간결한 프로그래밍을 해보자.
 
 ### 참고
-Kotlin IN ACTION
-[코루틴 가이드](https://kotlinlang.org/docs/coroutines-guide.html)
-[kotlinx.coroutines](https://github.com/Kotlin/kotlinx.coroutines)
-[actor](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/actor.html)
-[produce](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/produce.html)
+- Kotlin IN ACTION
+- [코루틴 가이드](https://kotlinlang.org/docs/coroutines-guide.html)
+- [kotlinx.coroutines](https://github.com/Kotlin/kotlinx.coroutines)
+- [actor](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/actor.html)
+- [produce](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/produce.html)
+
+## 코루틴 Dispatchers
+- 코루틴 컨텍스트에는 해당 코루틴이 실행에 사용하는 스레드를 결정하는 코루틴 디스패처(CoroutineDispatcher 참조)가 포함됩니다. 
+- 코루틴 디스패처는 코루틴 실행을 특정 스레드로 제한하거나 스레드 풀에 디스패치하거나 제한 없이 실행되도록 할 수 있습니다.
+- launch 및 async와 같은 모든 코루틴 빌더는 새 코루틴 및 기타 컨텍스트 요소에 대한 디스패처를 명시적으로 지정하는 데 사용할 수 있는 선택적 CoroutineContext 매개변수를 허용합니다.
+
+<br/>
+
+### 모든 코루틴 디스패처 구현에 의해 확장될 기본 클래스입니다.
+> 다음 표준 구현은 kotlinx.coroutines에서 Dispatchers 객체의 속성으로 제공됩니다.
+
+| Dispatchers | Description |
+| --- | --- |
+| Dispatchers.Default | 디스패처 또는 다른 ContinuationInterceptor가 컨텍스트에 지정되지 않은 경우 모든 표준 빌더에서 사용됩니다. 공유 배경 스레드의 공통 풀을 사용합니다. 이는 CPU 리소스를 소비하는 컴퓨팅 집약적 코루틴에 적합한 선택입니다. |
+| Dispatchers.IO | 주문형 생성 스레드의 공유 풀을 사용하며 IO 집약적인 차단 작업(예: 파일 I/O 및 차단 소켓 I/O)의 부담을 덜어주기 위해 설계되었습니다. |
+| Dispatchers.Unconfined | 첫 번째 일시 중단이 있을 때까지 현재 호출 프레임에서 코루틴 실행을 시작하고 그 후 코루틴 빌더 함수가 반환됩니다. 코루틴은 나중에 특정 스레드나 풀로 제한하지 않고 해당 일시 중단 함수에서 사용하는 스레드에서 다시 시작됩니다. Unconfined 디스패처는 일반적으로 코드에서 사용하면 안 됩니다. |
+
+- newSingleThreadContext 및 newFixedThreadPoolContext를 사용하여 프라이빗 스레드 풀을 생성할 수 있습니다.
+- 임의의 java.util.concurrent.Executor는 asCoroutineDispatcher 확장 기능을 사용하여 디스패처로 변환될 수 있습니다.
+
+
+
+
+
+```kotlin
+launch { // context of the parent, main runBlocking coroutine
+    println("main runBlocking      : I'm working in thread ${Thread.currentThread().name}")
+}
+launch(Dispatchers.Unconfined) { // not confined -- will work with main thread
+    println("Unconfined            : I'm working in thread ${Thread.currentThread().name}")
+}
+launch(Dispatchers.Default) { // will get dispatched to DefaultDispatcher 
+    println("Default               : I'm working in thread ${Thread.currentThread().name}")
+}
+launch(newSingleThreadContext("MyOwnThread")) { // will get its own new thread
+    println("newSingleThreadContext: I'm working in thread ${Thread.currentThread().name}")
+}
+
+Unconfined            : I'm working in thread main @coroutine#3
+Default               : I'm working in thread DefaultDispatcher-worker-1 @coroutine#4
+newSingleThreadContext: I'm working in thread MyOwnThread @coroutine#5
+main runBlocking      : I'm working in thread main @coroutine#2
+```
+
+- launch { ... }가 매개변수 없이 사용되면 시작되는 CoroutineScope에서 컨텍스트(따라서 디스패처)를 상속합니다. 이 경우 메인 스레드에서 실행되는 메인 runBlocking 코루틴의 컨텍스트를 상속합니다.
+
+
+### 참고
+- [Coroutine context and dispatchers](https://kotlinlang.org/docs/coroutine-context-and-dispatchers.html)
+- [CoroutineDispatcher](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-dispatcher/index.html)
