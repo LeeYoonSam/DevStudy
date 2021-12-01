@@ -104,5 +104,6 @@
 - [Kotlin 클로저](./Kotlin/#kotlin-클로저)
 - [제네릭스](./Kotlin/#제네릭스)
 - [유용하게 사용하는 Extension](./Kotlin/#유용하게-사용하는-extension)
+- [코루틴 Core](./Kotlin#코루틴-core)
 - [코틀린 버전별 비교](./Kotlin/#코틀린-버전별-비교)
 - [코루틴과 Async/Await](./Kotlin/#코루틴과-asyncawait)

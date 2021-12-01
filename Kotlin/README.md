@@ -12,6 +12,7 @@
 - [제네릭스](#제네릭스)
 - [유용하게 사용하는 Extension](#유용하게-사용하는-extension)
 - [코틀린 버전별 비교](#코틀린-버전별-비교)
+- [코루틴 Core](#코루틴-core)
 - [코루틴과 Async/Await](#코루틴과-asyncawait)
 - [코루틴 Dispatchers](#코루틴-dispatchers)
 
@@ -1163,6 +1164,69 @@ compileKotlin {
         - 기본 타입들의 동반 객체에 SIZE_BYTES 와 SIZE_BITS 를 추가
 
 
+## 코루틴 Core
+> 코루틴과 함께 작동하는 핵심 프리미티브
+
+### 코루틴 빌더 기능
+| Name | Result | Scope | Description |
+| --- | --- | --- | --- |
+| [launch](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/launch.html) | Job | [CoroutineScope](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html) | 결과가 없는 코루틴을 시작합니다. |
+| [async](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/async.html) | Deferred | [CoroutineScope](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html) | 미래 결과와 함께 단일 값을 반환합니다. |
+| [produce](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/produce.html) | ReceiveChannel | https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/-producer-scope/index.html | 요소 스트림을 생성합니다. |
+| runBlocking | T | [CoroutineScope](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html) | 코루틴이 실행되는 동안 스레드를 차단합니다. |
+
+<br/>
+
+### CoroutineDispatcher
+| Name | Description |
+| --- | --- |
+| [Dispatchers.Default](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-default.html) | 코루틴 실행을 백그라운드 스레드의 공유 풀로 제한 |
+| [Dispatchers.Unconfined](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-unconfined.html) | 어떤 식으로든 코루틴 실행을 제한하지 않습니다. |
+
+<br/>
+
+### 추가 컨텍스트 요소
+| Name | Description |
+| --- | --- |
+| NonCancellable | 항상 활성 상태인 취소할 수 없는 작업 |
+| CoroutineExceptionHandler | 잡히지 않은 예외 처리기 |
+
+<br/>
+
+### 코루틴을 위한 동기화 프리미티브
+| Name | Suspending functions | Description |
+| --- | --- | --- |
+| Mutex | lock | 상호 배제 |
+| Channel | 	send, receive | 통신 채널(큐 또는 교환기라고도 함) |
+
+<br/>
+
+### 최상위 suspending functions
+| Name | Description |
+| --- | --- |
+| delay | Non-blocking sleep |
+| yield | 단일 스레드 디스패처에서 스레드를 생성합니다. |
+| withContext | 다른 컨텍스트로 전환 |
+| withTimeout | 시간 초과 시 예외로 실행 시간 제한 설정 |
+| withTimeoutOrNull | 실행 시간 제한 설정은 시간 초과 시 null이 됩니다. |
+| awaitAll | 주어진 모든 작업의 ​​성공적인 완료 또는 모든 작업의 ​​예외적인 완료를 기다립니다. |
+| joinAll | 주어진 모든 작업에 대한 조인 |
+
+<br/>
+
+### Select 표현식은 여러 일시 중단 함수의 결과를 동시에 기다립니다.
+| Receiver | Suspending function | Select clause | Non-suspending version |
+| --- | --- | --- | --- |
+| Job | join | onJoin | isCompleted |
+| Deferred | await | onAwait | isCompleted |
+| SendChannel | send | onSend | trySend |
+| ReceiveChannel | receive | onReceive | tryReceive |
+| ReceiveChannel | 	kotlinx.coroutines.channels.receiveCatching | kotlinx.coroutines.channels.onReceiveCatching | tryReceive |
+| none | delay | onTimeout | none |
+
+### 참고
+- [kotlinx-coroutines-core](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/index.html)
+
 ## 코루틴과 Async/Await
 > 코틀린 1.3부터는 코루틴이 표준 라이브러리에 정식 포함이 되었다.
 
@@ -1181,7 +1245,7 @@ compileKotlin {
 - 서브루틴에서 반환되고 나면 활성 레코드가 스택에서 사리지기 때문에 실행 중이던 모든 상태를 잃어버린다. 그래서 서브루틴을 여러 번 반복 실행해도 (전역 변수나 다른 부수 효과가 있지 않는 한) 항상 같은 결과를 반복해서 얻게 된다.
 - 멀티태스킹은 여러 작업을(적어도 사용자가 볼 때는) 동시에 수행하는 것처럼 보이거나 실제로 동시에 수행하는 것이다.
 - 코루틴이란 서로 협력해서 실행을 주고 받으면서 작동하는 여러 서브루틴을 말한다.
-- 코루틴의 대표격인 제네레이터(generator)를 예로 들면 어떤 함수 A가 실행되다가 제네레이터인 코루틴 B를 호출하면 A가 실행을 A에 양보한다(yiedl 라는 명령을 사용하는 경우가 많다.) A는 다시 코루틴을 호출했단 바로 다음 부분부터 실행을 계속 진행하다가 또 코루틴 B를 호출한다. 이때 B가 일반적인 함수라면 로컬 변수를 초기화하면서 처음부터 실행을 다시 시작하겠지만, 코루틴이면 이전에 yield 로 실행을 양보했던 지점부터 실행을 계속하게 된다.
+- 코루틴의 대표격인 제네레이터(generator)를 예로 들면 어떤 함수 A가 실행되다가 제네레이터인 코루틴 B를 호출하면 A가 실행을 B에 양보한다(yield 라는 명령을 사용하는 경우가 많다.) A는 다시 코루틴을 호출했단 바로 다음 부분부터 실행을 계속 진행하다가 또 코루틴 B를 호출한다. 이때 B가 일반적인 함수라면 로컬 변수를 초기화하면서 처음부터 실행을 다시 시작하겠지만, 코루틴이면 이전에 yield 로 실행을 양보했던 지점부터 실행을 계속하게 된다.
 
 ### 2. 코틀린의 코루틴 지원: 일반적인 코루틴
 > 언어에 따라 제네레이터 등 특정 형태의 코루틴만을 지원하는 경우도 있고, 좀 더 일반적인 코루틴을 만들 수 있는 기능을 언어가 기본 제공하고, 제네레이터, async/await 등 다양한 코루틴은 그런 기본 기능을 활용해 직접 사용자가 만들거나 라이브러리를 통해 사용하도록 하는 형태가 있다. 제네레이터만 제공하는 경우에도 yield 시 퓨처 등 비동기 처리가 가능한 객체를 넘기는 방법을 사용하면 async/await 등을 비교적 쉽게 구현할 수 있다.
