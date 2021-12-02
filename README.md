@@ -37,6 +37,7 @@
 - [Navigation Component](./Android/CoreAndroid#navigation-component)
 - [Lifecycle](./Android/CoreAndroid#lifecycle)
 - [LifecycleOwner](./Android/CoreAndroid#lifecycleowner)
+- [LiveData vs ObservableField](./Android/CoreAndroid#livedata-vs-observablefield)
 
 ## [Activity and Fragment](./Android/ActivityAndFragment)
 - [Activity 생명주기](./Android/ActivityAndFragment#activity-생명주기)

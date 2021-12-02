@@ -11,7 +11,7 @@
 - [Navigation Component](#navigation-component)
 - [Lifecycle](#lifecycle)
 - [LifecycleOwner](#lifecycleowner)
-
+- [LiveData vs ObservableField](#livedata-vs-observablefield)
 ---
 
 ## [안드로이드 어플리케이션 컴포넌트](https://developer.android.com/guide/components/fundamentals.html#Components)
@@ -273,3 +273,24 @@ internal class MyLocationListener(
 
 ### 참고
 - [LifecycleOwner](https://developer.android.com/reference/androidx/lifecycle/LifecycleOwner)
+
+## LiveData vs ObservableField
+### 유사한점
+- 데이터 바인딩과 잘 작동한다.
+- 바운드 뷰는 백그라운드에 있을 때 자동으로 구독을 취소합니다.
+- POJO 클래스는 변경 사항을 구독할 수도 있습니다.
+
+### 차이점
+- LiveData를 사용하면 POJO 가 수명 주기를 인식할 수 있습니다. 즉, A가 변경될 때 업데이트하려는 속성 B가 있는 경우 연결된 View 가 비활성화될 때 업데이트를 수신하지 않도록 할수 있고 이렇게 하면 리소스가 절약됩니다.
+- ObservableField<T>의 백그라운드 스레드는 즉각적으로 업데이트를 하고, MutableLiveData 는 백그라운드 스레드에서는 postValue, 메인 스레드에서는 setValue 를 사용 합니다.
+- LiveData<T> 및 ObservableField<T>의 값은 항상 null을 허용하지만 ObservableInt, -Float, -Boolean 등의 기본 구현은 null을 허용하지 않습니다.
+- MutableLiveData<T>는 초기화 시 설정할 생성자 값을 사용하지 않습니다.
+
+### 언제 어떤것을 사용하는게 좋은가?
+- 앱이 백그라운드에 있을 때 ViewModel에서 계단식 데이터 변경을 트리거할 수 있는 외부 이벤트가 있다면 LiveData 를 사용하는 것이 좋을것 같다.
+- 즉시 백그라운드 스레드에 대한 값 업데이트가 필요 하다면 Observable 사용하는 것이 좋을것 같다.
+
+### 참고
+- https://medium.com/androiddevelopers/android-data-binding-library-from-observable-fields-to-livedata-in-two-steps-690a384218f2
+- https://developer.android.com/topic/libraries/data-binding/architecture#observable-viewmodel
+- https://developer.android.com/topic/libraries/data-binding/architecture#livedata
