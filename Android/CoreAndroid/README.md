@@ -9,6 +9,8 @@
 - [안드로이드 앱 프로세스 분리하기](#안드로이드-앱-프로세스-분리하기)
 - [서비스와 액티비티 간에 활용할 수 있는 IPC](#서비스와-액티비티-간에-활용할-수-있는-ipc)
 - [Navigation Component](#navigation-component)
+- [Lifecycle](#lifecycle)
+- [LifecycleOwner](#lifecycleowner)
 
 ---
 
@@ -173,3 +175,101 @@ PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
 - [Navigation Component 시작하기](https://developer.android.com/guide/navigation/navigation-getting-started)
 - [Navigation Guide](https://developer.android.com/guide/navigation/navigation-navigate)
 - [Safe Arguments](https://developer.android.com/guide/navigation/navigation-pass-data#Safe-args)
+
+## Lifecycle
+> Android 수명 주기가 있는 개체를 정의합니다. Fragment 및 FragmentActivity 클래스는 Lifecycle에 액세스하기 위한 getLifecycle 메서드가 있는 LifecycleOwner 인터페이스를 구현합니다. 자체 클래스에서 LifecycleOwner를 구현할 수도 있습니다.
+
+- Lifecycle은 활동이나 프래그먼트와 같은 구성요소의 수명 주기 상태 관련 정보를 포함하며 다른 객체가 이 상태를 관찰할 수 있게 하는 클래스입니다.
+
+- Lifecycle은 두 가지 기본 열거를 사용하여 연결된 구성요소의 수명 주기 상태를 추적합니다.
+
+### 이벤트
+> 프레임워크 및 Lifecycle 클래스에서 전달되는 수명 주기 이벤트입니다. 이러한 이벤트는 활동과 프래그먼트의 콜백 이벤트에 매핑됩니다.
+
+### 상태
+> Lifecycle 객체가 추적한 구성요소의 현재 상태입니다.
+
+![Lifecycle State](./images/lifecycle-state.png)
+
+- 상태를 그래프의 노드로, 이벤트를 이 노드 사이의 가장자리로 생각하세요.
+- 클래스는 DefaultLifecycleObserver를 구현하고 onCreate, onStart 등의 상응하는 메서드를 재정의하여 구성요소의 수명 주기 상태를 모니터링할 수 있습니다. 그러면 개발자는 다음 예에 나와 있는 것처럼 Lifecycle 클래스의 addObserver() 메서드를 호출하고 관찰자의 인스턴스를 전달하여 관찰자를 추가할 수 있습니다.
+
+```kotlin
+class MyObserver : DefaultLifecycleObserver {
+    override fun onResume(owner: LifecycleOwner) {
+        connect()
+    }
+
+    override fun onPause(owner: LifecycleOwner) {
+        disconnect()
+    }
+}
+
+myLifecycleOwner.getLifecycle().addObserver(MyObserver())
+```
+- 위 예에서 myLifecycleOwner 객체는 LifecycleOwner 인터페이스를 구현합니다. 이 내용은 다음 섹션에서 설명합니다.
+
+### 참고
+- [Lifecycle](https://developer.android.com/reference/androidx/lifecycle/Lifecycle)
+
+## LifecycleOwner
+> Android 수명 주기가 있는 클래스입니다. 이러한 이벤트는 활동 또는 프래그먼트 내부에 코드를 구현하지 않고 수명 주기 변경을 처리하기 위해 사용자 지정 구성 요소에서 사용할 수 있습니다.
+
+- LifecycleOwner는 클래스에 Lifecycle이 있음을 나타내는 단일 메서드 인터페이스입니다. 이 인터페이스에는 클래스에서 구현해야 하는 getLifecycle() 메서드가 하나 있습니다. 대신 전체 애플리케이션 프로세스의 수명 주기를 관리하려는 경우 ProcessLifecycleOwner를 참고하세요.
+
+- 이 인터페이스는 Fragment 및 AppCompatActivity와 같은 개별 클래스에서 Lifecycle의 소유권을 추출하고, 함께 작동하는 구성요소를 작성할 수 있게 합니다. 모든 맞춤 애플리케이션 클래스는 LifecycleOwner 인터페이스를 구현할 수 있습니다.
+
+- 관찰자가 관찰을 위해 등록할 수 있는 수명 주기를 소유자가 제공할 수 있으므로, DefaultLifecycleObserver를 구현하는 구성요소는 LifecycleOwner를 구현하는 구성요소와 원활하게 작동합니다.
+
+- 위치 추적 예에서는 MyLocationListener 클래스에서 DefaultLifecycleObserver를 구현하도록 한 후 onCreate() 메서드에서 활동의 Lifecycle로 클래스를 초기화할 수 있습니다. 이렇게 하면 MyLocationListener 클래스가 자립할 수 있습니다. 즉, 수명 주기 상태의 변경에 반응하는 로직이 활동 대신 MyLocationListener에서 선언됩니다. 개별 구성요소가 자체 로직를 저장하도록 설정하면 활동과 프래그먼트 로직을 더 쉽게 관리할 수 있습니다.
+
+```kotlin
+class MyActivity : AppCompatActivity() {
+    private lateinit var myLocationListener: MyLocationListener
+
+    override fun onCreate(...) {
+        myLocationListener = MyLocationListener(this, lifecycle) { location ->
+            // update UI
+        }
+        Util.checkUserStatus { result ->
+            if (result) {
+                myLocationListener.enable()
+            }
+        }
+    }
+}
+```
+- 일반적인 사용 사례에서는 Lifecycle이 현재 정상 상태가 아닌 경우 특정 콜백 호출을 피합니다. 예를 들어 활동 상태가 저장된 후 콜백이 프래그먼트 트랜잭션을 실행하면 비정상 종료를 트리거할 수 있으므로 콜백을 호출하지 않는 것이 좋습니다.
+- 이러한 사용 사례를 쉽게 만들 수 있도록 Lifecycle 클래스는 다른 객체가 현재 상태를 쿼리할 수 있도록 합니다.
+
+```kotlin
+internal class MyLocationListener(
+        private val context: Context,
+        private val lifecycle: Lifecycle,
+        private val callback: (Location) -> Unit
+): DefaultLifecycleObserver {
+
+    private var enabled = false
+
+    override fun onStart(owner: LifecycleOwner) {
+        if (enabled) {
+            // connect
+        }
+    }
+
+    fun enable() {
+        enabled = true
+        if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+            // connect if not connected
+        }
+    }
+
+    override fun onStop(owner: LifecycleOwner) {
+        // disconnect if connected
+    }
+}
+```
+- 이 구현으로 LocationListener 클래스는 수명 주기를 완전히 인식합니다. 다른 활동이나 프래그먼트의 LocationListener를 사용해야 한다면 클래스를 초기화하기만 하면 됩니다. 모든 설정과 해제 작업은 클래스 자체에서 관리합니다.
+
+### 참고
+- [LifecycleOwner](https://developer.android.com/reference/androidx/lifecycle/LifecycleOwner)

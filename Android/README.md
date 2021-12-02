@@ -11,6 +11,8 @@
 - [안드로이드 앱 프로세스 분리하기](./CoreAndroid#안드로이드-앱-프로세스-분리하기)
 - [서비스와 액티비티 간에 활용할 수 있는 IPC](./CoreAndroid#서비스와-액티비티-간에-활용할-수-있는-ipc)
 - [Navigation Component](./CoreAndroid#navigation-component)
+- [Lifecycle](./CoreAndroid#lifecycle)
+- [LifecycleOwner](./CoreAndroid#lifecycleowner)
 
 ## [Activity and Fragment](./ActivityAndFragment)
 - [Activity 생명주기](./ActivityAndFragment#activity-생명주기)
