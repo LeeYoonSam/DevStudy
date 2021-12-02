@@ -10,6 +10,7 @@
 - [Pending Intent 를 사용해서 액티비티를 시작하는 방법은?](./CoreAndroid#pending-intent-를-사용해서-액티비티를-시작하는-방법은)
 - [안드로이드 앱 프로세스 분리하기](./CoreAndroid#안드로이드-앱-프로세스-분리하기)
 - [서비스와 액티비티 간에 활용할 수 있는 IPC](./CoreAndroid#서비스와-액티비티-간에-활용할-수-있는-ipc)
+- [Navigation Component](./CoreAndroid#navigation-component)
 
 ## [Activity and Fragment](./ActivityAndFragment)
 - [Activity 생명주기](./ActivityAndFragment#activity-생명주기)

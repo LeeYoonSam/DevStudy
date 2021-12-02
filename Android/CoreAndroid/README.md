@@ -8,6 +8,7 @@
 - [Pending Intent 를 사용해서 액티비티를 시작하는 방법은?](#pending-intent-를-사용해서-액티비티를-시작하는-방법은)
 - [안드로이드 앱 프로세스 분리하기](#안드로이드-앱-프로세스-분리하기)
 - [서비스와 액티비티 간에 활용할 수 있는 IPC](#서비스와-액티비티-간에-활용할-수-있는-ipc)
+- [Navigation Component](#navigation-component)
 
 ---
 
@@ -157,3 +158,18 @@ PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
 1. [SharedPreference](https://developer.android.com/reference/android/content/SharedPreferences.OnSharedPreferenceChangeListener.html)
 2. [FileObserver](https://developer.android.com/reference/android/os/FileObserver.html)
 3. [ContentProvider와 ContentObserver](http://developer.android.com/reference/android/database/ContentObserver.html)
+
+
+## Navigation Component
+> 탐색은 사용자가 앱 내의 여러 콘텐츠를 탐색하고, 그곳에 들어갔다 나올 수 있게 하는 상호작용을 의미합니다. Android Jetpack의 탐색 구성요소는 단순한 버튼 클릭해서 좀 더 복잡한 패턴(앱바, 탐색 창)에 이르기까지 여러 가지 탐색을 구현하도록 도와줍니다. 탐색 구성요소는 기존의 원칙을 준수하여 일관적이고 예측 가능한 사용자 환경을 보장합니다.
+
+### 탐색 구성요소 세 가지 주요 부분
+- 탐색 그래프: 모든 탐색 관련 정보가 하나의 중심 위치에 모여 있는 XML 리소스입니다. 여기에는 대상이라고 부르는 앱 내의 모든 개별적 콘텐츠 영역과 사용자가 앱에서 갈 수 있는 모든 이용 가능한 경로가 포함됩니다.
+- NavHost: 탐색 그래프에서 대상을 표시하는 빈 컨테이너입니다. 대상 구성요소에는 프래그먼트 대상을 표시하는 기본 NavHost 구현인 NavHostFragment가 포함됩니다.
+- NavController: NavHost에서 앱 탐색을 관리하는 객체입니다. NavController는 사용자가 앱 내에서 이동할 때 NavHost에서 대상 콘텐츠의 전환을 오케스트레이션합니다.
+
+### 참고
+- [Navigation](https://developer.android.com/guide/navigation)
+- [Navigation Component 시작하기](https://developer.android.com/guide/navigation/navigation-getting-started)
+- [Navigation Guide](https://developer.android.com/guide/navigation/navigation-navigate)
+- [Safe Arguments](https://developer.android.com/guide/navigation/navigation-pass-data#Safe-args)
