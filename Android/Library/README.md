@@ -1,6 +1,7 @@
 # Library
 - [Dagger Hilt Koin 비교](#dagger-hilt-koin-비교)
 - [RxJava](#rxjava)
+- [RxJava Hot, Cold Observable](#rxjava-hot-cold-observable)
 - [Glide](#glide)
 
 ---
@@ -237,6 +238,29 @@ Observe On : pool-1-thread-1 | value : Third
 - [Scheduler](http://reactivex.io/documentation/scheduler.html)
 - [[RxJava] RxJava 이해하기 - 5. 스케줄러](https://4z7l.github.io/2020/12/14/rxjava-5.html)
 
+
+## RxJava Hot, Cold Observable
+
+### Hot Observable
+> 획득한 순간 Subscriber 여부와 관계 없이 즉시 이벤트를 방출한다. 심지어 아무도 듣고 있지 않아도 이벤트를 다운스트림으로 밀어내기 때문에 이벤트 유실이 있을 수 있다.
+
+- 차가운 Observable 은 전적으로 통제가 가능하지만 뜨거운 Observable 은 소비자로부터 독립적이다.
+- Subscriber가 나타나면, 뜨거운 Observable은 흘러가는 이벤트를 그대로 게시한다.
+- Subscriber 의 존재 여부가 Observable의 동작에 영향을 미치지 않으며, 서로 완전히 분리되어 있고 독립적이다.
+- 보통 이벤트 소스를 전혀 통제할 수 없는 경우에 발생한다.
+- 일반적으로 외부에서 발생하여 오는 그대로 이벤트를 표현하는데, 이벤트를 시계열에 맞춰 늘어놓기 때문에 해당 값이 언제 발생했는지가 무척 중요하다.
+
+**뜨거운 Observable 예시**
+- 마우스 움직임이나 키보드 입력등
+
+### Cold Observable
+> 전적으로 느긋하여 실제로 누군가 관심을 기울이지 않으면 절대 이벤트 방출을 시작하지 않는다. 관찰자가 없으면 Observable은 단순히 정적 자료 구조일 뿐이다. 이벤트는 느긋하게 만들어지며 어떤 식으로든 캐시 처리되지 않기 때문에 모든 구독자는 각자 별도로 스트림의 복사본을 받는다는 뜻이기도 하다.
+
+- 일반적으로 Observable.create() 를 써서 만든다.
+- Observable.just(), from(), range() 등도 있다.
+- 누군가 수신하지 않는 한 어떤 작업도 시작하면 안되고 실행을 연기해야 한다.
+- 어느정도 Subscriber 에 의존한다.
+- 요청할 때마다 값을 생성하며 여러 번 요청해도 되기 때문에 항목이 정확히 언제 만들어졌는지 별로 중요하지 않다.
 
 ## Glide
 > Glide는 미디어 디코딩, 메모리 및 디스크 캐싱, 리소스 풀링을 간단하고 사용하기 쉬운 인터페이스로 래핑하는 Android용 빠르고 효율적인 오픈 소스 미디어 관리 및 이미지 로딩 프레임워크입니다.
