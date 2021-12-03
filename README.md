@@ -112,6 +112,7 @@
 - [코틀린 버전별 비교](./Kotlin/#코틀린-버전별-비교)
 - [코루틴 Core](./Kotlin#코루틴-core)
 - [코루틴과 Async/Await](./Kotlin/#코루틴과-asyncawait)
+- [Serialization](./Kotlin#serialization)
 
 # [Java](./Java)
 - [Serialization and Deserialization](./Java#serialization-and-deserialization)
