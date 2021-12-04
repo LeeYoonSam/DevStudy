@@ -2,6 +2,7 @@
 - [Dagger Hilt Koin 비교](#dagger-hilt-koin-비교)
 - [RxJava](#rxjava)
 - [RxJava Hot, Cold Observable](#rxjava-hot-cold-observable)
+- [RxJava Backpressure(배압)](#rxjava-backpressure배압)
 - [Glide](#glide)
 
 ---
@@ -263,7 +264,7 @@ Observe On : pool-1-thread-1 | value : Third
 - 요청할 때마다 값을 생성하며 여러 번 요청해도 되기 때문에 항목이 정확히 언제 만들어졌는지 별로 중요하지 않다.
 
 
-## RxJava - Backpressure(배압)
+## RxJava Backpressure(배압)
 > 관찰자가 소비하는 것보다 더 빠르게 항목을 생성하는 관찰 가능 항목에 대처하기 위한 전략
 
 <br/>
