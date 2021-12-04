@@ -70,9 +70,15 @@
 
 
 ### AAC ViewModel 이란?
-- 컴포넌트들의 생명 주기에 따라 상태 정보나 데이터를 저장하고 관리하기 쉽도록 사용하는 클래스
-- 이 뷰모델을 사용하면 기존의 Activity가 생명주기 때문에 데이터 관리 면에서 겪던 어려움들을 간단하게 처리할 수 있다.
-- 뷰모델의 생명 주기에 따라 액티비티가 만들어지고 파괴되기 전까지 계속해서 살아있고 그 때문에 화면을 회전해서 Configuration Change가 일어나는 등 뷰가 파괴되고 새로 만들어지는 과정에서 데이터를 보존할 수 있다.
+AAC의 ViewModel은 화면 회전 같은 환경에서 데이터를 보관하고 라이프사이클을 알고있어서 Activity나 Fragment의 Destroy시 onClear 함수를 통한 데이터 해제의 역할을 하고있습니다. 
+
+구글에서 ViewModel의 목적은 데이터를 관리하고 바인딩하라는 목적으로 만든게 아닙니다. 실제로 구글 ViewModel의 문서에는 MVVM을 언급하고 있지 않습니다.
+
+<br/>
+
+- AAC ViewModel을 아키텍처 MVVM ViewModel 처럼 사용하지 못할까요? 사용 가능합니다. 거기에 화면회전에 대한 데이터 유지까지 있으니 더 좋겠죠 하지만 AAC ViewModel은 Activity 내에서 1개만 생성가능합니다. 
+
+- AAC ViewModel은 Activity안에서의 싱글톤 개념인데 MVVM 패턴에서 뷰와 뷰모델은 1:n 관계를 가지기 때문에 Activity 내의 여러 Fragment를 가질시에 여러 Fragment에 ViewModel을 사용하긴 어렵겠죠? 이러한 부분의 차이점이 있기 때문에 AAC의 ViewModel과 MVVM ViewModel은 다르다고 볼 수 있습니다.
 
 **뷰모델 생명주기**
 
