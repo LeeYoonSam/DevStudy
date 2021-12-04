@@ -68,6 +68,21 @@
 - 각 UI 구성 요소에 대해 관찰 가능 항목을 만들어야 합니다. 
 - 코드 크기가 상당히 큽니다.
 
+
+### AAC ViewModel 이란?
+- 컴포넌트들의 생명 주기에 따라 상태 정보나 데이터를 저장하고 관리하기 쉽도록 사용하는 클래스
+- 이 뷰모델을 사용하면 기존의 Activity가 생명주기 때문에 데이터 관리 면에서 겪던 어려움들을 간단하게 처리할 수 있다.
+- 뷰모델의 생명 주기에 따라 액티비티가 만들어지고 파괴되기 전까지 계속해서 살아있고 그 때문에 화면을 회전해서 Configuration Change가 일어나는 등 뷰가 파괴되고 새로 만들어지는 과정에서 데이터를 보존할 수 있다.
+
+**뷰모델 생명주기**
+
+| State | lifecycle | Scope |
+| --- | --- | --- |
+| Activity created | onCreate/onStart/onResume | ViewModel Scope |
+| Activity rotated | onPause / onStop / onDestroy / onCreate / onStart / onResume | ViewModel Scope |
+| finish() | onPause / onStop / onDestroy | ViewModel Scope |
+| Finished |  | onCleared() |
+
 ### 참고
 - [Android MVVM Sample](https://github.com/vandanasri/MVVM-Sample-Android)
 ---
