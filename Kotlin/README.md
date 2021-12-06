@@ -995,7 +995,6 @@ fun main() {
 ```kotlin
 val taxRate = 0.09
 fun addTax(price: Double) = price + price * taxRate
-
 ```
 - 이 코드에서 addTax 함수는 taxRate 라는 변수에 대해 닫혀 있다.
 - 여기서 addTax 가 price의 함수가 아니라는 점이 중요하다. 이유는 인자가 같아도 결과가 달라질 수 있기 때문이다.
