@@ -636,8 +636,14 @@ class Person(val name: String) {
 
 ## [inline, noinline, crossinline, reified](https://leveloper.tistory.com/171)
 
+### 참고
+[A Practical Guide to Kotlin's inline Modifier](https://maxkim.eu/a-practical-guide-to-kotlins-inline-modifier)
+
 ### inline
-> 고차 함수를 사용하면 런타임 패널티가 있기 때문에 함수 구현 자체를 코드에 넣음으로써 오버헤드를 줄일 수 있다.
+
+함수가 인라인으로 표시되면 컴파일러는 새 개체를 생성하지 않고 인라인 함수가 호출되는 곳에 주어진 코드를 삽입합니다.
+
+고차 함수를 사용하면 런타임 패널티가 있기 때문에 함수 구현 자체를 코드에 넣음으로써 오버헤드를 줄일 수 있다.
 
 ```kotlin
 fun doSomething(action: () -> Unit) { 
@@ -721,9 +727,112 @@ fun main() {
 - 위의 코드에서 doSomething()에 두 번째 인자로 넘겨받은 action2를 또 다른 고차 함수인 anotherFunc()에 인자로 넘겨주려 하고 있다. 
 - 이때 doSomething()은 inline 함수로 선언되어 있기 때문에 인자로 전달받은 action2를 참조할 수 없기 때문에 전달하는 것이 불가능하다. 
 
+**inline property**
+Kotlin 속성의 접근자는 일반 메서드로 컴파일된 다음 코드 전체에서 사용됩니다.
+
+속성을 인라인으로 표시할 수 있습니다. 그러면 일반 인라인 함수처럼 작동합니다.
+
+```kotlin
+inline var complexProperty: Int
+    get() {
+        val x = 2
+        val y = 4
+        return x + y
+    }
+    set(value) {
+        val adjustedValue = value + 10
+        println("Setting adjusted value $adjustedValue")
+    }
+```
+
+
+자바 코드 변환
+
+```java
+public static final void main() {
+    // Setter
+    int value$iv = 4;
+    int adjustedValue$iv = value$iv + 10;
+    String var3 = "Setting adjusted value " + adjustedValue$iv;
+    System.out.println(var3);
+
+    // Getter
+    int x$iv = 2;
+    int y$iv = 4;
+    int calculatedProperty = x$iv + y$iv;
+    String var6 = "The property is " + calculatedProperty;
+    System.out.println(var6);
+}
+```
+
+**inline classes**
+인라인 클래스는 가독성을 향상시키고 런타임 버그의 가능성을 줄이기 위해 유형을 감싸는 래퍼 역할을 합니다.
+
+일반 래퍼 클래스는 추가 힙 할당으로 인해 런타임 중에 눈에 띄는 성능 저하가 발생합니다.
+
+인라인 클래스는 모든 이점을 유지 할수 있습니다.
+
+```kotlin
+fun main() {
+    login("qwerty", "email@qwerty.com")
+}
+
+fun login(email: String, password: String) {
+    println("Please don't mix up my parameters")
+}
+```
+- 위는 로그인을 하는 샘플이며, 컴파일은 문제가 없지만 email, password 를 바꿔서 입력했기 때문에 런타임 오류가 발생한다.
+
+```kotlin
+fun main() {
+    login(Email("email@qwerty.com"), Password("qwerty"))
+}
+
+fun login(email: Email, password: Password) {
+    println("Please don't mix up my parameters")
+}
+
+@JvmInline
+value class Email(val email: String)
+
+@JvmInline
+value class Password(val password: String)
+```
+
+
+Kotlin 1.5.0 이전에는 다음과 같이 작성합니다.
+
+```kotlin
+inline class Email(val email: String)
+```
+
+
+- 인라인 클래스는 init 블록, 함수 및 속성을 가질 수 있습니다(인라인 속성과 동일한 제한 사항 포함).
+
+```kotlin
+@JvmInline
+value class Email(val email: String) {
+    init {
+        require(email.isValidEmail())
+    }
+}
+
+@JvmInline
+value class Password(val password: String) {
+    val isSecure: Boolean
+        get() = password.contains('!')
+}
+```
+
 ### noinline
-> 모든 인자를 inline으로 처리하고 싶지 않을 때 사용하는 것이 noinline 키워드다.<br>
-인자 앞에 noinline 키워드를 붙이면 해당 인자는 inline에서 제외된다.<br>
+인라인 함수에 매개변수로 전달되는 람다를 인라인하고 싶지 않거나 인라인할 수 없는 경우 이를 noinline으로 표시할 수 있습니다.
+
+<br>
+
+인자 앞에 noinline 키워드를 붙이면 해당 인자는 inline에서 제외된다.
+
+<br>
+
 따라서 noinline 키워드가 붙은 인자는 다른 함수의 인자로 전달하는 것이 가능하다.
 
 ```
@@ -745,9 +854,34 @@ fun main() {
 }
 ```
 
+- 하나의 람다를 매개변수로 사용하여 함수를 인라인하는 경우 대부분의 경우 noinline으로 표시하는 것이 이치에 맞지 않으며 IDE에서 즉시 경고를 표시합니다.
+- 그러나 그것은 우리가 그 람다 매개변수로 무엇을 하느냐에 달려 있습니다.
+
+```kotlin
+public suspend inline operator fun <T> CoroutineDispatcher.invoke(
+    noinline block: suspend CoroutineScope.() -> T
+): T = withContext(this, block)
+```
+- withContext는 일반 함수이며 인라인 람다를 전달할 수 없습니다.
+
+```kotlin
+public suspend fun <T> withContext(
+    context: CoroutineContext,
+    block: suspend CoroutineScope.() -> T
+): T
+```
+- CoroutineScope에서 invoke를 호출하는 withContext 함수를 인라인할 수 있으므로 이것은 실제로 noinline 수정자의 또 다른 좋은 예입니다.
+
+
 ### crossinline
-> 일부 인라인 함수는 파라미터로 전달받은 람다를 호출할 때 함수 몸체에서 직접 호출하지 않고 다른 실행 컨텍스트를 통해(예, 로컬 객체나 중첩 함수,스레드) 호출해야 할 때 람다 안에서 비-로컬 흐름을 제어할 수 없다.<br>
+
+왜 crossinline modifier가 필요한지 이해하려면 먼저 Kotlin의 non-local return에 대해 잘 이해해야 합니다.
+
+일부 인라인 함수는 파라미터로 전달받은 람다를 호출할 때 함수 몸체에서 직접 호출하지 않고 다른 실행 컨텍스트를 통해(예, 로컬 객체나 중첩 함수,스레드) 호출해야 할 때 람다 안에서 비-로컬 흐름을 제어할 수 없다.
+
 이럴 때 사용하는 것이 crossinline 키워드다.
+
+ 크로스인라인 수정자는 람다 매개변수를 crossinline으로 표시함으로써 인라인 람다 내부에 non-local return을 사용하는 것을 금지하고, 따라서 그것을 일반 함수에 안전하게 전달할 수 있습니다.
 
 ```kotlin
 inline fun View.click(block: (View) -> Unit) {
@@ -767,8 +901,21 @@ inline fun View.click(crossinline block: (View) -> Unit) {
 ```
 - 람다 함수에 crossinline 키워드를 사용해서 함수 안에서 비-로컬 흐름을 제어
 
+
+Kotlin 표준 라이브러리에서 크로스인라인의 좋은 예는 sortBy 함수입니다.
+```kotlin
+public inline fun <T, R : Comparable<R>> MutableList<T>.sortBy(
+    crossinline selector: (T) -> R?
+): Unit
+```
+- `selector`를 일반 함수로 전달하지만 여전히 비교 로직을 인라인합니다.
+
+
 ### reified
-> inline 함수에서 특정 타입을 가졌는지 판단할 수 없기때문에 타입을 한정하기 위해 사용
+inline 함수에서 특정 타입을 가졌는지 판단할 수 없기때문에 타입을 한정하기 위해 사용
+
+일반 함수에서 유형 T는 컴파일 시간에만 사용할 수 있으며 런타임에 지워집니다. 따라서 일반적으로 런타임에 T의 클래스를 유추할 수 없으며 클래스를 매개 변수로 전달해야 합니다.
+
 <br>
 
 - 타입 파라미터에 reified 키워드를 붙여주면 마치 클래스처럼 타입 파라미터에 접근할 수 있다. 
@@ -798,6 +945,31 @@ inline fun <reified T: View> T.click(crossinline block: (T) -> Unit) {
 }
 ```
 - 타입 파라미터에 reified 키워드를 붙여주면 마치 클래스처럼 타입 파라미터에 접근할 수 있다.
+
+```kotlin
+fun main() {
+    val json = "{ ... }"
+    // the call looks prettier as well
+    val user = json.asObjectFromJson<User>()
+}
+
+inline fun <reified T> String.asObjectFromJson(): T? {
+    // validate json
+    // do some deserialization
+    // we can access the class of T during runtime now!
+    return T::class.java.newInstance()
+}
+```
+- 일반 T를 구체화된 것으로 표시하여 일반 클래스인 것처럼 함수 내부에서 사용할 수 있습니다.
+
+- 인라인 함수는 리플렉션을 사용하지 않고 이를 가능하게 하지만, 사용해야 하는 경우 리플렉션은 클래스와 함께 작동하는 `is` 및 `as`와 같은 연산자뿐만 아니라 `reified` 유형에도 사용할 수 있습니다.
+
+
+Kotlin 표준 라이브러리에서 구체화된 가장 일반적인 예 중 하나는 Iterable 확장 함수 filterIsInstance입니다.
+
+```kotlin
+list.filterIsInstance<String>()
+```
 
 ---
 
