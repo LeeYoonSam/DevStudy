@@ -1436,6 +1436,150 @@ fun launch(context: CoroutineContext = EmptyCoroutineContext, block: suspend () 
 - [actor](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/actor.html)
 - [produce](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/produce.html)
 
+## 코루틴 Context
+CoroutineContext는 코루틴 라이브러리의 중요한 요소이며, 실행하는 모든 코루틴에는 컨텍스트가 있습니다. 
+
+그러나 API의 특성과 유연한 API를 감안할 때 올바르게 사용하는 것은 꽤 까다로울 수 있습니다.
+
+### CoroutineContext 정의
+
+```kotlin
+/**
+ * Persistent context for the coroutine. 
+ * It is an indexed set of [Element] instances.
+ * An indexed set is a mix between a set and a map.
+ * Every element in this set has a unique [Key].
+ */
+@SinceKotlin("1.3")
+public interface CoroutineContext
+```
+- KDoc에서 볼 수 있듯이 넓은 의미에서 CoroutineContext는 고유한 키가 있는 요소 개체 집합을 저장하는 맵일 뿐입니다.
+- 일반 맵에서와 마찬가지로 키를 사용하여 해당 요소에 액세스할 수 있습니다.
+
+```kotlin
+/**
+  * Returns the element with the given [key] from this context or `null`.
+  */
+public operator fun <E : Element> get(key: Key<E>): E?
+```
+- 키가 입력되었는지 확인해야 한다.
+
+### CoroutineContext Elements
+- CoroutineContext는 컨테이너일 뿐이므로 가장 중요한 부분은 내용입니다.
+- `Element`는 코루틴이 올바르게 실행되는 데 필요한 모든 것입니다. 가장 일반적인 예는 다음과 같습니다.
+    - `Job` - 라이프사이클이 있는 코루틴에 대한 취소 가능한 핸들
+    - `CoroutineDispatcher`, `MainCoroutineDispatcher` - 코루틴을 실행할 디스패처
+    - `CoroutineId`, `CoroutineName` - 주로 코루틴을 디버그하는 데 사용되는 요소.
+    - `CoroutineExceptionHandler` - 잡히지 않은 예외를 처리하는 요소.
+
+**키를 사용하여 코루틴 컨텍스트에서 작업을 가져오는 방법**
+```kotlin
+val job = coroutineContext[Job]
+```
+- 키는 액세스하려는 `Element`의 이름일 뿐입니다. 
+
+각 `Element`에 대한 키는 Key<Element> 인터페이스를 구현하는 해당 요소의 일반 컴패니언 개체이므로 지정된 유형의 키로 사용할 수 있습니다.
+
+```kotlin
+public interface Job : CoroutineContext.Element {
+    /**
+     * Key for [Job] instance in the coroutine context.
+     */
+    public companion object Key : CoroutineContext.Key<Job>
+```
+
+### Modifying a CoroutineContext
+CoroutineContext는 변경할 수 없는 맵처럼 작동합니다. 설정 기능이 없고 따라서 저장된 요소를 읽을 수 있지만 직접 수정할 수는 없습니다.
+
+```kotlin
+// we can read the elements stored in a context by their Key
+val job = coroutineContext[Job] 
+// we cannot modify stored elements
+coroutineContext[Job] = Job() <- compiler error
+```
+
+`CoroutineContext`를 수정하기 위한 전용 기능
+```kotlin
+/**
+  * Returns a context containing elements from this context 
+  * and elements from  other [context].
+  * The elements from this context with the same key 
+  * as in the other one are dropped.
+  */
+public operator fun plus(context: CoroutineContext): CoroutineContext
+
+/**
+  * Returns a context containing elements from this context, 
+  * but without an element with the specified [key].
+  */
+public fun minusKey(key: Key<*>): CoroutineContext
+
+/**
+ * Accumulates entries of this context starting with[initial] value
+ * and applying[operation] from left to right to current accumulator value 
+ * and each element of this context.
+ */
+public fun<R>fold(initial: R, operation:(R, Element)-> R): R
+```
+- 위에서 언급한 함수 중 대부분의 경우 더하기 연산자 함수만 사용합니다.
+- 이전에 코루틴을 사용한 적이 있다면 더하기 연산자가 매우 익숙할 것입니다.
+
+```kotlin
+launch(Dispatchers.IO + CoroutineName("TestCoroutine")) {
+    doStuff()
+}
+```
+- 이 더하기는 연관되지 않습니다. 즉, 컨텍스트1 + 컨텍스트2는 컨텍스트2 + 컨텍스트1과 같지 않습니다. 왼쪽 컨텍스트의 모든 키가 오른쪽 컨텍스트의 키로 덮어쓰기되기 때문입니다.
+- 물론 위의 예와 같이 서로 다른 두 개의 `Element`를 결합할 때는 문제가 되지 않지만 `Element` 집합을 결합할 때는 이것이 중요한 고려 사항이 됩니다.
+
+
+```kotlin
+/**
+ * An element of the [CoroutineContext]. An element 
+ * of the coroutine context is a singleton context by itself.
+ */
+public interface Element : CoroutineContext
+```
+- 각 `Element`는 그 자체로 다른 `Element` 또는 CoroutineContext와 결합할 수 있는 유효한 CoroutineContext입니다.
+
+```kotlin
+public val CoroutineContext.isActive: Boolean
+    get() = this[Job]?.isActive == true
+```
+-  CoroutineContext가 활성 상태인지 여부를 확인하는 속성의 예입니다.
+
+```kotlin
+fun main() {
+    runBlocking {
+        println("I am running on ${Thread.currentThread().name}")
+        launch(Dispatchers.IO) {
+            workOnIO() // this might be blocking
+        }
+    }
+}
+
+suspend fun workOnIO() {
+    delay(100)
+    println("Now I have switched to ${Thread.currentThread().name}")
+}
+
+Output:
+I am running on main
+Now I have switched to DefaultDispatcher-worker-1
+
+```
+- 디스패처를 변경하는 예입니다.
+
+- 코루틴은 일시 중단 기능의 실행이 순차적이기 때문에 중단 기능이 완료될 때까지 기다리지만 코루틴이 재개되기를 기다리는 동안 스레드를 차단하지 않으면 다른 작업을 자유롭게 수행할 수 있습니다.
+
+**중요한 발췌 부분**
+```
+일시 중단 기능은 코드 디자인에 새로운 차원을 추가합니다. 코루틴이 없는 차단/비차단이었고 이제 그 위에 일시 중단/비중단도 있습니다. 모든 사람의 삶을 더 단순하게 만들기 위해 다음 규칙을 사용합니다. 일시 중단 함수는 호출자 스레드를 차단하지 않습니다. 이 규칙을 구현하는 수단은 withContext 함수에 의해 제공됩니다.
+```
+
+### 참고
+- [Things every Kotlin Developer should know about Coroutines. Part 1: CoroutineContext.](https://maxkim.eu/things-every-kotlin-developer-should-know-about-coroutines-part-1-coroutinecontext)
+
 ## 코루틴 Dispatchers
 - 코루틴 컨텍스트에는 해당 코루틴이 실행에 사용하는 스레드를 결정하는 코루틴 디스패처(CoroutineDispatcher 참조)가 포함됩니다. 
 - 코루틴 디스패처는 코루틴 실행을 특정 스레드로 제한하거나 스레드 풀에 디스패치하거나 제한 없이 실행되도록 할 수 있습니다.
