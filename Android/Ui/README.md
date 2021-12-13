@@ -5,6 +5,9 @@
 - [ConstraintLayout 이란?](#constraintlayout-이란)
 - [ViewTreeObserver가 무엇인지?](#viewtreeobserver가-무엇인지)
 - [include, merge, ViewStub 차이](#include-merge-viewstub-차이)
+
+- [FragmentContainerView 란?](#fragmentcontainerview-란)
+
 ---
 
 ## [안드로이드에서 View 란?](https://blog.mindorks.com/create-your-own-custom-view)
@@ -188,3 +191,50 @@ ViewStub 는 사이즈가 0인 더미 뷰이다. 기능은 include 와 동일하
 ### 참고
 - https://black-jin0427.tistory.com/180
 - https://velog.io/@woga1999/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-xml-%ED%83%9C%EA%B7%B8-include-merge-ViewStub-%EC%B0%A8%EC%9D%B4
+
+## FragmentContainerView 란?
+FragmentContainerView는 프래그먼트용으로 특별히 설계된 맞춤형 레이아웃입니다. FrameLayout을 확장하여 Fragment Transaction을 안정적으로 처리할 수 있으며, Fragment 동작과 조정하는 추가 기능도 있습니다. 
+
+FragmentContainerView는 일반적으로 액티비티의 xml 레이아웃에서 설정되는 프래그먼트의 컨테이너로 사용해야 합니다.
+
+```xml
+<androidx.fragment.app.FragmentContainerView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/fragment_container_view"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+</androidx.fragment.app.FragmentContainerView>
+```
+
+FragmentContainerView는 `android:name` 속성을 사용하여 프래그먼트를 추가하는 데 사용할 수도 있습니다. 
+
+FragmentContainerView는 다음과 같은 일회성 작업을 수행합니다.
+
+- Fragment의 새 인스턴스를 만듭니다. 
+- Fragment.onInflate 호출 
+- FragmentTransaction을 실행하여 적절한 FragmentManager에 Fragment를 추가합니다.
+
+FragmentManager.findFragmentByTag를 사용하여 추가된 프래그먼트를 검색할 수 있도록 하는 `android:tag`를 선택적으로 포함할 수 있습니다.
+
+```xml
+<androidx.fragment.app.FragmentContainerView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/fragment_container_view"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:name="com.example.MyFragment"
+android:tag="my_tag">
+</androidx.fragment.app.FragmentContainerView>
+```
+- FragmentContainerView는 Fragment 사용 사례 이외의 다른 ViewGroups(FrameLayout, LinearLayout 등)의 대체물로 사용되어서는 안 됩니다.
+
+- FragmentContainerView는 Fragment의 Fragment.onCreateView에서 반환된 View만 허용합니다. 다른 View를 추가하려고 하면 IllegalStateException이 발생합니다.
+
+- 17 이상의 API용 FragmentContainerView에서는 레이아웃 애니메이션 및 전환이 비활성화됩니다. 그렇지 않으면 FragmentTransaction.setCustomAnimations를 통해 애니메이션을 수행해야 합니다. animateLayoutChanges가 true로 설정되거나 setLayoutTransition이 직접 호출되면 UnsupportedOperationException이 발생합니다.
+
+- 종료 애니메이션을 사용하는 프래그먼트는 FragmentContainerView에 대해 다른 모든 조각보다 먼저 그려집니다. 이렇게 하면 기존 프래그먼트가 보기 상단에 표시되지 않습니다.
+
+### 참고
+- [FragmentContainerView](https://developer.android.com/reference/androidx/fragment/app/FragmentContainerView)
