@@ -52,6 +52,7 @@
 - [retained Fragment 란?](./Android/ActivityAndFragment#retained-fragment-란)
 - [Fragment transaction 을 커밋하는 동안 addToBackStack()의 목적은?](./Android/ActivityAndFragment#fragment-transaction-을-커밋하는-동안-addtobackstack의-목적은)
 - [액티비티 launchMode 설명](./Android/ActivityAndFragment#액티비티-launchmode-설명)
+- [by viewModels 가 해주는 일](./Android/ActivityAndFragment#by-viewmodels-가-해주는-일)
 
 ## [Android UI](./Android/Ui)
 - [안드로이드에서 View 란?](./Android/Ui#안드로이드에서-view-란)

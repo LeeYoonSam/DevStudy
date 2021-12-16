@@ -23,6 +23,8 @@
 
 - [액티비티 launchMode 설명](#액티비티-launchmode-설명)
 
+- [by viewModels 가 해주는 일](#by-viewmodels-가-해주는-일)
+
 ---
 
 ## [Activity 생명주기](https://developer.android.com/guide/components/activities/activity-lifecycle?hl=ko)
@@ -228,3 +230,166 @@ class FragmentB : Fragment() {
 - addToBackStack()을 호출하면 replace transactrion 이 백스택에 저장되므로 사용자는 뒤로 버튼을 눌러 트랜잭션을 되돌리고 이전 fragment 를 다시 가져올 수 있다.
 
 ## [액티비티 launchMode 설명](https://blog.mindorks.com/android-activity-launchmode-explained-cbc6cf996802)
+
+## by viewModels 가 해주는 일
+기본적으로 범위가 지정된 ViewModel에 액세스하기 위한 속성 대리자(delegate)를 반환합니다.
+
+```kotlin
+package androidx.fragment.app
+
+@MainThread
+inline fun <reified VM : ViewModel> Fragment.viewModels(
+    noinline ownerProducer: () -> ViewModelStoreOwner = { this },
+    noinline factoryProducer: (() -> Factory)? = null
+) = createViewModelLazy(VM::class, { ownerProducer().viewModelStore }, factoryProducer)
+```
+
+이 속성은 이 Fragment가 연결된 후에만 액세스할 수 있습니다. 즉, Fragment.onAttach() 이후에 액세스할 수 있으며 그 이전에 액세스하면 IllegalArgumentException이 발생합니다.
+
+```kotlin
+@MainThread
+fun <VM : ViewModel> Fragment.createViewModelLazy(
+    viewModelClass: KClass<VM>,
+    storeProducer: () -> ViewModelStore,
+    factoryProducer: (() -> Factory)? = null
+): Lazy<VM> {
+    val factoryPromise = factoryProducer ?: {
+        defaultViewModelProviderFactory
+    }
+    return ViewModelLazy(viewModelClass, storeProducer, factoryPromise)
+}
+```
+
+factoryProducer 가 null 이면 DefaultViewModelProviderFactory 를 사용
+
+### ViewModelProvider.Factory getDefaultViewModelProviderFactory()
+ViewModelProvider 생성자에 사용자 지정 팩토리가 제공되지 않을 때 사용해야 하는 기본 ViewModelProvider.Factory를 반환합니다.
+
+이것이 처음 호출될 때 Fragment의 인수는 이 팩토리를 사용하여 생성된 뷰 모델에 전달된 모든 androidx.lifecycle.SavedStateHandle의 기본값으로 사용됩니다.
+
+```kotlin
+package androidx.fragment.app;
+
+@NonNull
+    @Override
+    public ViewModelProvider.Factory getDefaultViewModelProviderFactory() {
+        if (mFragmentManager == null) {
+            throw new IllegalStateException("Can't access ViewModels from detached fragment");
+        }
+        if (mDefaultFactory == null) {
+            Application application = null;
+            Context appContext = requireContext().getApplicationContext();
+            while (appContext instanceof ContextWrapper) {
+                if (appContext instanceof Application) {
+                    application = (Application) appContext;
+                    break;
+                }
+                appContext = ((ContextWrapper) appContext).getBaseContext();
+            }
+            if (application == null && FragmentManager.isLoggingEnabled(Log.DEBUG)) {
+                Log.d(FragmentManager.TAG, "Could not find Application instance from "
+                        + "Context " + requireContext().getApplicationContext() + ", you will "
+                        + "not be able to use AndroidViewModel with the default "
+                        + "ViewModelProvider.Factory");
+            }
+            mDefaultFactory = new SavedStateViewModelFactory(
+                    application,
+                    this,
+                    getArguments());
+        }
+        return mDefaultFactory;
+    }
+```
+
+
+### ViewModelLazy
+androidx.fragment.app.Fragment.viewModels 및 androidx.activity.ComponentActivity.viewmodels에서 사용하는 Lazy 구현입니다.
+
+`storeProducer`는 초기화 중에 호출되는 람다이며 VM은 반환된 ViewModelStore 범위에서 생성됩니다.
+
+`factoryProducer`는 초기화 중에 호출되는 람다이며 반환된 ViewModelProvider.Factory는 VM 생성에 사용됩니다.
+
+```kotlin
+package androidx.lifecycle
+
+@MainThread
+public inline fun <reified VM : ViewModel> ViewModelProvider.get(): VM = get(VM::class.java)
+
+public class ViewModelLazy<VM : ViewModel> (
+    private val viewModelClass: KClass<VM>,
+    private val storeProducer: () -> ViewModelStore,
+    private val factoryProducer: () -> ViewModelProvider.Factory
+) : Lazy<VM> {
+    private var cached: VM? = null
+
+    override val value: VM
+        get() {
+            val viewModel = cached
+            return if (viewModel == null) {
+                val factory = factoryProducer()
+                val store = storeProducer()
+                ViewModelProvider(store, factory).get(viewModelClass.java).also {
+                    cached = it
+                }
+            } else {
+                viewModel
+            }
+        }
+
+    override fun isInitialized(): Boolean = cached != null
+}
+```
+
+주어진 팩토리를 통해 ViewModels를 생성하고 그것을 주어진 스토어에 유지하는 ViewModelProvider를 생성합니다.
+매개변수:
+`store` – ViewModel이 저장될 ViewModelStore.
+`factory` – 새 ViewModel을 인스턴스화하는 데 사용되는 팩토리
+
+```kotlin
+public ViewModelProvider(@NonNull ViewModelStore store, @NonNull Factory factory) {
+    mFactory = factory;
+    mViewModelStore = store;
+}
+```
+
+
+기존 ViewModel을 반환하거나 이 ViewModelProvider와 연결된 범위(일반적으로 조각 또는 활동)에 새 ViewModel을 만듭니다.
+
+생성된 ViewModel은 주어진 범위와 연결되며 범위가 살아있는 한 유지됩니다(예: 활동인 경우 완료되거나 프로세스가 종료될 때까지).
+
+매개변수:
+`key` – ViewModel을 식별하는 데 사용할 키입니다.
+`modelClass` – 존재하지 않는 경우 인스턴스를 생성하기 위한 ViewModel의 클래스입니다.
+
+유형 매개변수:
+`<T>` – ViewModel의 유형 매개변수입니다.
+
+보고:
+지정된 유형 T의 인스턴스인 ViewModel입니다.
+
+```kotlin
+@NonNull
+@MainThread
+public <T extends ViewModel> T get(@NonNull String key, @NonNull Class<T> modelClass) {
+    ViewModel viewModel = mViewModelStore.get(key);
+
+    if (modelClass.isInstance(viewModel)) {
+        if (mFactory instanceof OnRequeryFactory) {
+            ((OnRequeryFactory) mFactory).onRequery(viewModel);
+        }
+        return (T) viewModel;
+    } else {
+        //noinspection StatementWithEmptyBody
+        if (viewModel != null) {
+            // TODO: log a warning.
+        }
+    }
+    if (mFactory instanceof KeyedFactory) {
+        viewModel = ((KeyedFactory) mFactory).create(key, modelClass);
+    } else {
+        viewModel = mFactory.create(modelClass);
+    }
+    mViewModelStore.put(key, viewModel);
+    return (T) viewModel;
+}
+```
