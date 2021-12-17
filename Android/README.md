@@ -37,6 +37,9 @@
 - [ViewTreeObserver가 무엇인지?](./Ui#viewtreeobserver가-무엇인지)
 - [include, merge, ViewStub 차이](./Ui#include-merge-viewstub-차이)
 - [FragmentContainerView 란?](./Ui#fragmentcontainerview-란)
+- [Glide 에서 리사이즈를 처리하지 않게 하는 방법 2가지](./Ui#glide-에서-리사이즈를-처리하지-않게-하는-방법-2가지)
+- [Bitmap-prepareToDraw](./Ui#bitmap-preparetodraw)
+
 
 ## [Displaying Lists of Content](./RecyclerView)
 - [RecyclerView](./RecyclerView#recyclerview)
