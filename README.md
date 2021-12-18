@@ -121,6 +121,7 @@
 - [코루틴 Context](./Kotlin#코루틴-context)
 - [코루틴 Dispatchers](./Kotlin#코루틴-dispatchers)
 - [Serialization](./Kotlin#serialization)
+- [함수형 인터페이스](./Kotlin#함수형-인터페이스)
 
 # [Java](./Java)
 - [Serialization and Deserialization](./Java#serialization-and-deserialization)

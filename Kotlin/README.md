@@ -17,6 +17,7 @@
 - [코루틴 Context](#코루틴-context)
 - [코루틴 Dispatchers](#코루틴-dispatchers)
 - [Serialization](#serialization)
+- [함수형 인터페이스](#함수형-인터페이스)
 
 ### 참고
 - [Kotlin in Action](http://acornpub.co.kr/book/kotlin-in-action)
@@ -1886,3 +1887,76 @@ fun main() {
 
 ### 참고
 - [Kotlin Serialization Guide](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/serialization-guide.md)
+
+## 함수형 인터페이스
+하나의 추상 메서드 **(SAM: Single Abstract Method)**만 가지는 인터페이스를 함수형 인터페이스라고 합니다.
+
+함수형 인터페이스는 여러개의 non-abstract 메서드를 가질 수는 있지만, abstract 메서드는 꼭 한 개만 있어야 합니다.
+
+### SAM 인터페이스의 람다식 변환
+한 개의 추상메서드만 있는 함수형 인터페이스는 람다식으로 코드를 축약해서 사용할 수 있습니다.
+
+**인터페이스 정의**
+하나의 메서드만 있는 함수형 인터페이스를 정의합니다.
+```
+fun interface IntPredicate {
+   fun accept(value: Int): Boolean
+}
+```
+
+일반적인 인터페이스의 구현
+- object 키워드를 사용해서 일반적인 인터페이스의 구현체를 만듭니다
+```
+val isEven = object : IntPredicate {
+   override fun accept(value: Int): Boolean {
+       return value % 2 == 0
+   }
+}
+```
+
+**람다식 변환**
+함수형 인터페이스는 다음과 같은 순서로 람다식을 변환할 수 있습니다.
+
+1. 메서드의 생략 - 인터페이스 안에 메서드가 하나이므로 "인터페이스의 실행=메서드의 실행"과 같이 취급할 수 있습니다.
+따라서 메세드를 생략 할 수 있다.
+```
+val isEven = object : IntPredicate {
+   //override fun accept(value: Int): Boolean {
+       return value % 2 == 0
+   //}
+}
+```
+
+2. 메서드의 파라미터 위치 이동
+생략된 메서드에 파라미터가 있으면 시작 블럭 다음에 "파라미터->" 의 형태로 표시활 수 있습니다.
+```
+val isEven = object : IntPredicate { value ->
+    return value % 2 == 0
+}
+```
+
+3. return 생략
+반환값이 있을 경우 object = (대입 연산자)로 반환값이 없다는 것을 추론할수 있기 때문에 return 키워드를 생략 할 수 있ㅅ브니다.
+```
+val isEven = object : IntPredicate { value ->
+    value % 2 == 0
+}
+```
+
+4. 파라미터가 하나라면 파라미터 생략 가능 -> it 키워드로 변경
+메서드의 파라미터가 하나라면 시작블럭 다음에 사용하는 파라미터 이름을 it로 대체할 수 있습니다.
+```
+val isEven = object : IntPredicate {
+    it % 2 == 0
+}
+```
+
+5. 한줄 표기
+람다식 사용시 다음과 같이 한 줄 표시가 가능하게 됩니다.
+
+```
+val isEven = object : IntPredicate { it % 2 == 0 }
+```
+
+### 참고
+- [함수형 인터페이스](https://flow9.net/bbs/board.php?bo_table=kotlin&wr_id=20&device=pc)
