@@ -84,7 +84,34 @@ Header set Cache-Control "max-age=5"
 ---
 
 ## ETag
+웹페이지 처음 접속시 파일 다운로드
+- 서버는 `Last-Modified` 정보를 전달(최신 파일인지 확인)
+- 초까지만 표시해주므로 경우에 따라서 부정확한 경우도 생길수 있다.
+- `Response Header - ETag`: 문자열로 이루어진 알아보기 힘든 정보가 들어있음
+- 웹브라우저는 웹 서버가 알려준 `ETag` 와 `html 파일`을 캐시로 저장
+- 웹서버에 다음 요청시 `Request Header` 에 `if-None-Match` 와 `ETag` 를 요청
+- 데이터가 같다면 304로 데이터가 수정되지 않은걸로 간주, 다르다면 200 코드와 함께 새로운 내용을 다운로드
+- 어떻게 만드는지는 웹서버는 서비스하는 파일의 고유한 `ETag` 를 만들어서 웹브라우저에게 보내줘야한다는 책임을 가진것만 인지하면 된다.
+- 웹서버는 `Request Header`에 `if-Modified-Since` 와 `if-None-Match` 2가지가 일치해야 파일이 같은것으로 간주한다.
 
 ---
 
 ## 캐시 정책
+
+### Cache-Control 흐름도
+
+![Cache-Control 흐름도](./images/cache-control.png)
+
+<br>
+
+### 캐싱에 대한 가이드
+- 재사용 응답이 필요하나 -> `no-store`
+- 로컬과 서버에 있는 파일이 서로 유효한지 매번 검색해야 하는지? -> `no-cache`
+- Cacheable 캐싱 서버가 필요한지? -> `publick/private`
+- 캐시 수명을 지정할수 있어야 한다면? -> `max-age` 활용
+    - 사용자가 멀리 떨어져있다면 중간에 캐싱 서버를 두고 웹서버의 내용을 캐싱 서버에 캐싱을 해두면 사용자는 웹사이트를 직접 접속하지 않고 캐싱 서버에서 가져가므로 빠르게 가져갈수 있다.
+
+
+## 참고
+[HTTP Caching](https://developers.google.com/web/fundamentals/performance/get-started/httpcaching-6?hl=fr)
+[HTTP Cache로 불필요한 네트워크 요청 방지](https://web.dev/http-cache/#defining-optimal-cache-control-policy)
