@@ -14,7 +14,7 @@
     - file access
     - job queue
 - 처음 접근하는 스레드가 `Resource` 에 접근해서 read, write, delete 를 할수 있다.
-- 다음 스레드가 이 `Resource` 에 접근해서 동시에 read, write, delete 를 할수 있을때 이런 상태를 [Race Condition](./../Parallel#race-condition)으로 볼수 있다.
+- 다음 스레드가 이 `Resource` 에 접근해서 동시에 read, write, delete 를 할수 있을때 이런 상태를 [Race Condition](./../Parallel/#race-condition)으로 볼수 있다.
 
 <br/>
 
