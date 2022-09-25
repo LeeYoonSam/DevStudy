@@ -11,6 +11,8 @@
 - [프로세스](./OS#프로세스)
 - [문맥 교환(Context Switching)](./OS#문맥-교환context-switching)
 - [스레드](./OS#스레드)
+- [Parallel 병렬프로그래밍](./OS/Parallel)
+- [Concurrency 동시성](./OS/Concurrency)
 
 # [자료구조](./DataStructure)
 - [Array vs Linked List](./DataStructure#array-vs-linked-list)
@@ -20,7 +22,6 @@
 - [Red Black Tree](./DataStructure#red-black-tree)
 - [Hash Table](./DataStructure#hash-table)
 - [Graph](./DataStructure#graph)
-
 
 # [Android](./Android)
 
