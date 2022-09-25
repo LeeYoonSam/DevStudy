@@ -2,6 +2,8 @@
 - [프로세스](#프로세스)
 - [문맥 교환(Context Switching)](#문맥-교환context-switching)
 - [스레드](#스레드)
+- [Parallel 병렬프로그래밍](./Parallel)
+- [Concurrency 동시성](./Concurrency)
 
 ---
 
