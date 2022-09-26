@@ -205,6 +205,16 @@ AAC ViewModel은 Activity안에서의 싱글톤 개념인데 MVVM 패턴에서 �
 
 ![Mvi Cyclic Flow](./images/mvi_cyclic_flow.png)
 
+<br/>
+
+MVI에 대해 더 알고 싶다면 [Hannes Dorfmann의 Reactive Apps with Model-View-Intent](https://hannesdorfmann.com/android/mosby3-mvi-1/)가 MVI 아키텍처를 더 잘 이해하는 데 도움이 될 것입니다.
+
+### 참고
+
+- [https://developer.android.com/jetpack/compose](https://developer.android.com/jetpack/compose)
+- [https://en.wikipedia.org/wiki/Single_source_of_truth](https://en.wikipedia.org/wiki/Single_source_of_truth)
+- [코드 샘플](https://github.com/getStream/whatsApp-clone-compose)
+
 ### 장점
 - 주로 상태에 초점을 맞추기 때문에 이 아키텍처에서는 상태를 유지하는 것이 더 이상 문제가 되지 않습니다.
 - 단방향이므로 데이터 흐름을 쉽게 추적하고 예측할 수 있습니다.
@@ -233,7 +243,10 @@ AAC ViewModel은 Activity안에서의 싱글톤 개념인데 MVVM 패턴에서 �
 
 ### 참고
 - [The Clean Architecture](https://blog.coderifleman.com/2017/12/18/the-clean-architecture/)
-
+- [https://developer.android.com/topic/architecture](https://developer.android.com/topic/architecture)
+- [Uncle Bob - The Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+- [Architecting Android...The clean way?](https://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/)
+- [Clean Architecture Tutorial for Android: Getting Started](https://www.raywenderlich.com/3595916-clean-architecture-tutorial-for-android-getting-started)
 ---
 
 ## 모바일 클린 아키텍처
