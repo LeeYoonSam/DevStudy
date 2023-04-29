@@ -269,7 +269,7 @@ Observe On : pool-1-thread-1 | value : Third
 
 <br/>
 
-RxJava 에는 구독자보다 더 활동적인 생산자를 다루는 두 가지 방법이 있다.
+RxJava 에는 구독자보다 더 Activity적인 생산자를 다루는 두 가지 방법이 있다.
     
 1. 내장된 연산자를 사용한 샘플링이나 일괄 처리와 같은 다양한 흐름 제어 방식을 구현한다.
 2. 구독자는 배압(backpressure)이라 부르는 피드백 채널을 사용하여 처리할 수 있는 만큼 항목을 요청하고 이를 전파할 수 있다.
@@ -377,7 +377,7 @@ Observable<BigDecimal> debounced = prices.debounce(100, MILLISECONDS);
 - 4단계 모두 이미지를 찾지 못하면 Glide는 데이터(원본 파일, Uri, Url 등)를 검색하기 위해 원래 소스로 돌아갑니다.
 
 ### [Cache Keys](https://bumptech.github.io/glide/doc/caching.html#cache-keys)
-> 실제로 1-3단계(활성 리소스, 메모리 캐시, 리소스 디스크 캐시)의 캐시 키에는 다음을 비롯한 여러 다른 데이터 조각도 포함됩니다.
+> 실제로 1-3단계(활성 리소스, 메모리 캐시, 리소스 디스크 캐시)의 캐시 키에는 다음을 비롯한 여러 다른 데이터 Fragment도 포함됩니다.
 
 1. 너비와 높이
 2. 선택적 변환

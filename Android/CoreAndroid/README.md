@@ -85,7 +85,7 @@ Few important points about the context:
 - Wrong use of Context can easily lead to memory leaks in an android application. (컨텍스트를 잘못 사용하면 안드로이드 애플리케이션에서 메모리 릭이 발생하기 쉽다.)
 
 ### Application Context
-- 컨텍스트는 애플리케이션의 수명 주기와 연결됩니다. 애플리케이션 컨텍스트는 라이프사이클이 현재 컨텍스트와 분리된 컨텍스트가 필요하거나 활동 범위를 넘어 컨텍스트를 전달할 때 사용할 수 있습니다.
+- 컨텍스트는 애플리케이션의 수명 주기와 연결됩니다. 애플리케이션 컨텍스트는 라이프사이클이 현재 컨텍스트와 분리된 컨텍스트가 필요하거나 Activity 범위를 넘어 컨텍스트를 전달할 때 사용할 수 있습니다.
 
 ### Activity Context
 - 이 컨텍스트는 액티비티의 수명 주기와 연결됩니다. 액티비티 범위에서 컨텍스트를 전달하거나 현재 컨텍스트에 라이프사이클이 연결된 컨텍스트가 필요할 때 액티비티 컨텍스트를 사용해야 합니다.
@@ -154,7 +154,7 @@ PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
 
 - 다양한 종류의 함수와 `동기식/비동기식` 호출 방법을 모두 제공하는 안드로이드 시스템 서비스들이 이러한 방식으로 구현되어 있습니다. 서비스가 제공해야 하는 API 명세를 `AIDL` 스펙에 맞게 정의하면, 안드로이드 개발 도구를 활용해 이를 `바인더 인터페이스와 Stub 추상 클래스로 변환`할 수 있습니다. 이후, `Stub` 클래스를 구현하고 서비스 `bind/unbind` 주기에 맞춰 해당 바인더를 연결된 액티비티에 넘겨주면, 액티비티는 마치 안드로이드 시스템 서비스를 사용하는 것처럼, 자유롭게 프로세스를 건너 `AIDL`에 정의된 함수를 호출할 수 있습니다.
 
-- `AIDL`을 사용하는 데는 어느 정도의 코드 작업이 필요하긴 하지만, 안드로이드 스튜디오에서는 비교적 수월하게 이를 구현할 수 있습니다. `File > NEW > AIDL` 메뉴를 통해 새로운 AIDL 파일을 추가하면 자동으로 필요한 폴더와 참고할 수 있는 코드 조각이 포함된 `AIDL` 파일이 생성됩니다. 필요한 인터페이스를 정의한 후 `compileDebugAidl` Gradle Task 를 수행하면 자동으로 Stub 객체가 생성됩니다. 백그라운드 서비스에서 해당 Stub 객체의 실제 로직을 구현하고, onBind 콜백에서 이를 넘겨 줍니다. `AIDL` 을 사용하는 방법에 관해서는 [자세한 가이드](http://developer.android.com/guide/components/aidl.html)가 제공되고 있고 [API Demo 샘플](https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/RemoteService.java)에도 관련 예제가 첨부되어 있습니다.
+- `AIDL`을 사용하는 데는 어느 정도의 코드 작업이 필요하긴 하지만, 안드로이드 스튜디오에서는 비교적 수월하게 이를 구현할 수 있습니다. `File > NEW > AIDL` 메뉴를 통해 새로운 AIDL 파일을 추가하면 자동으로 필요한 폴더와 참고할 수 있는 코드 Fragment이 포함된 `AIDL` 파일이 생성됩니다. 필요한 인터페이스를 정의한 후 `compileDebugAidl` Gradle Task 를 수행하면 자동으로 Stub 객체가 생성됩니다. 백그라운드 서비스에서 해당 Stub 객체의 실제 로직을 구현하고, onBind 콜백에서 이를 넘겨 줍니다. `AIDL` 을 사용하는 방법에 관해서는 [자세한 가이드](http://developer.android.com/guide/components/aidl.html)가 제공되고 있고 [API Demo 샘플](https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/RemoteService.java)에도 관련 예제가 첨부되어 있습니다.
 
 ### 그 외 영구적으로 저장되는 데이터들
 1. [SharedPreference](https://developer.android.com/reference/android/content/SharedPreferences.OnSharedPreferenceChangeListener.html)
@@ -179,12 +179,12 @@ PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
 ## Lifecycle
 > Android 수명 주기가 있는 개체를 정의합니다. Fragment 및 FragmentActivity 클래스는 Lifecycle에 액세스하기 위한 getLifecycle 메서드가 있는 LifecycleOwner 인터페이스를 구현합니다. 자체 클래스에서 LifecycleOwner를 구현할 수도 있습니다.
 
-- Lifecycle은 활동이나 프래그먼트와 같은 구성요소의 수명 주기 상태 관련 정보를 포함하며 다른 객체가 이 상태를 관찰할 수 있게 하는 클래스입니다.
+- Lifecycle은 Activity이나 프래그먼트와 같은 구성요소의 수명 주기 상태 관련 정보를 포함하며 다른 객체가 이 상태를 관찰할 수 있게 하는 클래스입니다.
 
 - Lifecycle은 두 가지 기본 열거를 사용하여 연결된 구성요소의 수명 주기 상태를 추적합니다.
 
 ### 이벤트
-> 프레임워크 및 Lifecycle 클래스에서 전달되는 수명 주기 이벤트입니다. 이러한 이벤트는 활동과 프래그먼트의 콜백 이벤트에 매핑됩니다.
+> 프레임워크 및 Lifecycle 클래스에서 전달되는 수명 주기 이벤트입니다. 이러한 이벤트는 Activity과 프래그먼트의 콜백 이벤트에 매핑됩니다.
 
 ### 상태
 > Lifecycle 객체가 추적한 구성요소의 현재 상태입니다.
@@ -213,7 +213,7 @@ myLifecycleOwner.getLifecycle().addObserver(MyObserver())
 - [Lifecycle](https://developer.android.com/reference/androidx/lifecycle/Lifecycle)
 
 ## LifecycleOwner
-> Android 수명 주기가 있는 클래스입니다. 이러한 이벤트는 활동 또는 프래그먼트 내부에 코드를 구현하지 않고 수명 주기 변경을 처리하기 위해 사용자 지정 구성 요소에서 사용할 수 있습니다.
+> Android 수명 주기가 있는 클래스입니다. 이러한 이벤트는 Activity 또는 프래그먼트 내부에 코드를 구현하지 않고 수명 주기 변경을 처리하기 위해 사용자 지정 구성 요소에서 사용할 수 있습니다.
 
 - LifecycleOwner는 클래스에 Lifecycle이 있음을 나타내는 단일 메서드 인터페이스입니다. 이 인터페이스에는 클래스에서 구현해야 하는 getLifecycle() 메서드가 하나 있습니다. 대신 전체 애플리케이션 프로세스의 수명 주기를 관리하려는 경우 ProcessLifecycleOwner를 참고하세요.
 
@@ -221,7 +221,7 @@ myLifecycleOwner.getLifecycle().addObserver(MyObserver())
 
 - 관찰자가 관찰을 위해 등록할 수 있는 수명 주기를 소유자가 제공할 수 있으므로, DefaultLifecycleObserver를 구현하는 구성요소는 LifecycleOwner를 구현하는 구성요소와 원활하게 작동합니다.
 
-- 위치 추적 예에서는 MyLocationListener 클래스에서 DefaultLifecycleObserver를 구현하도록 한 후 onCreate() 메서드에서 활동의 Lifecycle로 클래스를 초기화할 수 있습니다. 이렇게 하면 MyLocationListener 클래스가 자립할 수 있습니다. 즉, 수명 주기 상태의 변경에 반응하는 로직이 활동 대신 MyLocationListener에서 선언됩니다. 개별 구성요소가 자체 로직를 저장하도록 설정하면 활동과 프래그먼트 로직을 더 쉽게 관리할 수 있습니다.
+- 위치 추적 예에서는 MyLocationListener 클래스에서 DefaultLifecycleObserver를 구현하도록 한 후 onCreate() 메서드에서 Activity의 Lifecycle로 클래스를 초기화할 수 있습니다. 이렇게 하면 MyLocationListener 클래스가 자립할 수 있습니다. 즉, 수명 주기 상태의 변경에 반응하는 로직이 Activity 대신 MyLocationListener에서 선언됩니다. 개별 구성요소가 자체 로직를 저장하도록 설정하면 Activity과 프래그먼트 로직을 더 쉽게 관리할 수 있습니다.
 
 ```kotlin
 class MyActivity : AppCompatActivity() {
@@ -239,7 +239,7 @@ class MyActivity : AppCompatActivity() {
     }
 }
 ```
-- 일반적인 사용 사례에서는 Lifecycle이 현재 정상 상태가 아닌 경우 특정 콜백 호출을 피합니다. 예를 들어 활동 상태가 저장된 후 콜백이 프래그먼트 트랜잭션을 실행하면 비정상 종료를 트리거할 수 있으므로 콜백을 호출하지 않는 것이 좋습니다.
+- 일반적인 사용 사례에서는 Lifecycle이 현재 정상 상태가 아닌 경우 특정 콜백 호출을 피합니다. 예를 들어 Activity 상태가 저장된 후 콜백이 프래그먼트 트랜잭션을 실행하면 비정상 종료를 트리거할 수 있으므로 콜백을 호출하지 않는 것이 좋습니다.
 - 이러한 사용 사례를 쉽게 만들 수 있도록 Lifecycle 클래스는 다른 객체가 현재 상태를 쿼리할 수 있도록 합니다.
 
 ```kotlin
@@ -269,7 +269,7 @@ internal class MyLocationListener(
     }
 }
 ```
-- 이 구현으로 LocationListener 클래스는 수명 주기를 완전히 인식합니다. 다른 활동이나 프래그먼트의 LocationListener를 사용해야 한다면 클래스를 초기화하기만 하면 됩니다. 모든 설정과 해제 작업은 클래스 자체에서 관리합니다.
+- 이 구현으로 LocationListener 클래스는 수명 주기를 완전히 인식합니다. 다른 Activity이나 프래그먼트의 LocationListener를 사용해야 한다면 클래스를 초기화하기만 하면 됩니다. 모든 설정과 해제 작업은 클래스 자체에서 관리합니다.
 
 ### 참고
 - [LifecycleOwner](https://developer.android.com/reference/androidx/lifecycle/LifecycleOwner)

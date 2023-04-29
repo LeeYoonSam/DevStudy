@@ -56,7 +56,7 @@
 - onStart : 프래그먼트가 표시될 때 호출
 - onResume : 프래그먼트가 표시되고 사용자가 프래그먼트와 상호 작용할 수 있을 때 호출, 액티비티가 재개된 후에만 프래그먼트가 재개된다.
 - onPause : 프래그먼트가 사용자의 상호작용을 허용하지 않을 때 호출, 다른 프래그먼트와 함께 변경되거나 일시 중지라는 액티비티 또는 프래그먼트의 액티비티에서 제거된다.
-- onStop : 프래그먼트가 더 이상 표시되지 않을 때 호출, 다른 프래그먼트와 함께 변경되거나 stop 이라는 액티비티 또는 프래그먼트의 활동에서 제거된다.
+- onStop : 프래그먼트가 더 이상 표시되지 않을 때 호출, 다른 프래그먼트와 함께 변경되거나 stop 이라는 액티비티 또는 프래그먼트의 Activity에서 제거된다.
 - onDestroyView : onCreateView 에서 생성된 뷰와 관련 리소스가 액티비티의 뷰 계층 구조에서 제거되고 파괴딜 때 호출 
 - onDestroy : 이 메서드는 프래그먼트가 최종 정리를 수행할 때 호출
 - onDetach: 프래그먼트가 액티비티에서 분리될 때 호출
@@ -353,9 +353,9 @@ public ViewModelProvider(@NonNull ViewModelStore store, @NonNull Factory factory
 ```
 
 
-기존 ViewModel을 반환하거나 이 ViewModelProvider와 연결된 범위(일반적으로 조각 또는 활동)에 새 ViewModel을 만듭니다.
+기존 ViewModel을 반환하거나 이 ViewModelProvider와 연결된 범위(일반적으로 Fragment 또는 Activity)에 새 ViewModel을 만듭니다.
 
-생성된 ViewModel은 주어진 범위와 연결되며 범위가 살아있는 한 유지됩니다(예: 활동인 경우 완료되거나 프로세스가 종료될 때까지).
+생성된 ViewModel은 주어진 범위와 연결되며 범위가 살아있는 한 유지됩니다(예: Activity인 경우 완료되거나 프로세스가 종료될 때까지).
 
 매개변수:
 `key` – ViewModel을 식별하는 데 사용할 키입니다.

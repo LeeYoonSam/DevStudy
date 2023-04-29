@@ -47,7 +47,7 @@ ANR 을 진단할 때 다음과 같은 일반 패턴을 찾아야 한다.
 
 ## AsyncTask 의 생명 주기와 액티비티의 관계 및 발생할수 있는 문제
 - AsyncTask는 액티비티의 생명 주기에 연결되지 않습니다. 예를 들어, Activity 내에서 AsyncTask를 시작하고 사용자가 장치를 회전하면 Activity는 소멸되지만(새 Activity 인스턴스가 생성됨) AsyncTask는 죽지 않고 대신 완료될 때까지 계속 살아 있습니다.
-- 그런 다음 AsyncTask가 완료되면 새 Activity의 UI를 업데이트하는 대신 Activity의 이전 인스턴스(즉, 생성되었지만 더 이상 표시되지 않는 인스턴스)를 업데이트합니다. 이로 인해 예외가 발생할 수 있습니다(예: 활동 내에서 보기를 검색하기 위해 findViewById를 사용하는 경우 java.lang.IllegalArgumentException: 보기가 창 관리자에 첨부되지 않음).
+- 그런 다음 AsyncTask가 완료되면 새 Activity의 UI를 업데이트하는 대신 Activity의 이전 인스턴스(즉, 생성되었지만 더 이상 표시되지 않는 인스턴스)를 업데이트합니다. 이로 인해 예외가 발생할 수 있습니다(예: Activity 내에서 보기를 검색하기 위해 findViewById를 사용하는 경우 java.lang.IllegalArgumentException: 보기가 창 관리자에 첨부되지 않음).
 - AsyncTask가 Activity에 대한 참조를 유지하기 때문에 이로 인해 메모리 누수가 발생할 가능성도 있습니다. 이는 AsyncTask가 살아 있는 한 Activity가 가비지 수집되는 것을 방지합니다.
 - 장기 실행 백그라운드 작업에 AsyncTasks를 사용하는 것은 일반적으로 좋지 않습니다. 오히려 장기 실행 백그라운드 작업의 경우 다른 메커니즘(예: 서비스)을 사용해야 합니다.
 - AsyncTask는 기본적으로 직렬 실행기를 사용하여 단일 스레드에서 실행됩니다. 즉, 스레드가 하나만 있고 각 작업이 차례로 실행됩니다.

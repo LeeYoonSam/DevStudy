@@ -235,7 +235,7 @@ android:tag="my_tag">
 
 - 17 이상의 API용 FragmentContainerView에서는 레이아웃 애니메이션 및 전환이 비활성화됩니다. 그렇지 않으면 FragmentTransaction.setCustomAnimations를 통해 애니메이션을 수행해야 합니다. animateLayoutChanges가 true로 설정되거나 setLayoutTransition이 직접 호출되면 UnsupportedOperationException이 발생합니다.
 
-- 종료 애니메이션을 사용하는 프래그먼트는 FragmentContainerView에 대해 다른 모든 조각보다 먼저 그려집니다. 이렇게 하면 기존 프래그먼트가 보기 상단에 표시되지 않습니다.
+- 종료 애니메이션을 사용하는 프래그먼트는 FragmentContainerView에 대해 다른 모든 Fragment보다 먼저 그려집니다. 이렇게 하면 기존 프래그먼트가 보기 상단에 표시되지 않습니다.
 
 ### 참고
 - [FragmentContainerView](https://developer.android.com/reference/androidx/fragment/app/FragmentContainerView)
