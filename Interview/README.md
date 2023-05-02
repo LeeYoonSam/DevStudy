@@ -43,7 +43,7 @@ Dagger는 코드 생성을 사용하여 컴파일 타임에 주입 가능한 객
 Hilt:
 
 Hilt는 Google에서 개발한 최신 안드로이드용 종속성 주입 라이브러리입니다. Dagger를 기반으로 구축되었으며, 종속성 주입 프로세스를 간소화하기 위해 사전 정의된 어노테이션 및 컴포넌트 세트를 제공합니다.
-Hilt는 필드 및 생성자 주입을 모두 지원하며 ViewModels 및 활동과 같은 Android 전용 클래스에 대한 기본 지원을 제공합니다. 따라서 특히 종속성 주입에 대한 경험이 많지 않은 소규모 프로젝트나 팀에서 Dagger보다 쉽게 설정하고 사용할 수 있습니다.
+Hilt는 필드 및 생성자 주입을 모두 지원하며 ViewModels 및 Activity과 같은 Android 전용 클래스에 대한 기본 지원을 제공합니다. 따라서 특히 종속성 주입에 대한 경험이 많지 않은 소규모 프로젝트나 팀에서 Dagger보다 쉽게 설정하고 사용할 수 있습니다.
 
 요약하자면 종속성 주입은 안드로이드 애플리케이션에서 클래스 간의 종속성을 관리하기 위한 중요한 기술입니다. 의존성 주입을 구현하는 데 널리 사용되는 두 가지 라이브러리는 Dagger와 Hilt이며, Dagger는 고도로 최적화되고 확장 가능한 솔루션을 제공하는 반면, Hilt는 더 간단하고 사용자 친화적인 인터페이스를 제공합니다. 두 라이브러리 모두 대규모 Android 애플리케이션의 복잡한 종속성 관리 문제를 해결하기 위해 개발되었으며, 개발자가 보다 모듈화되고 유지 관리가 용이하며 테스트 가능한 코드를 작성하는 데 도움이 될 수 있습니다.
 
@@ -163,21 +163,150 @@ A: 안드로이드 운영 체제는 안드로이드 애플리케이션의 수명
 
 Android 앱 수명 주기는 애플리케이션이 포그라운드, 백그라운드 또는 중지된 상태와 같이 애플리케이션이 있을 수 있는 상태의 집합입니다. 화면 방향 변경이나 다른 애플리케이션의 중단과 같은 시스템 상태 변화에 적절하게 대응하는 애플리케이션을 개발하려면 앱 수명 주기를 이해하는 것이 중요합니다. 개발자는 라이브데이터 및 뷰모델과 같은 수명 주기 인식 컴포넌트를 사용하여 앱 상태를 관리하고 UI가 최신 상태와 반응성을 유지하도록 할 수 있습니다.
 
-- onCreate(): 액티비티가 생성될 때 가장 먼저 호출되는 메서드입니다. 이 메서드는 활동의 수명 동안 한 번만 호출되며 초기 설정 및 초기화를 수행하는 데 사용됩니다.
+- onCreate(): 액티비티가 생성될 때 가장 먼저 호출되는 메서드입니다. 이 메서드는 Activity의 수명 동안 한 번만 호출되며 초기 설정 및 초기화를 수행하는 데 사용됩니다.
 
 - onStart(): 이 메서드는 액티비티가 사용자에게 표시되지만 아직 전면에 표시되지 않을 때 호출됩니다.
 
-- onResume(): 이 메서드는 활동이 전면에 표시되어 사용자 관심의 초점이 될 때 호출됩니다. 앱이 onStop()에서 일시 중지된 모든 작업을 시작하거나 재개해야 하는 곳입니다.
+- onResume(): 이 메서드는 Activity이 전면에 표시되어 사용자 관심의 초점이 될 때 호출됩니다. 앱이 onStop()에서 일시 중지된 모든 작업을 시작하거나 재개해야 하는 곳입니다.
 
-- onPause(): 이 메서드는 활동이 더 이상 포그라운드에 있지 않고 일시 중지하려고 할 때 호출됩니다. 앱이 저장되지 않은 데이터를 저장하고 다시 생성할 수 있는 리소스를 해제해야 하는 곳입니다.
+- onPause(): 이 메서드는 Activity이 더 이상 포그라운드에 있지 않고 일시 중지하려고 할 때 호출됩니다. 앱이 저장되지 않은 데이터를 저장하고 다시 생성할 수 있는 리소스를 해제해야 하는 곳입니다.
 
-- onStop(): 이 메서드는 활동이 더 이상 사용자에게 표시되지 않을 때 호출됩니다. 앱이 더 이상 필요하지 않은 리소스를 해제하고 진행 중인 작업을 중지해야 할 때 호출됩니다.
+- onStop(): 이 메서드는 Activity이 더 이상 사용자에게 표시되지 않을 때 호출됩니다. 앱이 더 이상 필요하지 않은 리소스를 해제하고 진행 중인 작업을 중지해야 할 때 호출됩니다.
 
-- onRestart(): 이 메서드는 활동이 중지된 후 다시 시작될 때 호출됩니다. onStart() 전에 호출됩니다.
+- onRestart(): 이 메서드는 Activity이 중지된 후 다시 시작될 때 호출됩니다. onStart() 전에 호출됩니다.
 
-- onDestroy(): 이 메서드는 액티비티가 소멸될 때 호출됩니다. 활동이 메모리에서 제거되기 전에 호출되는 마지막 메서드입니다.
+- onDestroy(): 이 메서드는 액티비티가 소멸될 때 호출됩니다. Activity이 메모리에서 제거되기 전에 호출되는 마지막 메서드입니다.
 
 ---
+
+## Q: 안드로이드 LifecycleOwner가 무엇인지, 어떻게 구현되는지, 어떻게 사용하는지 등 필수 정보를 자세히 설명합니다.
+
+A: 
+- 안드로이드 LifecycleOwner는 Activity 및 Fragment와 같이 라이프사이클이 있는 클래스에 의해 구현되는 인터페이스입니다. 이를 통해 이러한 클래스는 수명 주기 상태가 변경될 때 알림을 받고 이러한 변경에 적절하게 대응할 수 있습니다.
+
+- 이 인터페이스를 사용하면 이러한 컴포넌트가 ViewModel과 같은 다른 컴포넌트에서 일관되고 표준화된 방식으로 관찰할 수 있는 자체 수명 주기 상태를 가질 수 있습니다.
+
+- LifecycleOwner 인터페이스는 견고하고 테스트 가능하며 유지 관리가 가능한 안드로이드 앱을 설계하기 위한 일련의 라이브러리와 지침을 제공하는 안드로이드 아키텍처 구성 요소 라이브러리의 일부입니다.
+
+- Activity 또는 Fragment에서 LifecycleOwner 인터페이스를 구현하려면 라이프사이클 객체를 생성하고 이를 Activity 또는 프래그먼트의 라이프사이클과 연결해야 합니다. 
+
+- Activity 또는 Fragment 클래스에서 인터페이스를 구현하고 getLifecycle() 메서드에서 Lifecycle 클래스의 인스턴스를 반환하여 코드에서 LifecycleOwner를 사용할 수 있습니다.
+
+다음은 예제입니다:
+
+```kotlin
+class MainActivity : AppCompatActivity(), LifecycleOwner {
+    private lateinit var lifecycleRegistry: LifecycleRegistry
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Create a LifecycleRegistry object and initialize it with the current lifecycle state
+        lifecycleRegistry = LifecycleRegistry(this)
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        // Update the lifecycle state to STARTED
+        lifecycleRegistry.currentState = Lifecycle.State.STARTED
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Update the lifecycle state to RESUMED
+        lifecycleRegistry.currentState = Lifecycle.State.RESUMED
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        // Update the lifecycle state to STARTED
+        lifecycleRegistry.currentState = Lifecycle.State.STARTED
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        // Update the lifecycle state to CREATED
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Update the lifecycle state to DESTROYED
+        lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
+    }
+
+    override fun getLifecycle(): Lifecycle {
+        // Return the LifecycleRegistry object
+        return lifecycleRegistry
+    }
+}
+```
+- 이 예제에서는 onCreate() 메서드에서 LifecycleRegistry 객체를 생성하고 CREATED 상태로 초기화합니다. 그런 다음 Activity의 현재 상태를 반영하도록 각 라이프사이클 메서드(onStart(), onResume(), onPause(), onStop() 및 onDestroy())에서 LifecycleRegistry 객체의 상태를 업데이트합니다. 마지막으로 getLifecycle() 메서드를 구현하여 라이프사이클 레지스트리 객체를 반환합니다.
+
+- 코드에서 LifecycleOwner와 Lifecycle을 사용하면 컴포넌트가 올바르게 관리되고 ViewModel과 같은 다른 컴포넌트에서 관찰할 수 있도록 할 수 있습니다.
+
+- 라이프사이클 객체가 Activity 또는 프래그먼트에 연결되면 라이프사이클 상태 변경에 대한 알림을 받도록 라이프사이클 옵저버를 등록할 수 있습니다. 라이프사이클 옵저버는 라이프사이클 상태가 변경될 때 호출되는 메서드를 정의하는 인터페이스입니다. 
+
+다음은 간단한 DefaultLifecycleObserver 구현의 예입니다:
+
+```kotlin
+class MyLifecycleObserver : DefaultLifecycleObserver {
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
+    }
+    
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
+    }
+
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
+    }
+
+    override fun onPause(owner: LifecycleOwner) {
+        super.onPause(owner)
+    }
+
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        super.onDestroy(owner)
+    }
+}
+```
+- Activity 또는 Fragment에서 LifecycleObserver를 사용하려면 Lifecycle 객체에 등록해야 합니다. 이는 Lifecycle 객체에서 addObserver() 메서드를 호출하여 수행할 수 있습니다.
+
+```kotlin
+class MyActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_my);
+
+        val observer = MyLifecycleObserver()
+        lifecycle.addObserver(observer)
+    }
+}
+
+```
+- 이 예제에서는 Activity의 onCreate() 메서드에서 MyLifecycleObserver 객체가 생성되고 라이프사이클 객체에 등록됩니다. Activity의 라이프사이클 상태가 변경되면 MyLifecycleObserver 객체의 적절한 메서드가 호출됩니다.
+
+- 안드로이드 앱에서 LifecycleOwner 및 LifecycleObserver 인터페이스를 사용하면 Activity 및 Fragment의 수명 주기를 명확하고 일관되게 관리할 수 있으므로 보다 강력하고 유지 관리가 쉬운 코드를 설계하는 데 도움이 됩니다.
+
+---
+
+## Q: ViewModel 과 SharedViewModel 의 차이와 구현 방법에 대해서 설명
+
+---
+
 
 ## Q: Android 제트팩이란 무엇이며 개발자에게 어떤 도움이 되나요?
 
