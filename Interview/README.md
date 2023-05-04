@@ -319,6 +319,24 @@ A: 비동기 입/출력(IO)은 메인 스레드의 실행을 차단하지 않고
 
 ## Q: ViewModel 과 SharedViewModel 의 차이와 구현 방법에 대해서 설명
 
+A: ViewModel과 SharedViewModel은 안드로이드 개발에서 일반적으로 사용되는 두 가지 컴포넌트로, 비슷한 용도로 사용되지만 몇 가지 주요 차이점이 있습니다.
+
+- ViewModel은 UI 관련 데이터를 저장하고 관리하는 데 사용되는 안드로이드 아키텍처 컴포넌트 라이브러리의 컴포넌트입니다. ViewModel은 화면 회전과 같은 구성 변경에도 견딜 수 있도록 설계되었으며 UI 로직과 비즈니스 로직을 깔끔하게 분리할 수 있습니다. 뷰모델은 단일 Activity 또는 Fragment으로 범위가 지정되며 해당 Activity 또는 Fragment이 소멸될 때 소멸됩니다.
+
+- SharedViewModel은 동일한 Activity 내의 여러 Fragment 간에 데이터를 공유할 수 있는 ViewModel의 변형입니다. SharedViewModel은 두 개 이상의 Fragment이 서로 통신해야 하지만 서로 직접 관련이 없는 경우에 유용합니다. SharedViewModel은 상위 Activity으로 범위가 지정되며 Activity이 소멸될 때 소멸됩니다.
+
+- ViewModel과 SharedViewModel의 주요 차이점은 범위입니다. ViewModel은 단일 Activity 또는 Fragment으로 범위가 지정되는 반면 SharedViewModel은 상위 Activity으로 범위가 지정됩니다. 즉, ViewModel은 연결된 Fragment 또는 Activity에서만 액세스할 수 있는 반면, SharedViewModel은 동일한 Activity 내의 모든 Fragment에서 액세스할 수 있습니다.
+
+Fragment에서 ViewModel 또는 SharedViewModel을 사용하려면 ViewModelProvider를 사용하여 ViewModel의 인스턴스를 만들 수 있습니다:
+
+```kotlin
+val viewModel = ViewModelProvider(this).get(MyViewModel::class.java)
+val sharedViewModel = ViewModelProvider(requireActivity()).get(MySharedViewModel::class.java)
+```
+
+- ViewModelProvider는 Activity 또는 Fragment에 대한 참조를 가져와서 뷰모델의 인스턴스를 반환합니다. SharedViewModel의 경우 Fragment 대신 Activity에 대한 참조를 전달해야 합니다.
+- 전반적으로 ViewModel과 SharedViewModel은 모두 안드로이드 앱에서 UI 관련 데이터를 관리하는 데 유용한 컴포넌트이며, 두 컴포넌트 중 어떤 것을 선택할지는 Fragment 간에 공유해야 하는 데이터의 범위에 따라 달라집니다.
+
 ---
 
 
@@ -390,6 +408,12 @@ A: 바인딩된 서비스는 다른 컴포넌트가 바인딩되어 인터페이
 ---
 
 # 네트워크
+
+## Q: HTTP Cache 에 대해서 설명
+
+A: 
+
+---
 
 ## Q: TCP/IP, HTTP 에 대해서 설명
 
