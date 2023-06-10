@@ -1,4 +1,6 @@
 # Architecture
+
+- [일반 아키텍처 원칙](./GeneralArchitecture.md)
 - [Architecture 란?](#architecture-란)
 - [아키텍처 패턴](#아키텍처-패턴)
 - [MVVM Architecture](#mvvm-architecture)

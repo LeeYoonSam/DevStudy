@@ -1,20 +1,24 @@
 # DevStudy
+
 개발하는데 필요한것을 공부하고 기록하기위한 저장소
 
-### 참고
+## 참고
+
 - [Android Interview Questions](https://github.com/MindorksOpenSource/android-interview-questions)
 - [Technical Interview Guidelines for Beginners](https://github.com/JaeYeopHan/Interview_Question_for_Beginner)
 - [tech-interview-for-developer](https://github.com/gyoogle/tech-interview-for-developer)
 - [Tech Interview Handbook](https://techinterviewhandbook.org/)
 
-# [OS](./OS)
+## [OS](./OS)
+
 - [프로세스](./OS#프로세스)
 - [문맥 교환(Context Switching)](./OS#문맥-교환context-switching)
 - [스레드](./OS#스레드)
 - [Parallel 병렬프로그래밍](./OS/Parallel)
 - [Concurrency 동시성](./OS/Concurrency)
 
-# [자료구조](./DataStructure)
+## [자료구조](./DataStructure)
+
 - [Array vs Linked List](./DataStructure#array-vs-linked-list)
 - [Stack and Queue](./DataStructure#stack-and-queue)
 - [Tree](./DataStructure#tree)
@@ -23,11 +27,22 @@
 - [Hash Table](./DataStructure#hash-table)
 - [Graph](./DataStructure#graph)
 
-# [Interview](./Interview)
+## [Interview](./Interview)
 
-# [Android](./Android)
+## [Android](./Android)
 
 ## [Core Android](./Android/CoreAndroid)
+
+- [Asynchronous IO](./Android/CoreAndroid/#asynchronous-io)
+- [ViewBinding 과 DataBinding 차이점](./Android/CoreAndroid/#viewbinding-과-databinding-차이점)
+- [ViewModel 과 SharedViewModel 의 차이와 구현 방법](./Android/CoreAndroid/#viewmodel-과-sharedviewmodel-의-차이와-구현-방법)
+- [ViewModel 과 SharedViewModel 의 차이와 구현 방법](./Android/CoreAndroid/#viewmodel-과-sharedviewmodel-의-차이와-구현-방법)
+- [Android Jetpack이란](./Android/CoreAndroid/#android-jetpack이란)
+- [Android 애플리케이션의 성능을 최적화하기 위한 전략](./Android/CoreAndroid/#android-애플리케이션의-성능을-최적화하기-위한-전략)
+- [안드로이드에서 비동기 처리가 필요한 이유에 및 Rxjava, Coroutine 의 특징과 차이점, 장단점](./Android/CoreAndroid/#안드로이드에서-비동기-처리가-필요한-이유에-및-rxjava-coroutine-의-특징과-차이점-장단점)
+- [안드로이드에서 의존성 주입이란?](./Android/CoreAndroid/#안드로이드에서-의존성-주입이란)
+- [Android에서 Parcelable 인터페이스의 목적은 무엇이며 Serializable 사용성 차이](./Android/CoreAndroid#android에서-parcelable-인터페이스의-목적은-무엇이며-serializable-사용성-차이)
+- [Android의 콘텐츠 제공자는 무엇이며 주요 목적](./Android/CoreAndroid/#android의-콘텐츠-제공자는-무엇이며-주요-목적은-무엇인가요-콘텐츠-제공자가-유용할-수-있는-예시-시나리오를-제공)
 - [안드로이드 어플리케이션 컴포넌트](./Android/CoreAndroid#안드로이드-어플리케이션-컴포넌트)
 - [매니페스트 파일](./Android/CoreAndroid#매니페스트-파일)
 - [안드로이드 어플리케이션의 프로젝트 구조](./Android/CoreAndroid#안드로이드-어플리케이션의-프로젝트-구조)
@@ -43,6 +58,7 @@
 - [LiveData vs ObservableField](./Android/CoreAndroid#livedata-vs-observablefield)
 
 ## [Activity and Fragment](./Android/ActivityAndFragment)
+
 - [Activity 생명주기](./Android/ActivityAndFragment#activity-생명주기)
 - [onSavedInstanceState onRestoreInstanceState](./Android/ActivityAndFragment#onsavedinstancestate-onrestoreinstancestate)
 - [프래그먼트 생명주기](./Android/ActivityAndFragment#프래그먼트-생명주기)
@@ -58,6 +74,7 @@
 - [by viewModels 가 해주는 일](./Android/ActivityAndFragment#by-viewmodels-가-해주는-일)
 
 ## [Android UI](./Android/Ui)
+
 - [안드로이드에서 View 란?](./Android/Ui#안드로이드에서-view-란)
 - [Custom View 만들기](./Android/Ui#custom-view-만들기)
 - [ViewGroups 이란 무엇이며 View와 어떻게 다른지?](./Android/Ui#viewgroups-이란-무엇이며-view와-어떻게-다른지)
@@ -69,6 +86,7 @@
 - [Bitmap-prepareToDraw](./Android/Ui#bitmap-preparetodraw)
 
 ## [Displaying Lists of Content](./Android/RecyclerView)
+
 - [RecyclerView](./Android/RecyclerView#recyclerview)
 - [ListView 와 RecyclerView 의 차이점](./Android/RecyclerView#listview-와-recyclerview-의-차이점)
 - [ViewHolder 패턴을 사용하는 이유](./Android/RecyclerView#viewholder-패턴을-사용하는-이유)
@@ -76,15 +94,19 @@
 - [SnapHelper](./Android/RecyclerView#snaphelper)
 
 ## [Intent](./Android/Intent)
+
 - [Intent란?](./Android/Intent#intent란)
 
 ## [Long-running Operations](./Android/LongRunningOperations)
+
 - [ANR 이 무엇이며 어떻게 방지할 수 있는지?](./Android/LongRunningOperations#anr-이-무엇이며-어떻게-방지할-수-있는지)
 - [AsyncTask 의 생명 주기와 액티비티의 관계 및 발생할수 있는 문제](./Android/LongRunningOperations#asynctask-의-생명-주기와-액티비티의-관계-및-발생할수-있는-문제)
 - [Looper, Handler and HandlerThread](./Android/LongRunningOperations#looper-handler-and-handlerthread)
 - [RxJava, Coroutine 비교](./Android/LongRunningOperations#rxjava-coroutine-비교)
 
 ## [Architecture](./Android/Architecture)
+
+- [일반 아키텍처 원칙](./Android/Architecture/GeneralArchitecture.md)
 - [Architecture 란?](./Android/Architecture#architecture-란)
 - [아키텍처 패턴](./Android/Architecture#아키텍처-패턴)
 - [MVVM Architecture](./Android/Architecture#mvvm-architecture)
@@ -96,16 +118,19 @@
 - [Clean Code](./Android/Architecture#clean-code)
 
 ## [ImageGraphic](./Android/ImageGraphic)
+
 - [비트맵 처리](./Android/ImageGraphic#비트맵-처리)
 
 ## [Library](./Android/Library)
+
 - [Dagger Hilt Koin 비교](./Android/Library#dagger-hilt-koin-비교)
 - [RxJava](./Android/Library#rxjava)
 - [RxJava Hot, Cold Observable](./Android/Library#rxjava-hot-cold-observable)
 - [RxJava Backpressure(배압)](./Android/Library#rxjava-backpressure배압)
 - [Glide](./Android/Library#glide)
 
-# [Kotlin](./Kotlin)
+## [Kotlin](./Kotlin)
+
 - [코틀린 기초](./Kotlin/#코틀린-기초)
 - [Data class](./Kotlin/#data-class)
 - [Sealed Class](./Kotlin/#sealed-class)
@@ -126,10 +151,19 @@
 - [Serialization](./Kotlin#serialization)
 - [함수형 인터페이스](./Kotlin#함수형-인터페이스)
 
-# [Java](./Java)
+## [Java](./Java)
+
 - [Serialization and Deserialization](./Java#serialization-and-deserialization)
 
-# [Gradle](./Gradle)
+## [Design Pattern](./DesignPattern/)
+
+- [Android 개발에서 일반적으로 사용되는 디자인 패턴](./DesignPattern/#android-개발에서-일반적으로-사용되는-디자인-패턴)
+
+## [Gradle](./Gradle)
+
 - [Kotlin DSL 이란?](./Gradle#kotlin-dsl-이란)
 
-# [HTTP Cache](./Http)
+## [HTTP](./Http)
+
+- [Cache](./Http/#cache)
+- [TCP/IP, HTTP 에 대해서 설명](./Http/#tcpip-http-에-대해서-설명)
