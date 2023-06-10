@@ -1,5 +1,6 @@
 # Core Android
 - [Android에서 Parcelable 인터페이스의 목적은 무엇이며 Serializable 사용성 차이](#android에서-parcelable-인터페이스의-목적은-무엇이며-serializable-사용성-차이)
+- [Android의 콘텐츠 제공자는 무엇이며 주요 목적](#android의-콘텐츠-제공자는-무엇이며-주요-목적은-무엇인가요-콘텐츠-제공자가-유용할-수-있는-예시-시나리오를-제공)
 - [안드로이드 어플리케이션 컴포넌트](#안드로이드-어플리케이션-컴포넌트)
 - [매니페스트 파일](#매니페스트-파일)
 - [안드로이드 어플리케이션의 프로젝트 구조](#안드로이드-어플리케이션의-프로젝트-구조)
@@ -31,6 +32,75 @@ Android의 Parcelable 인터페이스는 액티비티, 프래그먼트 또는 �
 
 ### 요약
 Parcelable을 구현하면 구성 요소 간에 개체를 효율적으로 전달할 수 있고 올바르게 직렬화 및 역직렬화되어 `Serializable`을 사용할 때 발생할 수 있는 호환성 또는 성능 문제를 피할 수 있습니다.
+
+
+## Android의 콘텐츠 제공자는 무엇이며 주요 목적은 무엇인가요? 콘텐츠 제공자가 유용할 수 있는 예시 시나리오를 제공
+
+Android의 콘텐츠 제공자는 다양한 애플리케이션이 서로 안전하게 데이터를 공유할 수 있도록 하는 Android 프레임워크의 기본 구성요소입니다. 데이터를 관리하고 다른 애플리케이션에 노출하는 구조화된 방법을 제공하여 데이터 액세스를 적용하고 데이터 작업을 위한 표준화된 인터페이스를 제공합니다.
+
+### 콘텐츠 제공자의 주요 목적
+**1. 데이터 공유:** 콘텐츠 제공자는 애플리케이션이 동일한 앱 내에서 또는 다른 앱 간에 데이터를 다른 애플리케이션과 공유할 수 있도록 합니다. 이를 통해 제어된 방식으로 애플리케이션 간의 데이터 교환 및 협업이 가능합니다.
+**2. 데이터 액세스 제어:** 콘텐츠 제공자는 액세스 제어 메커니즘을 시행하여 개발자가 데이터 액세스 권한을 지정할 수 있도록 합니다. 이렇게 하면 승인된 애플리케이션만 공유 데이터에 액세스하고 수정할 수 있습니다.
+**3. 데이터 지속성:** 콘텐츠 제공자는 구조화된 데이터를 영구적인 방식으로 저장하고 검색하는 데 사용할 수 있습니다. 데이터 저장을 위한 추상화 계층을 제공하여 개발자가 일관된 데이터 액세스 인터페이스를 유지하면서 기본 데이터 저장 메커니즘(예: SQLite 데이터베이스)을 선택할 수 있도록 합니다.
+**4. 콘텐츠 URI 매핑:** 콘텐츠 제공자는 다양한 데이터 세트에 대한 고유 식별자 역할을 하는 콘텐츠 URI를 정의합니다. 이러한 URI는 다른 응용 프로그램에서 특정 데이터 항목에 액세스하거나 작업을 수행하는 데 사용됩니다. 다양한 유형의 데이터 또는 데이터 하위 집합을 나타내도록 콘텐츠 URI를 사용자 지정할 수 있습니다.
+
+콘텐츠 공급자가 유용할 수 있는 예제 시나리오는 메시징 응용 프로그램에 있습니다.
+- 사용자가 메시지를 교환하고 로컬에 저장할 수 있는 메시징 앱을 구축한다고 가정합니다.
+- 콘텐츠 공급자를 사용하면 위젯이나 검색 응용 프로그램과 같은 다른 응용 프로그램에 메시지 데이터를 노출하여 메시지를 표시하거나 검색할 수 있습니다.
+- 콘텐츠 제공자는 보안 데이터 액세스를 처리하고 인증된 애플리케이션만 메시지를 검색하거나 수정할 수 있도록 합니다.
+
+```kotlin
+class MessageProvider : ContentProvider() {
+    // Content provider implementation
+
+    override fun onCreate(): Boolean {
+        // Initialize the content provider and set up data storage
+        return true
+    }
+
+    override fun query(
+        uri: Uri,
+        projection: Array<String>?,
+        selection: String?,
+        selectionArgs: Array<String>?,
+        sortOrder: String?
+    ): Cursor? {
+        // Perform a query operation on the messages data and return a Cursor
+        // representing the result set
+        // ...
+    }
+
+    override fun insert(uri: Uri, values: ContentValues?): Uri? {
+        // Perform an insert operation to add a new message to the data
+        // ...
+    }
+
+    override fun update(
+        uri: Uri,
+        values: ContentValues?,
+        selection: String?,
+        selectionArgs: Array<String>?
+    ): Int {
+        // Perform an update operation on the messages data
+        // ...
+    }
+
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
+        // Perform a delete operation on the messages data
+        // ...
+    }
+
+    override fun getType(uri: Uri): String? {
+        // Return the MIME type of the data represented by the given URI
+        // ...
+    }
+}
+```
+- 이 예에서 `MessageProvider` 클래스는 `ContentProvider` 기본 클래스를 확장하고 데이터 쿼리, 삽입, 업데이트, 삭제 및 MIME 유형 검색에 필요한 메서드를 재정의합니다. 이렇게 하면 다른 애플리케이션이 적절한 콘텐츠 URI를 사용하여 콘텐츠 공급자를 통해 메시징 앱의 데이터와 상호 작용할 수 있습니다.
+
+
+
+
 
 
 ## [안드로이드 어플리케이션 컴포넌트](https://developer.android.com/guide/components/fundamentals.html#Components)
