@@ -1,4 +1,5 @@
 # Core Android
+- [Android에서 Parcelable 인터페이스의 목적은 무엇이며 Serializable 사용성 차이](#android에서-parcelable-인터페이스의-목적은-무엇이며-serializable-사용성-차이)
 - [안드로이드 어플리케이션 컴포넌트](#안드로이드-어플리케이션-컴포넌트)
 - [매니페스트 파일](#매니페스트-파일)
 - [안드로이드 어플리케이션의 프로젝트 구조](#안드로이드-어플리케이션의-프로젝트-구조)
@@ -13,6 +14,24 @@
 - [LifecycleOwner](#lifecycleowner)
 - [LiveData vs ObservableField](#livedata-vs-observablefield)
 ---
+
+## Android에서 Parcelable 인터페이스의 목적은 무엇이며 Serializable 사용성 차이
+Android의 Parcelable 인터페이스는 액티비티, 프래그먼트 또는 서비스와 같은 구성 요소 간의 효율적인 전송을 위해 자바 객체를 바이너리 형식으로 평면화할 수 있도록 직렬화하는 데 사용됩니다. Serializable 인터페이스에 대한 최적화된 대안입니다.
+
+### Parcelable과 Serializable의 주요 차이점
+1. 성능
+    - `Parcelable`은 `Serializable`에 비해 더 빠르고 효율적입니다. `Parcelable`은 Android용으로 특별히 설계되었으며 바이너리 형식을 사용합니다.
+    - `Serializable`은 특히 대용량 데이터 세트의 경우 더 느리고 덜 효율적일 수 있는 리플렉션 기반 메커니즘을 사용합니다.
+2. 직렬화 제어
+    - `Parcelable`을 사용하면 개발자가 직렬화 프로세스를 더 잘 제어할 수 있습니다. 객체를 직렬화 및 역직렬화하는 방법을 지정하려면 `writeToParcel()` 및 `createFromParcel()` 메서드를 명시적으로 구현해야 합니다.
+    - `Serializable`은 전체 개체 그래프를 자동으로 직렬화합니다.
+3. 호환성
+    - `Parcelable`은 Android 전용이며 플랫폼 간 호환성을 지원하지 않습니다.
+    - `Serializable`은 Java 표준이며 모든 Java 환경에서 사용할 수 있습니다.
+
+### 요약
+Parcelable을 구현하면 구성 요소 간에 개체를 효율적으로 전달할 수 있고 올바르게 직렬화 및 역직렬화되어 `Serializable`을 사용할 때 발생할 수 있는 호환성 또는 성능 문제를 피할 수 있습니다.
+
 
 ## [안드로이드 어플리케이션 컴포넌트](https://developer.android.com/guide/components/fundamentals.html#Components)
 

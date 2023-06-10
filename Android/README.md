@@ -1,6 +1,7 @@
 # Android
 
 ## [Core Android](./CoreAndroid)
+- [Android에서 Parcelable 인터페이스의 목적은 무엇이며 Serializable 사용성 차이](./CoreAndroid#android에서-parcelable-인터페이스의-목적은-무엇이며-serializable-사용성-차이)
 - [안드로이드 어플리케이션 컴포넌트](./CoreAndroid#안드로이드-어플리케이션-컴포넌트)
 - [매니페스트 파일](./CoreAndroid#매니페스트-파일)
 - [안드로이드 어플리케이션의 프로젝트 구조](./CoreAndroid#안드로이드-어플리케이션의-프로젝트-구조)
