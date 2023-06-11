@@ -27,15 +27,12 @@
 - [Hash Table](./DataStructure#hash-table)
 - [Graph](./DataStructure#graph)
 
-## [Interview](./Interview)
-
 ## [Android](./Android)
 
 ## [Core Android](./Android/CoreAndroid)
 
 - [Asynchronous IO](./Android/CoreAndroid/#asynchronous-io)
 - [ViewBinding 과 DataBinding 차이점](./Android/CoreAndroid/#viewbinding-과-databinding-차이점)
-- [ViewModel 과 SharedViewModel 의 차이와 구현 방법](./Android/CoreAndroid/#viewmodel-과-sharedviewmodel-의-차이와-구현-방법)
 - [ViewModel 과 SharedViewModel 의 차이와 구현 방법](./Android/CoreAndroid/#viewmodel-과-sharedviewmodel-의-차이와-구현-방법)
 - [Android Jetpack이란](./Android/CoreAndroid/#android-jetpack이란)
 - [Android 애플리케이션의 성능을 최적화하기 위한 전략](./Android/CoreAndroid/#android-애플리케이션의-성능을-최적화하기-위한-전략)
@@ -84,6 +81,9 @@
 - [FragmentContainerView 란?](./Android/Ui#fragmentcontainerview-란)
 - [Glide 에서 리사이즈를 처리하지 않게 하는 방법 2가지](./Android/Ui#glide-에서-리사이즈를-처리하지-않게-하는-방법-2가지)
 - [Bitmap-prepareToDraw](./Android/Ui#bitmap-preparetodraw)
+
+## [Android Compose](./Android/Compose/)
+- [Jetpack Compose란 무엇이며 Android 앱 개발을 위한 주요 기능과 이점](./Android/Compose/#jetpack-compose란-무엇이며-android-앱-개발을-위한-주요-기능과-이점)
 
 ## [Displaying Lists of Content](./Android/RecyclerView)
 
