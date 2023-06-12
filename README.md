@@ -84,6 +84,7 @@
 
 ## [Android Compose](./Android/Compose/)
 - [Jetpack Compose란 무엇이며 Android 앱 개발을 위한 주요 기능과 이점](./Android/Compose/#jetpack-compose란-무엇이며-android-앱-개발을-위한-주요-기능과-이점)
+- [Jetpack Compose와 Android의 기존 뷰 기반 UI 개발 간의 차이점](./Android/Compose/#jetpack-compose와-android의-기존-뷰-기반-ui-개발-간의-차이점)
 
 ## [Displaying Lists of Content](./Android/RecyclerView)
 
