@@ -12,3 +12,4 @@
 ### ATT & GATT: Data representation and exchange
 - `ATT(속성 프로토콜)` 계층과 그 바로 위에 있는 `GATT(일반 속성 프로토콜)` 계층은 Bluetooth LE 장치 간에 데이터가 표현되고 교환되는 방식을 정의
 - 일반 속성 프로파일(GATT) 계층은 ATT 계층 바로 위에 위치하며, 프로파일, 서비스 및 특성으로 속성을 계층적으로 분류하여 그 위에 구축됩니다. GATT 계층은 이러한 개념을 사용하여 Bluetooth LE 장치 간의 데이터 전송을 관리
+### PHY: Radio modes
