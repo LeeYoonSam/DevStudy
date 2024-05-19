@@ -2,6 +2,89 @@
 
 개발하는데 필요한것을 공부하고 기록하기위한 저장소
 
+## 학습 리마인더
+강의, 책 등 학습하기 위해 구매해 놓고 하지 않고 미루고 있는것을 잊지 않기 위해 리마인더를 기록해본다.. (제발 빨리좀 보자..)
+
+### 책
+
+**[Jetpack Compose Internals 한국어 번역(전자책)](https://leanpub.com/composeinternals/)**
+- 특징 및 설명
+  - 제트팩 컴포즈는 안드로이드 UI의 미래입니다. 
+  - 내부적으로 어떻게 작동하는지 마스터하고 이를 통해 더욱 효율적인 개발자가 되세요. 
+  - 안드로이드 개발자가 아니더라도 이 책은 유용할 것입니다. 
+  - 이 책은 컴포즈 컴파일러와 런타임의 작동 방식과 이를 사용해 클라이언트 라이브러리를 만드는 방법을 이해하는 데 필요한 모든 세부 정보를 제공합니다.
+- 진행률: 22/105 페이지
+
+**필독! 개발자 온보딩 가이드(책만)**
+- 지속 가능한 소프트웨어와 원활한 협업 문화를 이해하는 프로페셔널 개발자의 탄생
+- 진행률: 80%
+
+**IT 개발자의 영어 필살기(책만)**
+- 진행률: 띄엄띄엄
+
+**Kotlin Design Patterns and Best Practices(Alexey Soshin)**
+- Kotlin의 기존, 반응형 및 동시 디자인 패턴을 사용하여 확장 가능한 애플리케이션 빌드하기
+- 진행률: 20%
+
+**코틀린을 다루는 기술(길벗)**
+- 진행률: 0%
+
+**구글 엔지니어는 이렇게 일한다(한빛미디어)**
+- 진행률: 0%
+
+**함수형 반응형 프로그래밍(한빛미디어)**
+- 진행률: 0%
+
+**쉽게 배우는 운영체제(한빛아카데미)**
+- 진행률: 0%
+
+**도메인 주도 설계 구현(에이콘)**
+- 진행률: 0%
+
+**켄트백의 구현 패턴(에이콘)**
+- 진행률: 100%
+
+**Kotlin in Action(에이콘)**
+- 진행률: 100%
+
+**이펙티브 코틀린(인사이트)**
+- 진행률: 100%
+
+**이벡티브 자바(인사이트)**
+- 진행률: 100%
+
+**Test-Driven Development: By Example - 테스트 주도 개발(인사이트)**
+- 진행률: 100%
+
+**RxJava를 이용한 리액티브 프로그래밍(인사이트)**
+- 진행률: 띄엄띄엄
+
+**실용주의 프로그래머(인사이트)**
+- 진행률: 100%
+
+### Udemy
+
+**[Linux Shell Scripting: A Project-Based Approach to Learning](https://www.udemy.com/course/linux-shell-scripting-projects/)**
+- 프로젝트 기반 교육을 통해 셸 스크립트 작성 방법(Bash 스크립팅, Bash 프로그래밍, Sed, Grep, Awk 등)을 배워보세요.
+- 진행률: 100%
+
+**[Android Jetpack Compose: The Comprehensive Bootcamp](https://www.udemy.com/course/kotling-android-jetpack-compose-/)**
+- Kotlin 안드로이드 앱 개발: 파이어베이스 파이어스토어, Hilt & Dagger, ROOM DB, ViewModel, Navigation & Clean Architecture
+- 진행률: 35%
+
+**[Spring Boot Unit Testing with JUnit, Mockito and MockMvc](https://www.udemy.com/course/spring-boot-unit-testing/)**
+- 실시간 스프링 부트 유닛 테스트 개발: JUnit 5, Mockito, MockMvc, TDD, JsonPath, Hamcrest, H2 임베디드 DB, MySQL
+- 진행률: 0%
+
+**[【한글자막】 소프트웨어 아키텍처 및 대규모 시스템 설계](https://www.udemy.com/course/software-architecture-design-large-scale-systems/)**
+- 소프트웨어 아키텍처, 시스템 설계 및 빅데이터 처리 마스터하기: 소프트웨어 아키텍트 또는 테크니컬 리드 직무를 목표로 시니어급 테크니컬 직원이 되려는 분 혹은 면접 합격률을 높이고 돋보이고 싶은 분들을 위한 강의!
+- 진행률: 0%
+
+**[개발자영어](https://www.udemy.com/course/devenglish/)**
+- 독해부터 클린코드까지 문제 해결과 개발 역량 강화
+- 진행률: 10%
+
+
 ## 참고
 
 - [Android Interview Questions](https://github.com/MindorksOpenSource/android-interview-questions)
