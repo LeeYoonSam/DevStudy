@@ -18,6 +18,7 @@
 - [코루틴 Dispatchers](#코루틴-dispatchers)
 - [Serialization](#serialization)
 - [함수형 인터페이스](#함수형-인터페이스)
+- [Generics - 변성](#generics---variance)
 
 ### 참고
 - [Kotlin in Action](http://acornpub.co.kr/book/kotlin-in-action)
@@ -1960,3 +1961,6 @@ val isEven = object : IntPredicate { it % 2 == 0 }
 
 ### 참고
 - [함수형 인터페이스](https://flow9.net/bbs/board.php?bo_table=kotlin&wr_id=20&device=pc)
+
+## [Generics - Variance](./Generics/)
+- 제네릭의 변성

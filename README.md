@@ -234,6 +234,7 @@
 - [코루틴 Dispatchers](./Kotlin#코루틴-dispatchers)
 - [Serialization](./Kotlin#serialization)
 - [함수형 인터페이스](./Kotlin#함수형-인터페이스)
+- [Generics - 변성](./Kotlin#generics---variance)
 
 ## [Java](./Java)
 
