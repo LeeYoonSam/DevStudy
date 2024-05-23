@@ -84,6 +84,8 @@
 - 독해부터 클린코드까지 문제 해결과 개발 역량 강화
 - 진행률: 10%
 
+## [AI](./AI)
+- [100 AI Tools for 20 Tasks to replace your tedious work](./AI#100-ai-tools-for-20-tasks-to-replace-your-tedious-work)
 
 ## 참고
 
