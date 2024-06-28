@@ -8,12 +8,15 @@
 ### 책
 **요즘 AI 페어 프로그래밍(골든래빗)**
 AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링 with 깃허브
-- 진행률: 10%
+- 진행률: 40%
 - 프롬프트 엔지니어링 4S 원칙
   1. Single : 하나의 질문 혹은 작업에 집중하라.
   2. Specific : 명확하고 상세하게 지시하라.
   3. Short : 간결하게 핵심을 전달하라.
   4. Surround : 컨텍스트를 제공해서 질문의 상황을 잘 전달하라.
+- GitHub Copilot 활용
+  1. 코드 리팩토링
+  2. Lint 적용 및 리포트 수정 적용
 
 **[Jetpack Compose Internals 한국어 번역(전자책)](https://leanpub.com/composeinternals/)**
 - 특징 및 설명
