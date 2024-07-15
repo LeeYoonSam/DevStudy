@@ -8,7 +8,7 @@
 ### 책
 **요즘 AI 페어 프로그래밍(골든래빗)**
 AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링 with 깃허브
-- 진행률: 40%
+- 진행률: 80%
 - 프롬프트 엔지니어링 4S 원칙
   1. Single : 하나의 질문 혹은 작업에 집중하라.
   2. Specific : 명확하고 상세하게 지시하라.
@@ -17,6 +17,20 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 - GitHub Copilot 활용
   1. 코드 리팩토링
   2. Lint 적용 및 리포트 수정 적용
+- README 문서 작성
+  - README 에 들어갈 형식을 정해서 생성 요청
+  - 단계별로 추가가 필요한 부분 추가
+- [mermaid](https://mermaid.js.org/intro/) 문법을 사용해서 각종 다이어그램 생성
+  - 글보다는 다이어그램으로 보면 이해도가 높아질수 있으니 잘 활용하면 좋을듯.
+  - ERD(Entity Relationship Diagram)
+  - Flow chart
+  - Sequence Diagram
+  - Class Diagram
+  - 이외에 여러 다이어그램을 지원
+- 디자인 패턴을 사용한 코드 리팩토링
+  - 디자인 패턴을 사용해서 리팩토링 요청
+  - 다른 디자인 패턴도 요청해서 적합한 리팩토링 선택
+
 
 **[Jetpack Compose Internals 한국어 번역(전자책)](https://leanpub.com/composeinternals/)**
 - 특징 및 설명
