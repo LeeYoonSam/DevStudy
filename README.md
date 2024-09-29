@@ -5,6 +5,10 @@
 ## 학습 리마인더
 강의, 책 등 학습하기 위해 구매해 놓고 하지 않고 미루고 있는것을 잊지 않기 위해 리마인더를 기록해본다.. (제발 빨리좀 보자..)
 
+## YouTube
+### Database
+- [microsevices with database](https://youtu.be/tiHKefWOyrY?si=FJ6Ugtuce2o1xElQ)
+
 ### 책
 **요즘 AI 페어 프로그래밍(골든래빗)**
 AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링 with 깃허브
