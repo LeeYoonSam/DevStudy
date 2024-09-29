@@ -9,6 +9,10 @@
 ### Database
 - [microsevices with database](https://youtu.be/tiHKefWOyrY?si=FJ6Ugtuce2o1xElQ)
 
+### Gmail clone app. MVI pattern with Jetpack Compose
+- [Part1](https://youtu.be/YY71b7-yTeg?si=WcmjlDkjCo3HbVUc)
+
+
 ### 책
 **요즘 AI 페어 프로그래밍(골든래빗)**
 AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링 with 깃허브
