@@ -13,6 +13,9 @@
 - [Part1](https://youtu.be/YY71b7-yTeg?si=WcmjlDkjCo3HbVUc)
 - [Part2](https://youtu.be/Q8qwGdx1q7k?si=4qmZtzFExXjWtBxQ)
 
+### React NextJS
+- [Trello](https://youtu.be/pRybm9lXW2c?si=SZX6_PPAhJ-cx7ga)
+
 
 ### 책
 **요즘 AI 페어 프로그래밍(골든래빗)**
