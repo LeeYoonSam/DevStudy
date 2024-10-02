@@ -15,7 +15,7 @@
 
 ### React NextJS
 - [Trello](https://youtu.be/pRybm9lXW2c?si=SZX6_PPAhJ-cx7ga)
-
+- [Next Auth V5](https://youtu.be/1MTyCvS05V4?si=bYvxdmXAMVINRlA5)
 
 ### 책
 **요즘 AI 페어 프로그래밍(골든래빗)**
