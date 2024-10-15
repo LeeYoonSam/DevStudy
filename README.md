@@ -67,8 +67,9 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 - 진행률: 20%
 
 **[코틀린을 다루는 기술(길벗)](./Books/techniques-for-dealing-with-kotlin.md)**
-- 진행률: 2%
+- 진행률: 5%
 - [1장 프로그램을 더 안전하게 만들기](./Books/techniques-for-dealing-with-kotlin.md#1장-프로그램을-더-안전하게-만들기)
+- [2장]()
 
 **구글 엔지니어는 이렇게 일한다(한빛미디어)**
 - 진행률: 0%
