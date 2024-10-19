@@ -117,6 +117,39 @@
     - public
   - 생성자의 가시성은 기본적으로 public 이고 생략 가능하지만, 가시성 수준을 바꾸려면 constructor 를 생략하면 안된다.
     - class Person private constructor(val name: String)
+- 함수
+    - 함수 선언하기
+        - fun 키워드를 사용해서 함수를 선언
+        - 함수 본문을 한 줄로 표현 하는 형태를 식 구문(expression syntax) 이라고 부른다
+            - Fun add(a: Int, b: Int): Int = a + b
+    - 로컬 함수 사용하기
+        - 함수 내부에서 함수를 정의 할 수 있다.
+    - 함수 오버라이드
+    - 확장 함수 사용하기
+        - 확장 함수(extension function)는 마치 클래스에 정의된 인스턴스 함수인 것처럼 객체를 호출 할 수 있는 함수를 말한다.
+            - Ex) 리스트의 길이를 돌려주는 length 라는 확장 함수를 생성한다.
+                - fun <T> List<T>.length() = this.size
+    - 람다 사용하기
+        - 람다는 익명함수(anonymous function)다. 익명함수라는 말은 함수를 가리키는 이름이 없이 구현만 있다는 뜻이다.
+        - 코틀린에서는 중괄호 사이에 람다가 위치한다.
+            - fun triple(list: List<Int>): List<Int> = list.map({ a -> a * 3 })
+        - 함수의 마지막 인자로 넘길 때는 괄호 밖에 람다를 넣어도 된다.
+            - fun triple(list: List<Int>): List<Int> = list.map { a-> a * 3 }
+            - fun product(list: List<Int>): Int = list.fold(1) { a, b -> a * b }
+        - 람다의 파라미터 타입
+            - fun List<Int>.product(): Int = this.fold(1) { a: Int, b: Int -> a * b }
+                - 타입을 지정하면 타입 오류로 컴파일이 이루어지지 않을때 추론 타입이 다르다 사실을 컴파일러(또는 IDE)가 알려준다.
+        - 람다를 위한 간이 구문
+            - 코틀린은 파라미터가 단 하나뿐인 람다를 편하게 쓸 수 있는 간이 구문을 제공한다.
+                - 간이 구문에서는 유일한 파라미터의 이름을 it 으로 부른다.
+                - fun triple(list: List<Int>): List<Int> = list.map { it * 3 }
+        - 클로저 안의 람다
+            - 람다가 자신을 둘러싸는 영역의 변수를 가두어 닫을 수 있다.
+            - val multiplier = 3
+            - fun multiplyAll(list: List<Int>): List<Int> = list.map { it * multiplier }
+            - 클로저를 함수 인자로 바꿀 수 있고 함수 인자로 바꾸고 나면 더 안전해진다.
+                - fun multiplyAll(list: List<Int>, multiplier: int): List<Int> = list.map { it * multiplier }
+            - 아주 좁은 영역에 있는 변수를 가두는 경우에만 클로저를 사용해야 한다(예를 들면 함수 내부에 정의한 로컬 함수)
 
 
 ## 용어 모음
