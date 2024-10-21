@@ -15,14 +15,25 @@
 
 ### React NextJS
 - [E-Commerce - Dashboard & CMS](https://youtu.be/5miHyP6lExg?si=-OT6hMBKPM0QHMcm)
+  - Clone 프로젝트 완성
 - [Discord](https://youtu.be/ZbX4Ok9YX94?si=vUovc37SlBGhkOpI)
+  - Clone 프로젝트 완성
 - [Trello](https://youtu.be/pRybm9lXW2c?si=SZX6_PPAhJ-cx7ga)
+  - Clone 프로젝트 완성
 - [Twitch Clone - part1](https://youtu.be/a02JAryRPVU?si=uXtXq-jjJE0Uys16)
+  - Clone 프로젝트 완성
 - [Twitch Clone - part2](https://youtu.be/nav55-4ISg4?si=7qLDuJaw0fzjRO3E)
+  - Clone 프로젝트 완성
 - [Next Auth V5](https://youtu.be/1MTyCvS05V4?si=bYvxdmXAMVINRlA5)
+  - Clone 프로젝트 완성
 - [Duolingo](https://youtu.be/dP75Khfy4s4?si=vhqagbo8vfbtXFLB)
+  - Clone 프로젝트 완성
 - [Miro](https://youtu.be/ADJKbuayubE?si=wj3ijEr8XgLHCs-z)
+  - Clone 프로젝트 완성
+- [Duolingo](https://youtu.be/dP75Khfy4s4?si=vhqagbo8vfbtXFLB)
+  - Clone 프로젝트 완성
 - [Finance](https://youtu.be/N_uNKAus0II?si=Y85rkgzpCq57Cfav)
+  - Clone 프로젝트 완성
 
 ### 책
 **요즘 AI 페어 프로그래밍(골든래빗)**
