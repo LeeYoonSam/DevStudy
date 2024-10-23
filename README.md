@@ -34,6 +34,9 @@
   - Clone 프로젝트 완성
 - [Finance](https://youtu.be/N_uNKAus0II?si=Y85rkgzpCq57Cfav)
   - Clone 프로젝트 완성
+- [Slack - part1](https://youtu.be/lXITA5MZIiI?si=FsyIVI7f8vgXeKB5)
+- [Slack - part2](https://youtu.be/AbztO-X7PCQ?si=KF7DsZxPCCYY258-)
+
 
 ### 책
 **요즘 AI 페어 프로그래밍(골든래빗)**
@@ -83,7 +86,7 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 - 진행률: 20%
 
 **[코틀린을 다루는 기술(길벗)](./Books/techniques-for-dealing-with-kotlin.md)**
-- 진행률: 7%
+- 진행률: 10%
 - [1장 프로그램을 더 안전하게 만들기](./Books/techniques-for-dealing-with-kotlin.md#1장-프로그램을-더-안전하게-만들기)
 - [2장]()
 
