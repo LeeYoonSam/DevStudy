@@ -10,6 +10,7 @@
 - [microsevices with database](https://youtu.be/tiHKefWOyrY?si=FJ6Ugtuce2o1xElQ)
 
 ### Gmail clone app. MVI pattern with Jetpack Compose
+- [GitHub](https://github.com/coroutinelab/GmailMock)
 - [Part1](https://youtu.be/YY71b7-yTeg?si=WcmjlDkjCo3HbVUc)
 - [Part2](https://youtu.be/Q8qwGdx1q7k?si=4qmZtzFExXjWtBxQ)
 
@@ -86,9 +87,9 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 - 진행률: 20%
 
 **[코틀린을 다루는 기술(길벗)](./Books/techniques-for-dealing-with-kotlin.md)**
-- 진행률: 10%
+- 진행률: 15%
 - [1장 프로그램을 더 안전하게 만들기](./Books/techniques-for-dealing-with-kotlin.md#1장-프로그램을-더-안전하게-만들기)
-- [2장]()
+- [2장 코틀린 프로그래밍 개요](./Books/techniques-for-dealing-with-kotlin.md#2장-코틀린-프로그래밍-개요)
 
 **구글 엔지니어는 이렇게 일한다(한빛미디어)**
 - 진행률: 0%
