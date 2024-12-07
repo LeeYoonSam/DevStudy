@@ -37,6 +37,10 @@
   - Clone 프로젝트 완성
 - [Slack - part1](https://youtu.be/lXITA5MZIiI?si=FsyIVI7f8vgXeKB5)
 - [Slack - part2](https://youtu.be/AbztO-X7PCQ?si=KF7DsZxPCCYY258-)
+- [Jira - Part1](https://youtu.be/Av9C7xlV0fA?si=Lrfx8W3klir_z3jJ)
+  - 진행중
+- [Jira - Part2](https://youtu.be/37v63U7-iG0?si=ZKJj0VYnZAufQA8C)
+- [Google Docs](https://youtu.be/gq2bbDmSokU?si=WrOD41l7uJ5i6xLJ)
 
 
 ### 책
