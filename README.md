@@ -281,6 +281,9 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 - [RxJava Backpressure(배압)](./Android/Library#rxjava-backpressure배압)
 - [Glide](./Android/Library#glide)
 
+## [Performance](./Android/Performance)
+- [앱 크기 줄이기](./Android/Performance/README.md#앱-크기-줄이기)
+
 ## [Kotlin](./Kotlin)
 
 - [코틀린 기초](./Kotlin/#코틀린-기초)

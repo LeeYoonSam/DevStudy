@@ -90,13 +90,17 @@
 
 ## [ImageGraphic](./ImageGraphic)
 
-- [비트맵 처리](./ImageGraphic#비트맵-처리)
+- [비트맵 처리](./ImageGraphic/README.md#비트맵-처리)
 
 
 ## [Library](./Library)
 
-- [Dagger Hilt Koin 비교](./Library#dagger-hilt-koin-비교)
-- [RxJava](./Library#rxjava)
-- [RxJava Hot, Cold Observable](./Library#rxjava-hot-cold-observable)
-- [RxJava Backpressure(배압)](./Library#rxjava-backpressure배압)
-- [Glide](./Library#glide)
+- [Dagger Hilt Koin 비교](./Library/README.md#dagger-hilt-koin-비교)
+- [RxJava](./Library/README.md#rxjava)
+- [RxJava Hot, Cold Observable](./Library/README.md#rxjava-hot-cold-observable)
+- [RxJava Backpressure(배압)](./Library/README.md#rxjava-backpressure배압)
+- [Glide](./Library/README.md#glide)
+
+## [Performance](./Performance)
+
+- [앱 크기 줄이기](./Performance/README.md#앱-크기-줄이기)
