@@ -10,6 +10,8 @@
 - [Clean Architecture](#clean-architecture)
 - [모바일 클린 아키텍처](#모바일-클린-아키텍처)
 - [Clean Code](#clean-code)
+- [Microsoft's original MVVM Pattern](#microsofts-original-mvvm-pattern)
+- [MVVM 패턴 비교: Microsoft MVVM vs Android Jetpack ViewModel](#mvvm-패턴-비교-microsoft-mvvm-vs-android-jetpack-viewmodel)
 
 ---
 
@@ -300,4 +302,433 @@ MVI에 대해 더 알고 싶다면 [Hannes Dorfmann의 Reactive Apps with Model-
 - `Writing software is like any other kind of writing`: 논문이나 기사를 쓸 때 먼저 생각을 정리한 다음 잘 읽힐 때까지 마사지합니다. 첫 번째 초안은 서툴고 무질서할 수 있으므로 원하는 대로 읽을 때까지 편집하고 재구성하고 수정합니다.
 - `Use Exceptions Rather Than Return Codes`: Return-Code 접근 방식의 문제는 호출자를 복잡하게 만든다는 것입니다. 호출자는 호출 직후 오류를 확인해야 합니다. 불행히도 잊기 쉽습니다. 이러한 이유로 오류가 발생할 때 예외를 throw하는 것이 좋습니다. 호출 코드가 더 깨끗합니다. 논리는 오류 처리에 의해 가려지지 않습니다.
 - `Always Provide Context with Exceptions`: 발생하는 각 예외는 오류의 원인과 위치를 결정하기에 충분한 컨텍스트를 제공해야 합니다. Java에서는 모든 예외에서 스택 추적을 얻을 수 있습니다. 그러나 스택 추적은 실패한 작업의 의도를 알려줄 수 없습니다. 유익한 오류 메시지를 작성하고 예외와 함께 전달하십시오. 실패한 작업과 실패 유형을 언급합니다. 애플리케이션에 로그인하는 경우 catch에 오류를 기록할 수 있도록 충분한 정보를 전달하십시오.
- 
+
+---
+
+## [Microsoft's original MVVM Pattern](https://learn.microsoft.com/en-us/dotnet/architecture/maui/mvvm#the-mvvm-pattern)
+
+# MVVM (Model-View-ViewModel) 패턴 상세 가이드
+
+## 1. MVVM 패턴이 필요한 이유
+
+MVVM 패턴은 다음과 같은 문제들을 해결하기 위해 도입되었습니다:
+
+- UI 컨트롤과 비즈니스 로직 간의 강한 결합
+- 코드 테스트의 어려움
+- 앱이 커질수록 증가하는 유지보수 비용
+- UI 수정의 어려움
+- 개발자와 디자이너 간의 협업 문제
+
+## 2. MVVM의 핵심 컴포넌트
+
+### 2.1 View (뷰)
+- **정의**: 사용자에게 보여지는 UI 구조, 레이아웃, 디자인을 담당
+- **구현 방식**: 주로 XAML로 구현
+- **특징**:
+  - 비즈니스 로직을 포함하지 않음
+  - 데이터 바인딩을 통해 ViewModel과 통신
+  - 애니메이션 같은 순수 UI 로직만 코드 비하인드에 포함
+  - UI 요소의 활성화/비활성화는 ViewModel 속성에 바인딩
+
+### 2.2 ViewModel (뷰모델)
+- **정의**: View와 Model 사이의 중개자
+- **주요 책임**:
+  - View에 필요한 데이터와 명령을 제공
+  - Model의 데이터를 View에 적합한 형태로 가공
+  - 사용자 입력에 따른 Model 업데이트
+  - 비동기 작업 처리
+- **구현 요구사항**:
+  ```csharp
+  public class ExampleViewModel : INotifyPropertyChanged
+  {
+      private string _name;
+      public string Name
+      {
+          get => _name;
+          set
+          {
+              _name = value;
+              OnPropertyChanged(nameof(Name));
+          }
+      }
+      
+      public ICommand SaveCommand { get; }
+      
+      // INotifyPropertyChanged 구현
+      public event PropertyChangedEventHandler PropertyChanged;
+      protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+      {
+          PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+      }
+  }
+  ```
+
+### 2.3 Model (모델)
+- **정의**: 앱의 데이터와 비즈니스 로직을 캡슐화
+- **구성 요소**:
+  - 데이터 구조
+  - 비즈니스 규칙
+  - 데이터 유효성 검사 로직
+  - 데이터 접근 계층
+- **특징**:
+  - View나 ViewModel에 대해 완전히 독립적
+  - 재사용 가능한 형태로 설계
+
+## 3. 주요 기능과 구현 방식
+
+### 3.1 데이터 바인딩
+```xaml
+<Entry Text="{Binding Name, Mode=TwoWay}" />
+<Button Command="{Binding SaveCommand}" />
+```
+
+### 3.2 커맨드 (Commands)
+```csharp
+public ICommand SaveCommand { get; }
+
+public ExampleViewModel()
+{
+    SaveCommand = new Command(
+        execute: () => SaveData(),
+        canExecute: () => IsValid
+    );
+}
+```
+
+### 3.3 비헤이비어 (Behaviors)
+```xaml
+<Entry>
+    <Entry.Behaviors>
+        <behaviors:EventToCommandBehavior
+            EventName="TextChanged"
+            Command="{Binding ValidateCommand}" />
+    </Entry.Behaviors>
+</Entry>
+```
+
+## 4. MVVM 구현 시 모범 사례
+
+### 4.1 ViewModel 설계 원칙
+- **단일 책임 원칙** 준수
+- View에 대한 참조 피하기
+- 비동기 작업의 적절한 처리
+- 속성 변경 알림의 효율적 구현
+
+### 4.2 View 설계 원칙
+- 로직은 최소화
+- 데이터 바인딩 활용 극대화
+- 적절한 리소스 관리
+- 재사용 가능한 컴포넌트 설계
+
+### 4.3 Model 설계 원칙
+- 순수한 데이터 모델 유지
+- 비즈니스 로직의 명확한 분리
+- 적절한 유효성 검사 구현
+- 데이터 접근 계층과의 명확한 분리
+
+## 5. MVVM 프레임워크
+
+주요 MVVM 프레임워크들:
+- **.NET Community MVVM Toolkit**
+  - Microsoft가 지원하는 공식 도구킷
+  - 가볍고 사용하기 쉬움
+- **Prism**
+  - 풍부한 기능과 강력한 DI 지원
+  - 대규모 앱에 적합
+- **ReactiveUI**
+  - 반응형 프로그래밍 지원
+  - 복잡한 이벤트 처리에 강점
+
+## 6. 성능 최적화 팁
+
+1. **속성 변경 알림 최적화**
+   - 실제 값이 변경될 때만 알림 발생
+   - 배치 업데이트 활용
+
+2. **비동기 작업 관리**
+   ```csharp
+   public async Task LoadDataAsync()
+   {
+       IsBusy = true;
+       try
+       {
+           await Task.Run(() => LoadData());
+       }
+       finally
+       {
+           IsBusy = false;
+       }
+   }
+   ```
+
+3. **메모리 관리**
+   - 이벤트 핸들러 적절한 해제
+   - 리소스 해제 패턴 구현
+
+## 7. 테스트 전략
+
+### 7.1 ViewModel 테스트
+```csharp
+[Test]
+public async Task SaveCommand_ValidData_SavesSuccessfully()
+{
+    // Arrange
+    var viewModel = new ExampleViewModel();
+    viewModel.Name = "Test";
+
+    // Act
+    await viewModel.SaveCommand.ExecuteAsync(null);
+
+    // Assert
+    Assert.That(viewModel.IsSaved, Is.True);
+}
+```
+
+### 7.2 Model 테스트
+- 비즈니스 로직 유닛 테스트
+- 데이터 유효성 검사 테스트
+- 통합 테스트
+
+이러한 MVVM 패턴의 체계적인 구현은 앱의 유지보수성, 테스트 용이성, 확장성을 크게 향상시킵니다.
+
+### 요약
+Model-View-ViewModel(MVVM) 패턴은 애플리케이션의 비즈니스 및 프레젠테이션 로직과 사용자 인터페이스(UI)를 깔끔하게 분리하는 데 도움이 됩니다. 애플리케이션 로직과 UI를 깔끔하게 분리하면 수많은 개발 문제를 해결하는 데 도움이 되며 애플리케이션을 테스트, 유지 관리 및 발전시키기가 더 쉬워집니다. 또한 코드 재사용 기회를 크게 개선하고 개발자와 UI 디자이너가 앱의 각 부분을 개발할 때 보다 쉽게 협업할 수 있습니다. MVVM 패턴을 사용하면 앱의 UI와 기본 프레젠테이션 및 비즈니스 로직이 UI와 UI 로직을 캡슐화하는 뷰, 프레젠테이션 로직과 상태를 캡슐화하는 뷰 모델, 앱의 비즈니스 로직과 데이터를 캡슐화하는 모델의 세 가지 개별 클래스로 분리됩니다.
+
+### 참고
+- [Model-View-ViewModel (MVVM)](https://learn.microsoft.com/en-us/dotnet/architecture/maui/mvvm#the-mvvm-pattern)
+
+---
+
+## MVVM 패턴 비교: Microsoft MVVM vs Android Jetpack ViewModel
+
+## 1. 기본 아키텍처 구조
+
+### Microsoft MVVM
+- **엄격한 MVVM 패턴 준수**
+  - Model, View, ViewModel의 명확한 분리
+  - 데이터 바인딩을 통한 View와 ViewModel 연결
+  - INotifyPropertyChanged를 통한 데이터 변경 알림
+```csharp
+public class MainViewModel : INotifyPropertyChanged
+{
+    private string _title;
+    public string Title
+    {
+        get => _title;
+        set
+        {
+            _title = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+}
+```
+
+### Android Jetpack ViewModel
+- **UI 상태 관리에 중점**
+  - UI 관련 데이터를 저장하고 관리
+  - 구성 변경(화면 회전 등) 시 데이터 유지
+  - LiveData/Flow를 통한 데이터 관찰
+```kotlin
+class MainViewModel : ViewModel() {
+    private val _title = MutableLiveData<String>()
+    val title: LiveData<String> = _title
+
+    fun updateTitle(newTitle: String) {
+        _title.value = newTitle
+    }
+}
+```
+
+## 2. 생명주기 관리
+
+### Microsoft MVVM
+- **수동적인 생명주기 관리**
+  - 개발자가 직접 리소스 해제 관리
+  - IDisposable 구현을 통한 리소스 정리
+  - View의 생명주기와 독립적
+```csharp
+public class MainViewModel : INotifyPropertyChanged, IDisposable
+{
+    private bool disposed = false;
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposed)
+        {
+            if (disposing)
+            {
+                // 리소스 정리
+            }
+            disposed = true;
+        }
+    }
+}
+```
+
+### Android Jetpack ViewModel
+- **자동화된 생명주기 관리**
+  - Activity/Fragment 생명주기와 통합
+  - 구성 변경 시 자동 데이터 보존
+  - onCleared() 메서드를 통한 리소스 정리
+```kotlin
+class MainViewModel : ViewModel() {
+    init {
+        // 초기화 코드
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        // 리소스 정리 코드
+    }
+}
+```
+
+## 3. 데이터 바인딩
+
+### Microsoft MVVM
+- **선언적 양방향 바인딩**
+  - XAML을 통한 직접적인 데이터 바인딩
+  - INotifyPropertyChanged를 통한 자동 UI 업데이트
+  - 커맨드 패턴을 통한 사용자 액션 처리
+```xaml
+<TextBox Text="{Binding Title, Mode=TwoWay}" />
+<Button Command="{Binding SaveCommand}" />
+```
+
+### Android Jetpack ViewModel
+- **관찰 가능한 데이터 홀더 사용**
+  - LiveData/Flow를 통한 데이터 스트림
+  - 데이터 바인딩 라이브러리 필요
+  - 코루틴과의 통합
+```kotlin
+// XML 레이아웃
+<TextView
+    android:text="@{viewModel.title}"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+// Activity/Fragment
+viewModel.title.observe(viewLifecycleOwner) { title ->
+    binding.titleTextView.text = title
+}
+```
+
+## 4. 상태 관리
+
+### Microsoft MVVM
+- **속성 기반 상태 관리**
+  - 개별 속성들의 변경 알림
+  - 명령형 상태 업데이트
+```csharp
+public class MainViewModel : INotifyPropertyChanged
+{
+    private bool _isLoading;
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set
+        {
+            _isLoading = value;
+            OnPropertyChanged();
+        }
+    }
+}
+```
+
+### Android Jetpack ViewModel
+- **단방향 데이터 흐름 권장**
+  - StateFlow/SharedFlow를 통한 상태 관리
+  - UI 상태를 불변 객체로 관리
+```kotlin
+class MainViewModel : ViewModel() {
+    private val _uiState = MutableStateFlow(UiState())
+    val uiState: StateFlow<UiState> = _uiState.asStateFlow()
+
+    data class UiState(
+        val isLoading: Boolean = false,
+        val title: String = "",
+        val error: String? = null
+    )
+}
+```
+
+## 5. 비동기 처리
+
+### Microsoft MVVM
+- **Task 기반 비동기 처리**
+  - async/await 패턴
+  - ICommand를 통한 비동기 작업 실행
+```csharp
+public class MainViewModel
+{
+    public async Task LoadDataAsync()
+    {
+        IsLoading = true;
+        try
+        {
+            await _repository.GetDataAsync();
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+}
+```
+
+### Android Jetpack ViewModel
+- **코루틴 기반 비동기 처리**
+  - viewModelScope를 통한 코루틴 관리
+  - 생명주기 인식 비동기 작업
+```kotlin
+class MainViewModel : ViewModel() {
+    fun loadData() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            try {
+                val data = repository.getData()
+                _uiState.update { it.copy(
+                    data = data,
+                    isLoading = false
+                ) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(
+                    error = e.message,
+                    isLoading = false
+                ) }
+            }
+        }
+    }
+}
+```
+
+## 6. 주요 차이점 요약
+
+1. **아키텍처 철학**
+   - Microsoft MVVM: 완전한 MVVM 패턴 구현 중시
+   - Jetpack ViewModel: UI 상태 관리와 생명주기 처리 중심
+
+2. **생명주기 관리**
+   - Microsoft MVVM: 수동적 관리 필요
+   - Jetpack ViewModel: 프레임워크 레벨의 자동 관리
+
+3. **데이터 바인딩**
+   - Microsoft MVVM: 네이티브 양방향 바인딩
+   - Jetpack ViewModel: 관찰자 패턴 기반 단방향 흐름
+
+4. **상태 관리**
+   - Microsoft MVVM: 속성 기반 반응형 업데이트
+   - Jetpack ViewModel: 불변 상태 객체와 단방향 데이터 흐름
+
+5. **비동기 처리**
+   - Microsoft MVVM: Task 기반
+   - Jetpack ViewModel: 코루틴 기반
