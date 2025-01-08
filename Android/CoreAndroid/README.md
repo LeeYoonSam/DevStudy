@@ -13,11 +13,10 @@
 - [매니페스트 파일](#매니페스트-파일)
 - [안드로이드 어플리케이션의 프로젝트 구조](#안드로이드-어플리케이션의-프로젝트-구조)
 - [Android Context](#android-context)
-- [What is requireActivity?](#what-is-requireactivity)
-- [Pro-guard 의 용도는?](#pro-guard-의-용도는)
-- [Pending Intent 를 사용해서 액티비티를 시작하는 방법은?](#pending-intent-를-사용해서-액티비티를-시작하는-방법은)
-- [안드로이드 앱 프로세스 분리하기](#안드로이드-앱-프로세스-분리하기)
-- [서비스와 액티비티 간에 활용할 수 있는 IPC](#서비스와-액티비티-간에-활용할-수-있는-ipc)
+- [Android Intent](#android-intent)
+- [Intent Filter 활용 방법](#intent-filter-활용-방법)
+- [PendingIntent란 무엇일까요?](#pendingintent란-무엇일까요)
+- [Proguard란 무엇이며, 왜 사용할까요?](#proguard란-무엇이며-왜-사용할까요)
 - [Navigation Component](#navigation-component)
 - [Lifecycle](#lifecycle)
 - [LifecycleOwner](#lifecycleowner)
@@ -472,76 +471,202 @@ Parcelable은 안드로이드에서 객체를 직렬화하여 데이터를 전�
 
 ---
 
-## [Android Context](https://blog.mindorks.com/understanding-context-in-android-application-330913e32514)
+## [Android Context](https://lakue.tistory.com/82)
+Context는 안드로이드 앱의 현재 상태와 환경에 대한 정보를 담고 있는 객체라고 할 수 있습니다. 쉽게 말해, 앱이 어떤 상황에서 실행되고 있는지에 대한 맥락(context)을 제공하는 것이죠.
 
-The Context in Android is actually the context of what we are talking about and where we are currently present. This will become more clear as we go along with this.
+### 왜 Context가 필요할까요?
+- 리소스 접근: 문자열, 이미지, 레이아웃 등 앱의 리소스에 접근하기 위해 Context가 필요합니다.
+- 시스템 서비스 접근: 시스템 서비스(예: 알람 관리자, 위치 관리자)를 사용하려면 Context가 필요합니다.
+- Intent 생성: 다른 액티비티나 서비스를 시작하기 위한 Intent를 생성할 때 Context가 필요합니다.
+- 뷰 생성: 레이아웃을 inflate하여 뷰를 생성할 때 Context가 필요합니다.
 
-Few important points about the context:
+### Context의 종류
+- Application Context: 앱 전체의 생명주기를 따라가는 Context입니다. 앱이 실행되는 동안 항상 존재하며, 앱 레벨의 작업(예: SharedPreferences, 데이터베이스 접근)에 사용됩니다.
+- Activity Context: 특정 액티비티의 생명주기를 따르는 Context입니다. 액티비티와 관련된 작업(예: 뷰 생성, 다이얼로그 표시)에 사용됩니다.
 
-- It is the context of the current state of the application. (컨텍스트는 애플리케이션의 현재 상태)
-- It can be used to get information regarding the activity and application. (액티비티와 애플리케이션의 정보를 가져오는데 사용)
-- It can be used to get access to resources, databases, and shared preferences, and etc. (리소스에 접근하거나 데이터베이스, 쉐어드 프리퍼런스 등에 접근할때 사용)
-- Both the Activity and Application classes extend the Context class. (액티비티와 애플리케이션 클래스를 구현할때 컨텍스트를 확장)
-- Context is almost everywhere in Android Development and it is the most important thing in Android Development, so we must understand to use it correctly.(컨텍스트는 거의 모든 안드로이드 개발에 사용하고 가장 중요하다.)
-- Wrong use of Context can easily lead to memory leaks in an android application. (컨텍스트를 잘못 사용하면 안드로이드 애플리케이션에서 메모리 릭이 발생하기 쉽다.)
+### Context 사용 시 주의할 점
+- 메모리 누수: Context는 메모리 누수의 주범이 될 수 있습니다. 특히, Activity Context를 장기간 유지하면 메모리 누수가 발생할 수 있습니다.
+- 잘못된 사용: Context를 잘못 사용하면 예상치 못한 동작이 발생할 수 있습니다. 예를 들어, Activity Context를 ViewModel에서 사용하면 메모리 누수가 발생할 수 있습니다.
 
-### Application Context
+### Context 사용 예시
+```kotlin
+class MyActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-- 컨텍스트는 애플리케이션의 수명 주기와 연결됩니다. 애플리케이션 컨텍스트는 라이프사이클이 현재 컨텍스트와 분리된 컨텍스트가 필요하거나 Activity 범위를 넘어 컨텍스트를 전달할 때 사용할 수 있습니다.
+        // 리소스 접근
+        val myString = getString(R.string.app_name)
 
-### Activity Context
+        // 시스템 서비스 접근
+        val getSystemService = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-- 이 컨텍스트는 액티비티의 수명 주기와 연결됩니다. 액티비티 범위에서 컨텍스트를 전달하거나 현재 컨텍스트에 라이프사이클이 연결된 컨텍스트가 필요할 때 액티비티 컨텍스트를 사용해야 합니다.
-
-## What is requireActivity?
-
-- null이 아닌 Activity 인스턴스를 Fragment 로 반환하거나 예외를 throw하는 requireActivity() 메서드.
-- 프래그먼트의 생명 주기에서 액티비티를 사용할때 requireActivity()를 사용. activity 가 null 이면 throw 를 발생 시킨다.
-- requireActivity 를 사용하지 않으면 fragment 에서 activity 가 null 이 될 가능성이 있으면 NullPointerException을 피하기 위해 try-catch 블록 안에 넣어야 한다.
-
----
-
-## Pro-guard 의 용도는?
-
-- 애플리케이션의 크기를 줄입니다.
-- Android 애플리케이션의 64K 메서드 개수 제한에 기여하는 사용되지 않는 클래스 및 메서드를 제거합니다.
-- 코드를 난독화하여 애플리케이션을 리버스 엔지니어링하기 어렵게 만듭니다.
-
----
-
-## Pending Intent 를 사용해서 액티비티를 시작하는 방법은?
-
-```java
-Intent intent = new Intent(getApplicationContext(), ActivityToLaunch.class);
-intent.putExtra(<oneOfThePutExtraFunctions>);
-PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
+        // Intent 생성
+        val intent = Intent(this, SecondActivity::class.java)
+        startActivity(intent)
+    }
+}
 ```
 
----
-
-## [안드로이드 앱 프로세스 분리하기](https://brunch.co.kr/@huewu/4)
-
-> 안드로이드 앱을 구현할 때 경우에 따라 서비스를 별도의 프로세스로 구분하는 것이 유리할 수 있습니다.
-프로세스를 분리하면 어떤 장점이 있는지, 그리고 이때 서비스와 액티비티 간 통신을 위해 어떤 방법을 사용할 수 있는지 정리
+### Context를 올바르게 사용하는 방법
+- 필요한 Context 사용: 작업의 종류에 따라 적절한 Context를 사용해야 합니다.
+- 메모리 누수 방지: Context를 불필요하게 오래 유지하지 않도록 주의해야 합니다.
+- ViewModel에서 Context 사용 시 주의: ViewModel에서는 Application Context를 사용하는 것이 일반적입니다.
 
 ---
 
-## [서비스와 액티비티 간에 활용할 수 있는 IPC](https://brunch.co.kr/@huewu/4)
+## Android Intent
+Intent는 안드로이드 앱의 다양한 구성 요소(Activity, Service, BroadcastReceiver 등) 간의 통신을 위한 메시지 객체라고 할 수 있습니다. 즉, 어떤 작업을 수행하라는 명령과 함께 필요한 데이터를 담아 다른 컴포넌트에게 전달하는 역할을 합니다.
 
-> 안드로이드에서 제공하는 IPC(Inter Process Communication) 메커니즘을 이용해 기존 비즈니스 로직을 수정해야 합니다. 안드로이드에서 IPC는 기본적으로 바인더(Binder) 라는 고성능의 RPC(Remote Procedure Call) 메커니즘을 근간으로 구현되어 있습니다.
+### Intent의 주요 기능
+- 액티비티 시작: 새로운 액티비티를 실행하거나 기존 액티비티로 이동할 때 사용합니다.
+- 서비스 시작: 서비스를 시작하거나 바인딩할 때 사용합니다.
+- 브로드캐스트 전달: 브로드캐스트를 전송하여 시스템이나 다른 앱에 특정 이벤트를 알릴 때 사용합니다.
 
-### Parcel과 Parcelable
+### Intent의 종류
+- 명시적 Intent: 특정 컴포넌트(Activity, Service 등)를 직접 지정하여 실행하는 Intent입니다.
+- 암시적 Intent: 수행할 작업만 지정하고, 시스템에서 적합한 컴포넌트를 찾아 실행하는 Intent입니다.
 
-> 프로세스를 분리하면, 두 프로세스는 각기 별도의 힙 공간을 부여받으며, 서로 메모리 공간을 공유하지 않습니다.
-다시 말해 데이터를 주고 받을 때 객체 인스턴스를 직접 주고받을 수 없고, 프로세스를 건너 객체 인스턴스를 전달하기 위해서는 해당 인스턴스를 직렬화(Serialization) 하여 별도의 포맷으로 변경해야 합니다.
-안드로이드는 프로세스를 띄어 넘어 전달될 수 있는 Parcel 객체라는 컨테이너 포맷을 제공하며, 모든 객체는 Parcelable 인터페이스를 구현하여 자신이 Parcel 형태로 변환될 수 있다는 것을 나타낼 수 있습니다.
-백그라운드 서비스와 액티비티 간에 주고받아야 하는 객체가 있다면, 해당 클래스는 Parcelable 인터페이스를 구현하고 있어야 하며, 해당 객체를 Parcel 형태로 변환하고 Parcel 형태에서 다시 해당 객체를 생성할 수 있도록 직렬화/역직렬화 방법이 정의되어 있어야 합니다.
+### Intent의 구성 요소
+- Action: 수행할 작업을 나타내는 문자열입니다. 예) ACTION_VIEW, ACTION_SEND 등
+- Data: 작업에 필요한 데이터를 나타내는 URI입니다.
+- Category: Intent의 추가적인 정보를 제공합니다. 예) CATEGORY_BROWSABLE, CATEGORY_LAUNCHER 등
+- Extra: 추가적인 데이터를 key-value 형태로 전달할 때 사용합니다.
 
-**사용법**
+### Intent 사용 예시
+```kotlin
+// 명시적 Intent: 특정 Activity 시작
+val intent = Intent(this, SecondActivity::class.java)
+startActivity(intent)
 
-1. Parcel 객체를 생성하고 프리미티브 타입의 데이터를 쓴다.
-2. Parcel 객체에 저장된 프리미티브 타입의 데이터를 읽어서 화면에 출력한다.
-3. Parcel 객체는 직렬화된 데이터 형식으로 저장하므로 꼭 데이터를 추가한 순서대로 읽어야 한다. 많일 쓴 순서대로 읽지 않으면 엉뚱한 값을 참조하게 된다.
+// 암시적 Intent: 웹 브라우저 열기
+val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.example.com"))
+startActivity(intent)
+
+// 데이터 전달
+val intent = Intent(this, SecondActivity::class.java)
+intent.putExtra("data", "Hello, World!")
+startActivity(intent)
+```
+
+### Intent Filter
+암시적 Intent를 사용할 때, 시스템은 어떤 컴포넌트가 이 Intent를 처리할 수 있는지 판단하기 위해 Intent Filter를 사용합니다. Intent Filter는 AndroidManifest.xml 파일에 정의되며, 해당 컴포넌트가 처리할 수 있는 Intent의 종류를 명시합니다.
+
+### Intent의 활용
+- 앱 간 데이터 공유: 다른 앱의 기능을 활용하거나, 데이터를 주고받을 때 사용합니다. (예: 사진 공유, 지도 앱에서 위치 검색)
+- 시스템 서비스 호출: 시스템 서비스(예: 알람, 위치 정보)를 이용할 때 사용합니다.
+- 앱 내부 컴포넌트 간 통신: 다양한 액티비티, 서비스, 브로드캐스트 리시버 간의 통신을 위해 사용합니다.
+
+### 왜 Intent를 사용해야 할까요?
+- 앱 구성 요소 간의 느슨한 결합: 각 컴포넌트는 Intent를 통해 서로를 명확하게 알 필요 없이 통신할 수 있습니다.
+- 재사용성: Intent를 통해 다양한 앱에서 동일한 작업을 수행할 수 있습니다.
+- 확장성: 새로운 기능을 추가할 때 기존 코드에 영향을 미치지 않고 Intent를 통해 연결할 수 있습니다.
+
+**결론적으로,** Intent는 안드로이드 앱 개발에서 매우 중요한 개념입니다. 앱 구성 요소 간의 유연하고 효율적인 통신을 가능하게 하며, 앱의 확장성과 재사용성을 높이는 데 기여합니다.
+
+---
+
+## Intent Filter 활용 방법
+Intent Filter는 안드로이드 앱에서 특정 컴포넌트(Activity, Service, BroadcastReceiver)가 처리할 수 있는 Intent의 종류를 명시하는 데 사용됩니다. 즉, 어떤 종류의 작업 요청을 받아들일 수 있는지를 정의하는 역할을 합니다.
+
+### Intent Filter를 사용하는 이유
+- 암시적 Intent 처리: 앱 외부에서 특정 작업을 요청할 때, 시스템은 Intent Filter를 참고하여 해당 작업을 처리할 수 있는 컴포넌트를 찾습니다.
+- 앱 간 통합: 다른 앱에서 제공하는 기능을 활용하거나, 자신의 앱 기능을 다른 앱에 제공할 수 있도록 합니다.
+- 시스템 서비스 연동: 시스템 서비스(예: 알람, 위치 서비스)를 사용할 때, Intent Filter를 통해 해당 서비스와 통신할 수 있습니다.
+
+### Intent Filter 구성 요소
+- action: 수행할 작업을 나타내는 문자열 (예: ACTION_VIEW, ACTION_SEND)
+- data: 작업에 필요한 데이터를 나타내는 URI
+- category: Intent의 추가적인 정보를 제공 (예: CATEGORY_BROWSABLE, CATEGORY_LAUNCHER)
+
+### Intent Filter 설정 예시
+```xml
+<activity android:name=".MainActivity">
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:mimeType="text/plain" />
+    </intent-filter>
+</activity>
+```
+위 예시는 MainActivity가 "text/plain" 형식의 데이터를 보여주는 작업(ACTION_VIEW)을 처리할 수 있음을 나타냅니다.
+
+### Intent Filter 활용 시 주의사항
+- 정확한 설정: 잘못된 Intent Filter 설정은 의도하지 않은 결과를 초래할 수 있습니다.
+- 보안: 암시적 Intent를 사용할 때는 보안에 유의해야 합니다. 악의적인 앱이 임의의 Intent를 보내 앱의 기능을 오용할 수 있기 때문입니다.
+
+---
+
+## PendingIntent란 무엇일까요?
+PendingIntent는 Intent를 감싸서 특정 조건이나 시간에 실행될 수 있도록 만든 객체입니다. 즉, 지금 당장 실행되지 않고, 나중에 특정한 상황에서 실행될 Intent를 미리 준비해 놓는다고 생각하면 됩니다.
+
+### PendingIntent를 사용하는 이유
+- 알림: 알림을 클릭했을 때 특정 액티비티를 실행하거나 브로드캐스트를 전송할 때 사용합니다.
+- 위젯: 위젯에서 버튼을 클릭했을 때 특정 작업을 수행하도록 설정할 때 사용합니다.
+- 알람: 특정 시간에 작업을 수행하도록 예약할 때 사용합니다.
+
+### PendingIntent 생성 방법
+```kotlin
+val pendingIntent = PendingIntent.getActivity(
+    this,
+    0,
+    intent,
+    PendingIntent.FLAG_UPDATE_CURRENT
+)
+```
+- getActivity: 액티비티를 시작하는 PendingIntent 생성
+- getService: 서비스를 시작하는 PendingIntent 생성
+- getBroadcast: 브로드캐스트를 전송하는 PendingIntent 생성
+
+### PendingIntent 사용 예시
+- 알림: NotificationManager를 통해 Notification을 생성하고, PendingIntent를 사용하여 알림을 클릭했을 때 실행될 Intent를 설정합니다.
+- AlarmManager: AlarmManager를 통해 특정 시간에 PendingIntent를 실행하여 작업을 수행하도록 예약합니다.
+
+### PendingIntent와 Intent의 차이점
+
+구분 | Intent | PendingIntent
+--- | --- | ---
+설명 | 즉시 실행되는 메시지 | 나중에 실행될 메시지를 감싸는 객체
+용도 | 컴포넌트 간 통신 | 알림, 위젯, 알람 등
+생성 방식 | Intent 객체 생성 | PendingIntent.getActivity(), PendingIntent.getService() 등
+
+
+### 결론
+Intent Filter는 앱의 기능을 확장하고 다른 앱과의 연동을 가능하게 합니다. PendingIntent는 특정 조건이나 시간에 Intent를 실행할 수 있도록 하여 앱의 기능을 더욱 풍부하게 만들어 줍니다.
+
+---
+
+## ProGuard란 무엇이며, 왜 사용할까요?
+ProGuard는 자바 코드를 축소, 최적화, 난독화하는 오픈 소스 도구입니다. 특히 안드로이드 앱 개발에서 APK 파일의 크기를 줄이고, 역공학을 어렵게 만들어 앱 보안을 강화하는 데 널리 사용됩니다.
+
+### ProGuard의 주요 기능
+- 축소(Shrink): 앱에서 실제로 사용되지 않는 클래스, 메서드, 필드 등을 제거하여 APK 파일의 크기를 줄입니다.
+- 최적화(Optimize): 바이트코드를 분석하여 불필요한 코드를 제거하고, 실행 속도를 향상시킵니다.
+- 난독화(Obfuscate): 클래스, 메서드, 필드의 이름을 짧고 의미 없는 문자열로 변경하여 역공학을 어렵게 만듭니다.
+
+### ProGuard를 사용하는 이유
+- APK 파일 크기 감소: 불필요한 코드를 제거하여 APK 파일의 크기를 줄여 다운로드 시간을 단축하고, 사용자 디바이스의 저장 공간을 절약합니다.
+- 앱 보안 강화: 난독화를 통해 코드를 읽기 어렵게 만들어 역공학을 통한 앱 분석을 어렵게 합니다. 이는 앱의 지적 재산을 보호하고, 불법적인 수정이나 복제를 방지하는 데 도움이 됩니다.
+- 성능 향상: 최적화를 통해 앱의 실행 속도를 향상시킬 수 있습니다.
+
+### ProGuard 사용 시 주의사항
+- 잘못된 설정: ProGuard 설정을 잘못하면 앱이 정상적으로 작동하지 않을 수 있습니다. 특히, 사용자 정의 클래스나 라이브러리에 대한 예외 처리가 필요할 수 있습니다.
+- 완벽한 보안 보장 X: ProGuard는 앱을 완벽하게 보호하는 것은 아닙니다. 결정적인 보안은 서버 측 보안과 결합하여 구현해야 합니다.
+- 난독화의 한계: 난독화는 코드를 읽기 어렵게 만들지만, 충분한 시간과 노력을 들이면 역공학이 가능합니다.
+
+### ProGuard 설정
+ProGuard는 proguard-rules.pro 파일에서 설정합니다. 이 파일에서 keep 규칙을 통해 보호해야 할 클래스, 메서드, 필드 등을 지정할 수 있습니다.
+```
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+```
+위 예시는 Activity, Application, Service 클래스를 보호하는 규칙입니다.
+
+### 결론
+ProGuard는 안드로이드 앱 개발에서 필수적인 도구입니다. APK 파일의 크기를 줄이고, 앱의 보안을 강화하며, 성능을 향상시키는 데 큰 도움을 줍니다. 하지만 ProGuard 설정에 주의를 기울여야 하고, 앱의 특성에 맞는 적절한 설정을 해야 합니다.
+
+---
 
 ### 인텐트(Intent)
 
