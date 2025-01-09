@@ -716,13 +716,48 @@ ProGuard는 안드로이드 앱 개발에서 필수적인 도구입니다. APK �
 
 ## Navigation Component
 
-> 탐색은 사용자가 앱 내의 여러 콘텐츠를 탐색하고, 그곳에 들어갔다 나올 수 있게 하는 상호작용을 의미합니다. Android Jetpack의 탐색 구성요소는 단순한 버튼 클릭해서 좀 더 복잡한 패턴(앱바, 탐색 창)에 이르기까지 여러 가지 탐색을 구현하도록 도와줍니다. 탐색 구성요소는 기존의 원칙을 준수하여 일관적이고 예측 가능한 사용자 환경을 보장합니다.
+Navigation Component는 안드로이드 Jetpack Compose 라이브러리의 일부로, 앱 내에서 다양한 화면 간의 이동을 관리하고, 딥 링크, 백 스택 등 복잡한 네비게이션 시나리오를 효율적으로 처리하기 위한 도구입니다.
 
-### 탐색 구성요소 세 가지 주요 부분
+### 왜 Navigation Component를 사용해야 할까요?
+- 간편한 화면 전환: XML 파일이나 Kotlin 코드를 통해 간단하게 화면 전환을 정의할 수 있습니다.
+- 백 스택 관리: 시스템이 자동으로 백 스택을 관리하여 사용자가 뒤로 가기 버튼을 누를 때 이전 화면으로 자연스럽게 이동합니다.
+- 딥 링크 지원: 앱 외부에서 특정 화면으로 바로 이동하는 딥 링크를 쉽게 설정할 수 있습니다.
+- Safe Args: 화면 간에 데이터를 안전하게 전달할 수 있도록 지원합니다.
+- Jetpack Compose와의 완벽한 통합: Jetpack Compose와 함께 사용하여 더욱 직관적인 UI를 구축할 수 있습니다.
 
-- 탐색 그래프: 모든 탐색 관련 정보가 하나의 중심 위치에 모여 있는 XML 리소스입니다. 여기에는 대상이라고 부르는 앱 내의 모든 개별적 콘텐츠 영역과 사용자가 앱에서 갈 수 있는 모든 이용 가능한 경로가 포함됩니다.
-- NavHost: 탐색 그래프에서 대상을 표시하는 빈 컨테이너입니다. 대상 구성요소에는 프래그먼트 대상을 표시하는 기본 NavHost 구현인 NavHostFragment가 포함됩니다.
-- NavController: NavHost에서 앱 탐색을 관리하는 객체입니다. NavController는 사용자가 앱 내에서 이동할 때 NavHost에서 대상 콘텐츠의 전환을 오케스트레이션합니다.
+### Navigation Component의 주요 구성 요소
+- NavHost: 앱 내에서 네비게이션이 발생하는 공간을 나타냅니다.
+- NavGraph: NavHost에서 사용되는 네비게이션 그래프를 정의합니다.
+- NavHostController: NavGraph를 통해 화면 전환을 제어하는 클래스입니다.
+- Destination: NavGraph에서 정의된 각 화면을 나타냅니다.
+- Action: 한 Destination에서 다른 Destination으로 이동하는 동작을 나타냅니다.
+
+### Navigation Component 사용 예시
+```kotlin
+// XML 레이아웃에서 NavHost 설정
+<androidx.navigation.fragment.NavHostFragment
+    android:id="@+id/nav_host_fragment"
+    android:name="androidx.navigation.fragment.NavHostFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:defaultNavHost="true"
+    app:navGraph="@navigation/nav_graph" />
+
+// Kotlin 코드에서 NavHostController 가져오기
+val navController = findNavController(R.id.nav_host_fragment)
+
+// 다른 화면으로 이동
+navController.navigate(R.id.secondFragment)
+```
+
+### Navigation Component의 장점
+- 코드 가독성 향상: 복잡한 화면 전환 로직을 간결하게 표현할 수 있습니다.
+- 유지보수성 향상: 네비게이션 관련 코드를 한 곳에서 관리할 수 있어 유지보수가 용이합니다.
+- 안정적인 화면 전환: 시스템에서 백 스택을 자동으로 관리하여 예기치 않은 문제 발생 가능성을 줄입니다.
+- Jetpack Compose와의 시너지: Jetpack Compose와 함께 사용하면 더욱 유연하고 강력한 UI를 구축할 수 있습니다.
+
+### 결론
+Navigation Component는 안드로이드 앱의 네비게이션을 효율적으로 관리하고 개발 생산성을 향상시키는 데 큰 도움을 줍니다. 특히 Jetpack Compose와의 결합을 통해 더욱 강력한 기능을 제공합니다.
 
 ### 참고
 
@@ -734,109 +769,90 @@ ProGuard는 안드로이드 앱 개발에서 필수적인 도구입니다. APK �
 ---
 
 ## Lifecycle
+안드로이드 앱의 구성 요소(Activity, Fragment, Service 등)는 사용자의 상호 작용이나 시스템 이벤트에 따라 상태가 변화합니다. 이러한 상태 변화를 추적하고 관리하는 것을 **라이프사이클(Lifecycle)**이라고 합니다.
 
-> Android 수명 주기가 있는 개체를 정의합니다. Fragment 및 FragmentActivity 클래스는 Lifecycle에 액세스하기 위한 getLifecycle 메서드가 있는 LifecycleOwner 인터페이스를 구현합니다. 자체 클래스에서 LifecycleOwner를 구현할 수도 있습니다.
+### 왜 라이프사이클을 이해해야 할까요?
+- 자원 관리: 앱이 실행되는 동안 시스템 자원을 효율적으로 관리하기 위해서는 각 구성 요소의 상태에 따라 적절한 자원을 할당하고 해제해야 합니다.
+- 데이터 유지: 사용자가 앱을 잠시 떠났다가 다시 돌아왔을 때, 이전 상태를 복원하기 위해서는 라이프사이클 이벤트를 활용해야 합니다.
+- 예외 처리: 예상치 못한 상황(예: 화면 회전, 메모리 부족)이 발생했을 때, 앱이 안정적으로 동작하도록 하기 위해 라이프사이클 메서드를 오버라이드하여 처리해야 합니다.
 
-- Lifecycle은 Activity이나 프래그먼트와 같은 구성요소의 수명 주기 상태 관련 정보를 포함하며 다른 객체가 이 상태를 관찰할 수 있게 하는 클래스입니다.
+### Activity 라이프사이클 예시
+Activity는 가장 흔하게 사용되는 앱 구성 요소이며, 다음과 같은 주요 라이프사이클 메서드를 가지고 있습니다.
+- onCreate(): Activity가 처음 생성될 때 호출됩니다. UI 초기화, 데이터 로딩 등을 수행합니다.
+- onStart(): Activity가 사용자에게 보여지기 직전에 호출됩니다.
+- onResume(): Activity가 사용자와 상호 작용할 준비가 완료되었을 때 호출됩니다.
+- onPause(): 다른 Activity로 포커스가 이동할 때 호출됩니다.
+- onStop(): Activity가 더 이상 사용자에게 보이지 않을 때 호출됩니다.
+- onDestroy(): Activity가 완전히 파괴되기 직전에 호출됩니다.
 
-- Lifecycle은 두 가지 기본 열거를 사용하여 연결된 구성요소의 수명 주기 상태를 추적합니다.
+### Fragment 라이프사이클
+Fragment는 Activity 내에서 독립적인 UI를 제공하는 구성 요소입니다. Activity 라이프사이클과 유사한 메서드를 가지며, 추가적으로 Activity와의 상호 작용에 따른 메서드가 있습니다.
 
-### 이벤트
+### Service 라이프사이클
+Service는 백그라운드에서 오랫동안 실행되는 작업을 수행하는 구성 요소입니다. Activity와 달리 UI를 가지지 않으며, onStartCommand() 메서드를 통해 시작됩니다.
 
-> 프레임워크 및 Lifecycle 클래스에서 전달되는 수명 주기 이벤트입니다. 이러한 이벤트는 Activity과 프래그먼트의 콜백 이벤트에 매핑됩니다.
+### 라이프사이클 관리
+- onSaveInstanceState(): Activity가 비정상적으로 종료될 경우, 상태를 저장하기 위해 호출됩니다.
+- onRestoreInstanceState(): 저장된 상태를 복원하기 위해 호출됩니다.
+- ViewModel: UI와 데이터를 분리하여 상태를 관리하는 패턴입니다. LiveData를 사용하여 데이터의 변화를 관찰하고 UI를 업데이트할 수 있습니다.
 
-### 상태
+### 라이프사이클 관련 중요 개념
+- 백 스택: Activity가 이동할 때 시스템은 백 스택에 이전 Activity를 저장합니다. 사용자가 뒤로 가기 버튼을 누르면 백 스택에서 이전 Activity를 복원합니다.
+- 프로세스: 안드로이드 시스템은 메모리 부족 상황에서 프로세스를 종료할 수 있습니다. 이 경우, Activity가 다시 생성될 때 이전 상태를 복원해야 합니다.
 
-> Lifecycle 객체가 추적한 구성요소의 현재 상태입니다.
-
-![Lifecycle State](./images/lifecycle-state.png)
-
-- 상태를 그래프의 노드로, 이벤트를 이 노드 사이의 가장자리로 생각하세요.
-- 클래스는 DefaultLifecycleObserver를 구현하고 onCreate, onStart 등의 상응하는 메서드를 재정의하여 구성요소의 수명 주기 상태를 모니터링할 수 있습니다. 그러면 개발자는 다음 예에 나와 있는 것처럼 Lifecycle 클래스의 addObserver() 메서드를 호출하고 관찰자의 인스턴스를 전달하여 관찰자를 추가할 수 있습니다.
-
-```kotlin
-class MyObserver : DefaultLifecycleObserver {
-    override fun onResume(owner: LifecycleOwner) {
-        connect()
-    }
-
-    override fun onPause(owner: LifecycleOwner) {
-        disconnect()
-    }
-}
-
-myLifecycleOwner.getLifecycle().addObserver(MyObserver())
-```
-
-- 위 예에서 myLifecycleOwner 객체는 LifecycleOwner 인터페이스를 구현합니다. 이 내용은 다음 섹션에서 설명합니다.
+### 라이프사이클 관리의 중요성
+- 메모리 누수 방지: 더 이상 사용하지 않는 객체를 해제하여 메모리 누수를 방지합니다.
+- 안정적인 앱 구현: 예상치 못한 상황에 대비하여 앱이 안정적으로 동작하도록 합니다.
+- 사용자 경험 향상: 매끄러운 화면 전환과 데이터 유지를 통해 사용자 경험을 향상시킵니다.
 
 ### 참고
-
 - [Lifecycle](https://developer.android.com/reference/androidx/lifecycle/Lifecycle)
+- [생명주기에 대해서 - 안드로이드 개발자 인민군](https://androidpangyo.tistory.com/52)
+- [안드로이드 생명주기(Lifecycle) 가 뭐에요?](https://won-percent.tistory.com/145)
 
 ---
 
 ## LifecycleOwner
+LifecycleOwner는 안드로이드 앱의 구성 요소(Activity, Fragment 등)의 생명 주기를 나타내는 인터페이스입니다. 
+쉽게 말해, 어떤 컴포넌트가 현재 어떤 상태인지 (생성되었는지, 파괴되었는지 등)를 알려주는 역할을 합니다.
 
-> Android 수명 주기가 있는 클래스입니다. 이러한 이벤트는 Activity 또는 프래그먼트 내부에 코드를 구현하지 않고 수명 주기 변경을 처리하기 위해 사용자 지정 구성 요소에서 사용할 수 있습니다.
+### 왜 LifecycleOwner가 필요할까요?
+- LiveData와의 연동: LiveData는 LifecycleOwner와 함께 사용되어 데이터의 생명 주기를 관리합니다. 즉, LifecycleOwner의 상태에 따라 LiveData의 값이 업데이트되거나 관찰이 해제됩니다.
+- 안전한 데이터 바인딩: 데이터 바인딩 시 LifecycleOwner를 사용하면 구성 요소가 파괴된 후에도 데이터가 업데이트되는 것을 방지하여 메모리 누수를 예방할 수 있습니다.
+- MVVM 패턴: MVVM 패턴에서 ViewModel과 View를 연결하는 데 사용됩니다. ViewModel은 LiveData를 통해 데이터를 제공하고, View는 LifecycleOwner를 통해 LiveData를 관찰합니다.
 
-- LifecycleOwner는 클래스에 Lifecycle이 있음을 나타내는 단일 메서드 인터페이스입니다. 이 인터페이스에는 클래스에서 구현해야 하는 getLifecycle() 메서드가 하나 있습니다. 대신 전체 애플리케이션 프로세스의 수명 주기를 관리하려는 경우 ProcessLifecycleOwner를 참고하세요.
+### LifecycleOwner와 LiveData의 관계
+LiveData는 데이터를 저장하고, 관찰자(Observer)에게 데이터 변경 사항을 알리는 객체입니다. LifecycleOwner는 LiveData가 어떤 객체를 관찰해야 하는지를 알려주는 역할을 합니다.
 
-- 이 인터페이스는 Fragment 및 AppCompatActivity와 같은 개별 클래스에서 Lifecycle의 소유권을 추출하고, 함께 작동하는 구성요소를 작성할 수 있게 합니다. 모든 맞춤 애플리케이션 클래스는 LifecycleOwner 인터페이스를 구현할 수 있습니다.
+- LiveData.observe(LifecycleOwner, Observer): 이 메서드를 통해 LiveData는 LifecycleOwner의 생명 주기를 관찰하고, LifecycleOwner가 활성 상태일 때만 Observer에게 데이터를 전달합니다.
+- LifecycleOwner가 파괴될 때: LiveData는 자동으로 Observer를 제거하여 메모리 누수를 방지합니다.
 
-- 관찰자가 관찰을 위해 등록할 수 있는 수명 주기를 소유자가 제공할 수 있으므로, DefaultLifecycleObserver를 구현하는 구성요소는 LifecycleOwner를 구현하는 구성요소와 원활하게 작동합니다.
+### LifecycleOwner와 viewLifecycleOwner의 차이점
+- LifecycleOwner: Activity나 Fragment 전체의 생명 주기를 나타냅니다.
+- viewLifecycleOwner: Fragment의 View의 생명 주기를 나타냅니다. Fragment의 View가 생성되고 파괴될 때 사용됩니다.
 
-- 위치 추적 예에서는 MyLocationListener 클래스에서 DefaultLifecycleObserver를 구현하도록 한 후 onCreate() 메서드에서 Activity의 Lifecycle로 클래스를 초기화할 수 있습니다. 이렇게 하면 MyLocationListener 클래스가 자립할 수 있습니다. 즉, 수명 주기 상태의 변경에 반응하는 로직이 Activity 대신 MyLocationListener에서 선언됩니다. 개별 구성요소가 자체 로직를 저장하도록 설정하면 Activity과 프래그먼트 로직을 더 쉽게 관리할 수 있습니다.
+### 언제 LifecycleOwner를 사용해야 할까요?
+- LiveData를 사용할 때: LiveData와 함께 사용하여 데이터를 안전하게 관리하고, 불필요한 메모리 누수를 방지해야 할 때 사용합니다.
+- MVVM 패턴을 사용할 때: ViewModel과 View를 연결하여 데이터를 바인딩할 때 사용합니다.
+- 뷰의 생명 주기를 관리해야 할 때: Fragment에서 View의 생명 주기를 관리해야 할 때 viewLifecycleOwner를 사용합니다.
 
+### 예시 코드
 ```kotlin
-class MyActivity : AppCompatActivity() {
-    private lateinit var myLocationListener: MyLocationListener
+class MyFragment : Fragment() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreate(...) {
-        myLocationListener = MyLocationListener(this, lifecycle) { location ->
-            // update UI
-        }
-        Util.checkUserStatus { result ->
-            if (result) {
-                myLocationListener.enable()
-            }
+        val viewModel: MyViewModel = ViewModelProvider(this).get(MyViewModel::class.java)
+        viewModel.data.observe(viewLifecycleOwner) { data ->
+            // 데이터가 변경될 때 UI 업데이트
         }
     }
 }
 ```
 
-- 일반적인 사용 사례에서는 Lifecycle이 현재 정상 상태가 아닌 경우 특정 콜백 호출을 피합니다. 예를 들어 Activity 상태가 저장된 후 콜백이 프래그먼트 트랜잭션을 실행하면 비정상 종료를 트리거할 수 있으므로 콜백을 호출하지 않는 것이 좋습니다.
-- 이러한 사용 사례를 쉽게 만들 수 있도록 Lifecycle 클래스는 다른 객체가 현재 상태를 쿼리할 수 있도록 합니다.
-
-```kotlin
-internal class MyLocationListener(
-        private val context: Context,
-        private val lifecycle: Lifecycle,
-        private val callback: (Location) -> Unit
-): DefaultLifecycleObserver {
-
-    private var enabled = false
-
-    override fun onStart(owner: LifecycleOwner) {
-        if (enabled) {
-            // connect
-        }
-    }
-
-    fun enable() {
-        enabled = true
-        if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
-            // connect if not connected
-        }
-    }
-
-    override fun onStop(owner: LifecycleOwner) {
-        // disconnect if connected
-    }
-}
-```
-
-- 이 구현으로 LocationListener 클래스는 수명 주기를 완전히 인식합니다. 다른 Activity이나 프래그먼트의 LocationListener를 사용해야 한다면 클래스를 초기화하기만 하면 됩니다. 모든 설정과 해제 작업은 클래스 자체에서 관리합니다.
+### 정리
+LifecycleOwner는 안드로이드 앱의 구성 요소의 생명 주기를 나타내는 인터페이스이며, LiveData와 함께 사용하여 안전하고 효율적인 데이터 관리를 가능하게 합니다. 
+특히 MVVM 패턴에서 중요한 역할을 하며, 메모리 누수를 방지하고 코드의 가독성을 높이는 데 기여합니다.
 
 ### 참고
 
@@ -845,22 +861,49 @@ internal class MyLocationListener(
 ---
 
 ## LiveData vs ObservableField
+안드로이드 앱 개발에서 데이터 바인딩을 사용할 때 자주 마주치는 LiveData와 ObservableField는 비슷한 목적을 가지고 있지만, 몇 가지 중요한 차이점이 있습니다.
 
-### 유사한점
+### LiveData
+- 생명 주기 인식: LiveData는 Android Architecture Components의 일부로, 컴포넌트(Activity, Fragment 등)의 생명 주기를 인식합니다. 즉, 컴포넌트가 파괴되면 자동으로 관찰을 중단하여 메모리 누수를 방지합니다.
+- 데이터 변경 감지: 데이터가 변경될 때 자동으로 UI를 업데이트합니다.
+- 백그라운드 스레드 지원: postValue() 메서드를 통해 백그라운드 스레드에서 안전하게 데이터를 업데이트할 수 있습니다.
+- 다양한 기능: Transformations, MediatorLiveData 등 다양한 기능을 제공하여 복잡한 데이터 변환과 조합을 지원합니다.
 
-- 데이터 바인딩과 잘 작동한다.
-- 바운드 뷰는 백그라운드에 있을 때 자동으로 구독을 취소합니다.
-- POJO 클래스는 변경 사항을 구독할 수도 있습니다.
+### ObservableField
+- 단순한 데이터 바인딩: 데이터 바인딩을 위한 기본적인 기능만 제공합니다.
+- 생명 주기 인식 X: LiveData와 달리 컴포넌트의 생명 주기를 인식하지 않기 때문에 수동으로 구독을 해지해야 합니다.
+- 백그라운드 스레드 지원 X: 백그라운드 스레드에서 데이터를 업데이트할 때 주의해야 합니다.
 
-### 차이점
+### 둘의 차이점 요약
+특징 | LiveData | ObservableField
+---|---|---
+생명 주기 인식 | O | X
+데이터 변경 감지 | O | O
+백그라운드 스레드 지원 | O | X
+기능 | 다양한 기능 제공 | 기본적인 기능만 제공
+권장 | LiveData | LiveData
 
-- LiveData를 사용하면 POJO 가 수명 주기를 인식할 수 있습니다. 즉, A가 변경될 때 업데이트하려는 속성 B가 있는 경우 연결된 View 가 비활성화될 때 업데이트를 수신하지 않도록 할수 있고 이렇게 하면 리소스가 절약됩니다.
-- ObservableField<T>의 백그라운드 스레드는 즉각적으로 업데이트를 하고, MutableLiveData 는 백그라운드 스레드에서는 postValue, 메인 스레드에서는 setValue 를 사용 합니다.
-- LiveData<T> 및 ObservableField<T>의 값은 항상 null을 허용하지만 ObservableInt, -Float, -Boolean 등의 기본 구현은 null을 허용하지 않습니다.
-- MutableLiveData<T>는 초기화 시 설정할 생성자 값을 사용하지 않습니다.
+### 왜 LiveData를 더 많이 사용해야 할까요?
+- 안전성: LiveData는 컴포넌트의 생명 주기를 인식하여 메모리 누수를 방지하고, 백그라운드 스레드에서 안전하게 데이터를 업데이트할 수 있습니다.
+- 편의성: 다양한 기능을 제공하여 복잡한 데이터 처리를 쉽게 구현할 수 있습니다.
+- 정형화된 패턴: MVVM 패턴에서 LiveData는 데이터를 관리하는 표준적인 방법으로 자리 잡았습니다.
+
+### 언제 LiveData를 사용해야 할까요?
+- UI를 데이터에 자동으로 바인딩해야 할 때
+- 백그라운드 스레드에서 데이터를 업데이트하고 UI를 동기화해야 할 때
+- 복잡한 데이터 변환과 조합이 필요할 때
+- MVVM 패턴을 사용하여 앱을 개발할 때
+
+### 언제 ObservableField를 사용할까요?
+- 간단한 데이터 바인딩이 필요하고 생명 주기 관리를 직접 하고 싶을 때
+- LiveData를 사용하기에는 오버헤드가 크다고 판단될 때
+
+**요약하면,** LiveData는 안드로이드 앱 개발에서 데이터 바인딩을 위한 더 안전하고 효율적인 선택입니다.
+
+### 결론
+LiveData는 ObservableField보다 더 안전하고 편리하며, 현대적인 안드로이드 앱 개발에서 더 많이 사용되는 것이 좋습니다. ObservableField는 간단한 데이터 바인딩이 필요할 때 사용될 수 있지만, 대부분의 경우 LiveData를 사용하는 것이 권장됩니다.
 
 ### 언제 어떤것을 사용하는게 좋은가?
-
 - 앱이 백그라운드에 있을 때 ViewModel에서 계단식 데이터 변경을 트리거할 수 있는 외부 이벤트가 있다면 LiveData 를 사용하는 것이 좋을것 같다.
 - 즉시 백그라운드 스레드에 대한 값 업데이트가 필요 하다면 Observable 사용하는 것이 좋을것 같다.
 
