@@ -221,6 +221,7 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 - [안드로이드에서 View 란?](./Android/Ui/README.md#안드로이드에서-view-란)
 - [Custom View 만들기](./Android/Ui/README.md#custom-view-만들기)
 - [ViewGroups 이란 무엇이며 View와 어떻게 다른지?](./Android/Ui/README.md#viewgroups-이란-무엇이며-view와-어떻게-다른지)
+- [LayoutInflater와 LayoutViewpagerWithPreviewIndicatorBinding.inflate()에 대한 설명](./Android/Ui/README.md#layoutinflater와-layoutviewpagerwithpreviewindicatorbindinginflate에-대한-설명)
 - [ConstraintLayout 이란?](./Android/Ui/README.md#constraintlayout-이란)
 - [ViewTreeObserver가 무엇인지?](./Android/Ui/README.md#viewtreeobserver가-무엇인지)
 - [include, merge, ViewStub 차이](./Android/Ui/README.md#include-merge-viewstub-차이)
