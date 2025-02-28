@@ -194,6 +194,8 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 
 ## [Android](./Android/README.md)
 
+## [Compose Tip](./Android/Compose/Tip/README.md)
+
 ## [Core Android](./Android/CoreAndroid/README.md)
 
 - [Asynchronous IO](./Android/CoreAndroid/README.md#asynchronous-io)
