@@ -104,3 +104,40 @@
 ## [Performance](./Performance)
 
 - [앱 크기 줄이기](./Performance/README.md#앱-크기-줄이기)
+
+## 인터뷰 질문
+
+### 안드로이드에서 Dependency Injection(DI)을 사용하는 이유와 Hilt를 활용한 DI의 장점에 대해 설명해주세요.
+
+의존성 주입(DI)이란?
+DI(Dependency Injection)는 객체 생성을 외부에서 담당하여 클래스 간의 의존성을 줄이고 유지보수성을 높이는 기법입니다.
+
+	DI가 필요한 이유 (예시: ViewModel)
+ViewModel 내부에서 UseCase, Repository, DataStore, Logging 등의 객체를 직접 생성한다면:
+	•	객체가 변경될 때마다 ViewModel도 수정해야 하므로 유지보수가 어려움
+	•	의존성 때문에 단위 테스트가 어려움 (Mock 객체를 사용하기 힘듦)
+	•	코드가 복잡해지고 재사용성이 낮아짐
+
+	따라서 DI를 사용하면:
+	•	객체 생성을 분리하여 ViewModel이 직접 의존성을 관리하지 않도록 함
+	•	객체를 주입받아 테스트가 쉬워짐 (Mock 객체 활용 가능)
+	•	코드 재사용성이 증가하고 유지보수가 쉬워짐
+
+	Hilt의 특징 및 장점
+Hilt는 Dagger 기반의 DI 라이브러리로, 어노테이션을 통해 간편하게 의존성 주입을 설정할 수 있습니다.
+
+	주요 어노테이션 및 역할
+	•	@HiltAndroidApp → 애플리케이션 클래스에 선언하여 Hilt 사용을 활성화
+	•	@Module → 의존성 객체를 제공하는 클래스
+	•	@Provides → 객체 생성 메서드 (팩토리 패턴 역할)
+	•	@InstallIn → 객체의 생명주기 범위 지정 (ex: Singleton, ActivityScoped 등)
+	•	@AndroidEntryPoint → Activity, Fragment, Service에서 의존성 자동 주입 가능
+	•	@HiltViewModel → ViewModel에서 의존성을 주입할 때 사용
+	•	@Inject → 생성자 또는 필드에 의존성을 주입할 때 사용
+
+	Hilt의 장점
+	•	@AndroidEntryPoint를 활용하면 Activity, Fragment에서도 DI를 쉽게 사용 가능
+	•	@HiltViewModel을 통해 ViewModel에 Repository, UseCase 등을 쉽게 주입
+	•	@Singleton을 사용하여 애플리케이션 전역에서 하나의 객체만 유지 가능
+	•	기존 Dagger에 비해 코드가 간결하고, 보일러플레이트 코드가 줄어듦
+
