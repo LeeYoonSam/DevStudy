@@ -162,3 +162,53 @@ Hilt는 Dagger 기반의 DI 라이브러리로, 어노테이션을 통해 간편
 	4. 기타 데이터베이스 (Realm, ObjectBox 등)
 	•	SQLite보다 빠르고 NoSQL 기반이기 때문에 오브젝트 기반 데이터 저장에 적합.
 	•	사용 사례: 대량의 오브젝트 데이터를 관리할 때.
+
+## 안드로이드에서 멀티스레딩을 사용하는 주요 방법
+	1.	Thread (Java 기본 스레드)
+	•	Thread 클래스를 상속받아 run() 메서드를 오버라이드하여 실행합니다.
+	•	하지만 UI 업데이트를 하려면 Handler를 사용해야 하는 번거로움이 있습니다.
+
+class MyThread : Thread() {
+    override fun run() {
+        // 백그라운드 작업 수행
+        Log.d("Thread", "Running in background")
+    }
+}
+MyThread().start() // 스레드 시작
+
+2.	HandlerThread
+	•	HandlerThread는 기본 Thread와 다르게 Looper를 가지고 있어 여러 개의 작업을 순차적으로 처리할 수 있습니다.
+	•	장점: UI 스레드와 분리된 자체 메시지 큐를 관리할 수 있음.
+	•	단점: Handler를 통해서만 작업을 전달할 수 있음.
+
+val handlerThread = HandlerThread("MyHandlerThread").apply { start() }
+val handler = Handler(handlerThread.looper)
+handler.post {
+    Log.d("HandlerThread", "Background task running")
+}
+
+3.	AsyncTask (Deprecated)
+	•	과거에는 AsyncTask를 많이 사용했지만, 메모리 누수 및 예측하기 어려운 동작 때문에 공식적으로 deprecated 되었습니다.
+
+	4.	Executors (권장)
+	•	Executors.newSingleThreadExecutor() 같은 API를 이용하여 쉽게 백그라운드 작업을 실행할 수 있습니다.
+	•	장점: 스레드 풀을 관리하여 여러 개의 스레드를 효과적으로 사용할 수 있음.
+	•	단점: 직접 스레드 풀을 관리해야 함.
+
+val executor = Executors.newSingleThreadExecutor()
+executor.execute {
+    Log.d("Executors", "Background task running")
+}
+
+5.	Coroutine (가장 권장)
+	•	Kotlin에서 가장 권장되는 방식이며, suspend 키워드를 사용하여 비동기 작업을 쉽게 처리할 수 있습니다.
+	•	장점: 가독성이 뛰어나고 UI와의 연동이 용이함.
+	•	단점: CoroutineScope를 적절히 관리하지 않으면 메모리 누수가 발생할 수 있음.
+
+lifecycleScope.launch(Dispatchers.IO) {
+    val data = fetchData() // 네트워크 요청
+    withContext(Dispatchers.Main) {
+        textView.text = data // UI 업데이트
+    }
+}
+
