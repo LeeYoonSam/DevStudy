@@ -212,3 +212,20 @@ lifecycleScope.launch(Dispatchers.IO) {
     }
 }
 
+
+## 안드로이드에서 MVVM 패턴을 사용할 때, ViewModel이 하는 역할과 LiveData를 활용하는 이유에 대해 설명해주세요.
+
+### ViewModel의 역할
+ViewModel은 화면에서 필요한 데이터를 보관하고 관리하는 역할을 합니다.
+	•	UI 로직과 비즈니스 로직을 분리하여, Activity/Fragment의 책임을 줄이고 테스트 가능성을 높입니다.
+	•	액티비티가 재생성(화면 회전, 프로세스 종료 후 복구 등) 되어도 데이터를 유지할 수 있습니다.
+	•	데이터 처리를 위해 Repository 또는 UseCase와 통신하여 UI에서 데이터 소스를 직접 다루지 않도록 합니다.
+
+### LiveData를 사용하는 이유
+LiveData는 관찰(Observer) 가능한 데이터 홀더로, UI와 데이터를 자동으로 동기화할 수 있습니다.
+	•	생명주기(Lifecycle) 인식 가능: 액티비티/프래그먼트가 활성 상태일 때만 옵저버가 동작하여 메모리 누수를 방지합니다.
+	•	자동 UI 갱신: ViewModel에서 LiveData 값을 변경하면, 이를 구독하는 UI가 자동으로 갱신됩니다.
+
+### LiveData의 단점
+	•	기본적으로 단일 이벤트 처리(예: 토스트 메시지, 네비게이션 이벤트 등)에 적합하지 않음
+	•	StateFlow, SharedFlow 또는 Event Wrapper를 사용하여 보완 가능
