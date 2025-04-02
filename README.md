@@ -161,12 +161,13 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 ## [AI](./AI)
 - [100 AI Tools for 20 Tasks to replace your tedious work](./AI#100-ai-tools-for-20-tasks-to-replace-your-tedious-work)
 
-## 참고
+## 인터뷰 질문
 
 - [Android Interview Questions](https://github.com/MindorksOpenSource/android-interview-questions)
 - [Technical Interview Guidelines for Beginners](https://github.com/JaeYeopHan/Interview_Question_for_Beginner)
 - [tech-interview-for-developer](https://github.com/gyoogle/tech-interview-for-developer)
 - [Tech Interview Handbook](https://techinterviewhandbook.org/)
+- [Android Interview Questions](./Android/InterviewQuestions/README.md)
 
 ## [시스템 디자인](./SystemDesign/README.md)
 - [Delivery Framework](./SystemDesign/DeliveryFramework/README.md)

@@ -229,3 +229,4 @@ LiveData는 관찰(Observer) 가능한 데이터 홀더로, UI와 데이터를 �
 ### LiveData의 단점
 	•	기본적으로 단일 이벤트 처리(예: 토스트 메시지, 네비게이션 이벤트 등)에 적합하지 않음
 	•	StateFlow, SharedFlow 또는 Event Wrapper를 사용하여 보완 가능
+## [InterviewQuestions](./InterviewQuestions/README.md)
