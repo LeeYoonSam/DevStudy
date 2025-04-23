@@ -2,6 +2,7 @@
 
 ## [Core Android](./CoreAndroid)
 
+- [2025 내용 추가](./CoreAndroid/2025/README.md)
 - [Asynchronous IO](./CoreAndroid/#asynchronous-io)
 - [ViewBinding 과 DataBinding 차이점](./CoreAndroid/#viewbinding-과-databinding-차이점)
 - [ViewModel 과 SharedViewModel 의 차이와 구현 방법](./CoreAndroid/#viewmodel-과-sharedviewmodel-의-차이와-구현-방법)
