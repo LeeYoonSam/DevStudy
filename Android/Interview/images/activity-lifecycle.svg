@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- 배경 -->
+  <rect width="800" height="600" fill="#f5f5f5"/>
+  
+  <!-- 박스 스타일 -->
+  <defs>
+    <style>
+      .lifecycle-box {
+        fill: #e1f5fe;
+        stroke: #0288d1;
+        stroke-width: 2;
+        rx: 10;
+        ry: 10;
+      }
+      .lifecycle-text {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        text-anchor: middle;
+        fill: #01579b;
+      }
+      .arrow {
+        stroke: #0288d1;
+        stroke-width: 2;
+        fill: none;
+        marker-end: url(#arrowhead);
+      }
+      .note-box {
+        fill: #fff9c4;
+        stroke: #fbc02d;
+        stroke-width: 1;
+        rx: 5;
+        ry: 5;
+      }
+      .note-text {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        fill: #333;
+      }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#0288d1"/>
+    </marker>
+  </defs>
+  
+  <!-- 생명주기 박스 -->
+  <rect x="350" y="50" width="120" height="60" class="lifecycle-box"/>
+  <text x="410" y="85" class="lifecycle-text">onCreate()</text>
+  
+  <rect x="350" y="150" width="120" height="60" class="lifecycle-box"/>
+  <text x="410" y="185" class="lifecycle-text">onStart()</text>
+  
+  <rect x="350" y="250" width="120" height="60" class="lifecycle-box"/>
+  <text x="410" y="285" class="lifecycle-text">onResume()</text>
+  
+  <rect x="350" y="350" width="120" height="60" class="lifecycle-box"/>
+  <text x="410" y="385" class="lifecycle-text">onPause()</text>
+  
+  <rect x="350" y="450" width="120" height="60" class="lifecycle-box"/>
+  <text x="410" y="485" class="lifecycle-text">onStop()</text>
+  
+  <rect x="200" y="350" width="120" height="60" class="lifecycle-box"/>
+  <text x="260" y="385" class="lifecycle-text">onRestart()</text>
+  
+  <rect x="350" y="550" width="120" height="60" class="lifecycle-box"/>
+  <text x="410" y="585" class="lifecycle-text">onDestroy()</text>
+  
+  <!-- 화살표 -->
+  <path d="M 410 30 L 410 50" class="arrow"/>
+  <path d="M 410 110 L 410 150" class="arrow"/>
+  <path d="M 410 210 L 410 250" class="arrow"/>
+  <path d="M 410 310 L 410 350" class="arrow"/>
+  <path d="M 410 410 L 410 450" class="arrow"/>
+  <path d="M 410 510 L 410 550" class="arrow"/>
+  <path d="M 350 480 L 260 480 L 260 410" class="arrow"/>
+  <path d="M 200 380 L 160 380 L 160 180 L 350 180" class="arrow"/>
+  
+  <!-- 상태 노트 -->
+  <rect x="500" y="60" width="180" height="40" class="note-box"/>
+  <text x="510" y="85" class="note-text">Activity 생성 및 초기화</text>
+  
+  <rect x="500" y="160" width="180" height="40" class="note-box"/>
+  <text x="510" y="185" class="note-text">Activity 화면에 표시 준비</text>
+  
+  <rect x="500" y="260" width="180" height="40" class="note-box"/>
+  <text x="510" y="285" class="note-text">사용자와 상호작용 시작</text>
+  
+  <rect x="500" y="360" width="180" height="40" class="note-box"/>
+  <text x="510" y="385" class="note-text">Activity 일시 중지 (부분 가려짐)</text>
+  
+  <rect x="500" y="460" width="180" height="40" class="note-box"/>
+  <text x="510" y="485" class="note-text">Activity 화면에서 완전히 가려짐</text>
+  
+  <rect x="500" y="560" width="180" height="40" class="note-box"/>
+  <text x="510" y="585" class="note-text">Activity 완전히 종료</text>
+  
+  <rect x="20" y="360" width="160" height="40" class="note-box"/>
+  <text x="30" y="385" class="note-text">멈춘 상태에서 재시작</text>
+  
+  <!-- 제목 -->
+  <text x="400" y="25" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#01579b">안드로이드 액티비티 생명주기</text>
+</svg>
