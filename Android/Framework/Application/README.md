@@ -66,7 +66,7 @@ class CustomApplication : Application() {
     
   **1. Application 클래스의 목적:**
   
-  - 앱 **프로세스 전체**에서 공유되어야 하는 **전역 상태(global state)**를 관리합니다.
+  - 앱 **프로세스 전체**에서 공유되어야 하는 **전역 상태(global state)** 를 관리합니다.
   - 앱 시작 시 **최초로 초기화**되어야 하는 **싱글톤 객체**(예: 네트워크 클라이언트, 데이터베이스 객체, DI 컨테이너, 분석 SDK 등)를 생성하고 관리하는 데 사용됩니다.
   - 앱 프로세스가 살아있는 동안 **단 하나의 인스턴스**만 존재합니다.
   
@@ -85,7 +85,7 @@ class CustomApplication : Application() {
   
   - **Application:**
       - **앱 전역에서 필요한, 오래 지속되는 리소스**나 싱글톤 객체를 관리하기에 적합합니다.
-      - 주의: Activity Context나 View 등 특정 Activity에 종속된 리소스를 Application 클래스에서 직접 참조하면 해당 Activity가 소멸되어도 메모리에서 해제되지 않아 **메모리 누수(Memory Leak)**의 원인이 될 수 있습니다.
+      - 주의: Activity Context나 View 등 특정 Activity에 종속된 리소스를 Application 클래스에서 직접 참조하면 해당 Activity가 소멸되어도 메모리에서 해제되지 않아 **메모리 누수(Memory Leak)** 의 원인이 될 수 있습니다.
   - **Activity:**
       - **해당 화면(UI)에 필요한 리소스**를 관리합니다.
       - 리소스는 Activity의 라이프사이클에 맞춰 생성하고, `onStop()`이나 `onDestroy()` 등 적절한 시점에 **반드시 해제**하여 메모리 누수를 방지해야 합니다.
