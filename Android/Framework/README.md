@@ -7,3 +7,4 @@
 - [Context란 무엇이며 어떤 유형의 컨텍스트가 있나요?](./Context/README.md)
 - [Application class란 무엇인가요?](./Application/README.md)
 - [AndroidManifest 파일의 용도는 무엇인가요?](./Manifest/README.md)
+- [액티비티 생명주기 설명](./Activity/README.md)
