@@ -86,9 +86,6 @@ childFragmentManager.beginTransaction()
 
 `fragmentManager`와 `childFragmentManager` 중 어떤 것을 선택할지는 UI의 계층 구조에 따라 달라집니다. 액티비티 수준의 프래그먼트 관리를 위해서는 `fragmentManager`를 사용하세요. 부모 프래그먼트 내에 프래그먼트를 중첩시키려면 `childFragmentManager`를 선택하세요. 이들의 범위와 라이프사이클을 이해하면 안드로이드 애플리케이션의 더 나은 조직화와 모듈화를 보장할 수 있습니다.
 
-
-네, 해당 내용을 한국어로 번역해 드리겠습니다.
-
 ---
 
 ## 프로 팁: 프래그먼트(Fragment)의 `viewLifecycleOwner` 인스턴스란 무엇인가요?
