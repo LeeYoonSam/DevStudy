@@ -19,3 +19,4 @@
 - [번들(Bundle)의 목적은 무엇인가요?](./Bundle/README.md)
 - [액티비티(Activity) 또는 프래그먼트(Fragment) 간에 데이터를 어떻게 전달하나요?](./ActivityFragmentTransfer/README.md)
 - [구성 변경 시 액티비티(Activity)에는 어떤 일이 발생하나요?](./ConfigrationChange/README.md)
+- [ActivityManager란 무엇인가?](./ActivityManager/README.md)
