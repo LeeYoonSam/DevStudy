@@ -21,3 +21,4 @@
 - [구성 변경 시 액티비티(Activity)에는 어떤 일이 발생하나요?](./ConfigrationChange/README.md)
 - [ActivityManager란 무엇인가?](./ActivityManager/README.md)
 - [SparseArray 사용의 장점은 무엇인가요?](./SparseArray/README.md)
+- [런타임 권한은 어떻게 처리하나요?](./RuntimePermission/README.md)
