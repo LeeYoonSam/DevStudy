@@ -24,3 +24,4 @@
 - [런타임 권한은 어떻게 처리하나요?](./RuntimePermission/README.md)
 - [Looper, Handler, HandlerThread의 역할은 무엇인가요?](./ThreadHandlerLooper/README.md)
 - [예외(Exception)는 어떻게 추적하나요?](./Exception/README.md)
+- [빌드 배리언트(Build Variant)와 플레이버(Flavor)란 무엇인가요?](./BuildVariantFlavor/README.md)
