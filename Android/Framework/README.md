@@ -28,3 +28,4 @@
 - [접근성은 어떻게 보장하나요?](./Accessibility/README.md)
 - [안드로이드 파일 시스템이란 무엇인가요?](./FileSystem/README.md)
 - [안드로이드 런타임(ART), 달빅(Dalvik), Dex 컴파일러란 무엇인가요?](./ART-Dalvik-Dex/README.md)
+- [APK 파일과 AAB 파일의 차이점은 무엇인가요?](./APK-AAB/README.md)
