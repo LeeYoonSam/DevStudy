@@ -121,7 +121,8 @@ class CustomCircleView @JvmOverloads constructor(
 <com.example.CustomCircleView
     xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="100dp"
     android:layout_height="100dp"
-    app:circleColor="@color/blue" app:circleRadius="30dp"/>     ```
+    app:circleColor="@color/blue" app:circleRadius="30dp"/>
+```
 
 ### 4. 레이아웃 측정 처리하기 (선택 사항)
 

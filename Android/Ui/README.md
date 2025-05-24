@@ -16,3 +16,4 @@
 - [뷰(View)와 뷰그룹(ViewGroup)의 차이점은 무엇인가요?](./View-ViewGroup/README.md)
 - [ViewStub을 사용해 본 적이 있으며, 이를 사용하여 UI 성능을 어떻게 최적화하나요?](./ViewStub/README.md)
 - [사용자 정의 뷰(Custom View)는 어떻게 구현하나요?](./CustomView/README.md)
+- [캔버스(Canvas)란 무엇이며 어떻게 활용하나요?](./Canvas/README.md)
