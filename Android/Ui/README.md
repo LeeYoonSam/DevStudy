@@ -14,3 +14,4 @@
 
 - [뷰(View) 생명주기 설명](./ViewLifecycle/README.md)
 - [뷰(View)와 뷰그룹(ViewGroup)의 차이점은 무엇인가요?](./View-ViewGroup/README.md)
+- [ViewStub을 사용해 본 적이 있으며, 이를 사용하여 UI 성능을 어떻게 최적화하나요?](./ViewStub/README.md)
