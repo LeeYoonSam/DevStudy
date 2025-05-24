@@ -13,3 +13,4 @@
 ---
 
 - [뷰(View) 생명주기 설명](./ViewLifecycle/README.md)
+- [뷰(View)와 뷰그룹(ViewGroup)의 차이점은 무엇인가요?](./View-ViewGroup/README.md)

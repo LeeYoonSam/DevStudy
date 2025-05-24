@@ -162,6 +162,8 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 - [100 AI Tools for 20 Tasks to replace your tedious work](./AI#100-ai-tools-for-20-tasks-to-replace-your-tedious-work)
 
 ## 인터뷰 질문
+- [Android Framework](./Android/Framework/README.md)
+- [Android UI](./Android/UI/README.md)
 - [Android InterView](./Android/Interview/README.md)
 
 ### 참고
