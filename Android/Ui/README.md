@@ -19,3 +19,4 @@
 - [캔버스(Canvas)란 무엇이며 어떻게 활용하나요?](./Canvas/README.md)
 - [뷰 시스템에서의 무효화(Invalidation)란 무엇인가요?](./Invalidation/README.md)
 - [ConstraintLayout이란 무엇인가요?](./ConstraintLayout/README.md)
+- [SurfaceView와 TextureView는 언제 각각 사용해야 하나요?](./SurfaceView-TextureView/README.md)
