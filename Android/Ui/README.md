@@ -20,3 +20,4 @@
 - [뷰 시스템에서의 무효화(Invalidation)란 무엇인가요?](./Invalidation/README.md)
 - [ConstraintLayout이란 무엇인가요?](./ConstraintLayout/README.md)
 - [SurfaceView와 TextureView는 언제 각각 사용해야 하나요?](./SurfaceView-TextureView/README.md)
+- [RecyclerView는 내부적으로 어떻게 작동하나요?](./RecyclerView/README.md)
