@@ -21,3 +21,4 @@
 - [ConstraintLayout이란 무엇인가요?](./ConstraintLayout/README.md)
 - [SurfaceView와 TextureView는 언제 각각 사용해야 하나요?](./SurfaceView-TextureView/README.md)
 - [RecyclerView는 내부적으로 어떻게 작동하나요?](./RecyclerView/README.md)
+- [Dp와 Sp의 차이점은 무엇인가요?](./Dp-Sp/README.md)
