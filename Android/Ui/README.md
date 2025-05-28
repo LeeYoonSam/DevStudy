@@ -23,3 +23,4 @@
 - [RecyclerView는 내부적으로 어떻게 작동하나요?](./RecyclerView/README.md)
 - [Dp와 Sp의 차이점은 무엇인가요?](./Dp-Sp/README.md)
 - [Nine-Patch 이미지의 용도는 무엇인가요?](./NinePatch/README.md)
+- [드로어블(Drawable)이란 무엇이며, UI 개발에서 어떻게 활용되나요?](./Drawable/README.md)
