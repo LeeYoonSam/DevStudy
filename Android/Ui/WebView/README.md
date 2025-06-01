@@ -15,7 +15,7 @@ WebView를 사용하려면 레이아웃 파일에 포함시키거나 프로그�
 
 필요한 경우 프로그래밍 방식으로 생성할 수도 있습니다.
 
-**그림 123. WebView.kt (프로그래밍 방식 생성 예시)**
+**WebView.kt (프로그래밍 방식 생성 예시)**
 
 ```kotlin
 // Activity 내에서
@@ -29,7 +29,7 @@ setContentView(webView) // 액티비티의 전체 내용을 웹뷰로 설정
 
 웹 페이지를 로드하려면 WebView 인스턴스의 `loadUrl()` 메서드를 사용합니다. 만약 페이지가 인터넷 접근을 필요로 한다면 안드로이드 매니페스트에 필요한 권한을 활성화해야 합니다.
 
-**그림 124. WebView.kt (웹 페이지 로드 예시)**
+**WebView.kt (웹 페이지 로드 예시)**
 
 ```kotlin
 val webView: WebView = findViewById(R.id.webView)
@@ -48,7 +48,7 @@ webView.loadUrl("https://www.example.com")
 
 만약 웹 콘텐츠가 JavaScript를 필요로 한다면, `WebSettings`를 수정하여 활성화합니다.
 
-**그림 125. WebView.kt (JavaScript 활성화 예시)**
+**WebView.kt (JavaScript 활성화 예시)**
 
 ```kotlin
 val webView: WebView = findViewById(R.id.webView) // 이미 초기화되었다고 가정
@@ -66,7 +66,7 @@ WebView는 이벤트를 처리하고 동작을 사용자 정의하는 메서드�
 
 `WebViewClient`를 사용하여 외부 브라우저에서 페이지를 여는 대신 WebView 내에서 페이지 내비게이션을 처리합니다.
 
-**그림 126. Navigation.kt (페이지 내비게이션 처리 예시)**
+**Navigation.kt (페이지 내비게이션 처리 예시)**
 
 ```kotlin
 webView.webViewClient = object : WebViewClient() {
@@ -82,7 +82,7 @@ webView.webViewClient = object : WebViewClient() {
 
 `DownloadListener`를 사용하여 WebView에 의해 시작된 파일 다운로드를 관리합니다.
 
-**그림 127. DownloadListener.kt (다운로드 리스너 예시)**
+**DownloadListener.kt (다운로드 리스너 예시)**
 
 ```kotlin
 webView.setDownloadListener { url, userAgent, contentDisposition, mimeType, contentLength ->
@@ -99,7 +99,7 @@ webView.setDownloadListener { url, userAgent, contentDisposition, mimeType, cont
 
 `evaluateJavascript` 또는 `loadUrl("javascript:...")`를 사용하여 JavaScript 코드를 주입합니다.
 
-**그림 128. JavaScript.kt (JavaScript 실행 예시)**
+**JavaScript.kt (JavaScript 실행 예시)**
 
 ```kotlin
 // API 19 이상 권장
@@ -121,7 +121,7 @@ JavaScript와 안드로이드 코드를 통합하면 클라이언트 측 스크�
 
 다음은 JavaScript를 안드로이드에 바인딩하는 예시입니다.
 
-**그림 129. WebAppInterface.kt (자바스크립트 인터페이스 예시)**
+**WebAppInterface.kt (자바스크립트 인터페이스 예시)**
 
 ```kotlin
 // 인터페이스 정의 및 WebView에 바인딩

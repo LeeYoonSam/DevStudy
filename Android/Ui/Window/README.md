@@ -113,7 +113,7 @@ WindowManager 서비스는 `Context.getSystemService(Context.WINDOW_SERVICE)`를
 
 아래는 WindowManager를 사용하여 화면에 플로팅 뷰를 추가하는 예시입니다.
 
-**그림 121. WindowManager를 사용하여 플로팅 뷰 추가하기**
+**WindowManager를 사용하여 플로팅 뷰 추가하기**
 ```kotlin
 val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
@@ -158,7 +158,7 @@ WindowManager는 안드로이드에서 윈도우를 관리하기 위한 근본�
 
 아래 예시 코드처럼 PopupWindow를 생성하고 표시할 수 있습니다.
 
-**그림 122. PopupWindowExample.kt**
+**PopupWindowExample.kt**
 ```kotlin
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
