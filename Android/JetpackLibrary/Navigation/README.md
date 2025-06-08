@@ -17,7 +17,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment"> <fragment
+    app:startDestination="@id/homeFragment">
+    <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.app.HomeFragment"
         android:label="Home">
@@ -44,7 +45,9 @@
     android:name="androidx.navigation.fragment.NavHostFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:defaultNavHost="true" app:navGraph="@navigation/nav_graph" /> ```
+    app:defaultNavHost="true"
+    app:navGraph="@navigation/nav_graph" />
+```
 
 #### 3. NavController
 
