@@ -9,4 +9,5 @@
 ---
 
 - [오래 실행되는 백그라운드 작업은 어떻게 관리하나요?](./LongRunningBackgroundTask/README.md)
+- [JSON 형식을 객체로 직렬화하는 방법](./Serialize/README.md)
 - [데이터를 가져오기 위한 네트워크 요청을 어떻게 처리하고, 효율성과 신뢰성을 위해 어떤 라이브러리나 기술을 사용합니까?](./FetchData/README.md)
