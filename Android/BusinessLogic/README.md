@@ -15,3 +15,4 @@
 - [네트워크에서 이미지를 가져와 렌더링하는 방법](./RenderImage/README.md)
 - [데이터를 로컬에 저장하고 유지하는 방법](./DataStore//README.md)
 - [오프라인 우선(Offline-first) 기능은 어떻게 처리하나요?](./OfflineFirst/README.md)
+- [초기 데이터 로딩 시점: LaunchedEffect vs. ViewModel.init(초기 데이터 로딩 시점: LaunchedEffect vs. ViewModel.init())](./InitialData/README.md)
