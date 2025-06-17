@@ -2,6 +2,21 @@
 
 개발하는데 필요한것을 공부하고 기록하기위한 저장소
 
+## 인터뷰 질문
+- [Android Framework](./Android/Framework/README.md)
+- [Android UI](./Android/Ui/README.md)
+- [Android Jetpack Library](./Android/JetpackLibrary/README.md)
+- [Android Business Logic](./Android/BusinessLogic/README.md)
+
+### 참고
+- [Android Interview Questions](https://github.com/MindorksOpenSource/android-interview-questions)
+- [Technical Interview Guidelines for Beginners](https://github.com/JaeYeopHan/Interview_Question_for_Beginner)
+- [tech-interview-for-developer](https://github.com/gyoogle/tech-interview-for-developer)
+- [Tech Interview Handbook](https://techinterviewhandbook.org/)
+- [Android Interview Questions](./Android/InterviewQuestions/README.md)
+
+---
+
 ## 학습 리마인더
 강의, 책 등 학습하기 위해 구매해 놓고 하지 않고 미루고 있는것을 잊지 않기 위해 리마인더를 기록해본다.. (제발 빨리좀 보자..)
 
@@ -76,7 +91,6 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 - 디자인 패턴을 사용한 코드 리팩토링
   - 디자인 패턴을 사용해서 리팩토링 요청
   - 다른 디자인 패턴도 요청해서 적합한 리팩토링 선택
-
 
 **[Jetpack Compose Internals 한국어 번역(전자책)](https://leanpub.com/composeinternals/)**
 - 특징 및 설명
@@ -158,6 +172,8 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 - 독해부터 클린코드까지 문제 해결과 개발 역량 강화
 - 진행률: 10%
 
+---
+
 ## [AI](./AI)
 - [100 AI Tools for 20 Tasks to replace your tedious work](./AI#100-ai-tools-for-20-tasks-to-replace-your-tedious-work)
 
@@ -166,7 +182,6 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 - [Android UI](./Android/Ui/README.md)
 - [Android Jetpack Library](./Android/JetpackLibrary/README.md)
 - [Android Business Logic](./Android/BusinessLogic/README.md)
-- [Android InterView](./Android/Interview/README.md)
 
 ### 참고
 - [Android Interview Questions](https://github.com/MindorksOpenSource/android-interview-questions)
@@ -205,76 +220,6 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 
 ## [Core Android](./Android/CoreAndroid/README.md)
 
-- [Asynchronous IO](./Android/CoreAndroid/README.md#asynchronous-io)
-- [ViewBinding 과 DataBinding 차이점](./Android/CoreAndroid/README.md#viewbinding-과-databinding-차이점)
-- [ViewModel 과 SharedViewModel 의 차이와 구현 방법](./Android/CoreAndroid/README.md#viewmodel-과-sharedviewmodel-의-차이와-구현-방법)
-- [Android Jetpack이란](./Android/CoreAndroid/README.md#android-jetpack이란)
-- [Android 애플리케이션의 성능을 최적화하기 위한 전략](./Android/CoreAndroid/README.md#android-애플리케이션의-성능을-최적화하기-위한-전략)
-- [안드로이드에서 비동기 처리가 필요한 이유에 및 Rxjava, Coroutine 의 특징과 차이점, 장단점](./Android/CoreAndroid/README.md#안드로이드에서-비동기-처리가-필요한-이유에-및-rxjava-coroutine-의-특징과-차이점-장단점)
-- [안드로이드에서 의존성 주입이란?](./Android/CoreAndroid/README.md#안드로이드에서-의존성-주입이란)
-- [Android에서 Parcelable 인터페이스의 목적은 무엇이며 Serializable 사용성 차이](./Android/CoreAndroid/README.md#android에서-parcelable-인터페이스의-목적은-무엇이며-serializable-사용성-차이)
-- [Android의 콘텐츠 제공자는 무엇이며 주요 목적](./Android/CoreAndroid/README.md#android의-콘텐츠-제공자는-무엇이며-주요-목적은-무엇인가요-콘텐츠-제공자가-유용할-수-있는-예시-시나리오를-제공)
-- [안드로이드 어플리케이션 컴포넌트](./Android/CoreAndroid/README.md#안드로이드-어플리케이션-컴포넌트)
-- [매니페스트 파일](./Android/CoreAndroid/README.md#매니페스트-파일)
-- [안드로이드 어플리케이션의 프로젝트 구조](./Android/CoreAndroid/README.md#안드로이드-어플리케이션의-프로젝트-구조)
-- [Android Context](./Android/CoreAndroid/README.md#android-context)
-- [Android Intent](./Android/CoreAndroid/README.md#android-intent)
-- [Intent Filter 활용 방법](./Android/CoreAndroid/README.md#intent-filter-활용-방법)
-- [PendingIntent란 무엇일까요?](./Android/CoreAndroid/README.md#pendingintent란-무엇일까요)
-- [Proguard란 무엇이며, 왜 사용할까요?](./Android/CoreAndroid/README.md#proguard란-무엇이며-왜-사용할까요)
-- [Navigation Component](./Android/CoreAndroid/README.md#navigation-component)
-- [Lifecycle](./Android/CoreAndroid/README.md#lifecycle)
-- [LifecycleOwner](./Android/CoreAndroid/README.md#lifecycleowner)
-- [LiveData vs ObservableField](./Android/CoreAndroid/README.md#livedata-vs-observablefield)
-
-## [Activity and Fragment](./Android/ActivityAndFragment/README.md)
-- [안드로이드 액티비티: 앱 화면의 기본 단위](./Android/ActivityAndFragment/README.md#안드로이드-액티비티-앱-화면의-기본-단위)
-- [Fragment:앱 UI의 모듈화된 구성 요소](./Android/ActivityAndFragment/README.md#fragment앱-ui의-모듈화된-구성-요소)
-- [## FragmentFactory와 ViewModel, 그리고 특수한 상황에서의 생성자 사용](./Android/ActivityAndFragment/README.md#fragmentfactory와-viewmodel-그리고-특수한-상황에서의-생성자-사용)
-- [FragmentPagerAdapter와 FragmentStatePagerAdapter의 차이점](./Android/ActivityAndFragment/README.md#fragmentpageradapter와-fragmentstatepageradapter의-차이점)
-- [Fragment 백스택에서 Add, Replace 차이점](./Android/ActivityAndFragment/README.md#fragment-백스택에서-add-replace-차이점)
-- [왜 프래그먼트는 기본 생성자만 사용해야 할까요?](./Android/ActivityAndFragment/README.md#왜-프래그먼트는-기본-생성자만-사용해야-할까요)
-- [retained Fragment 란?](./Android/ActivityAndFragment/README.md#retained-fragment-란)
-- [Fragment transaction 을 커밋하는 동안 addToBackStack()의 목적은?](./Android/ActivityAndFragment/README.md#fragment-transaction-을-커밋하는-동안-addtobackstack의-목적은)
-- [액티비티 launchMode 설명](./Android/ActivityAndFragment/README.md#액티비티-launchmode-설명)
-- [by viewModels 가 해주는 일](./Android/ActivityAndFragment/README.md#by-viewmodels-가-해주는-일)
-
-## [Android UI](./Android/Ui)
-
-- [안드로이드에서 View 란?](./Android/Ui/README.md#안드로이드에서-view-란)
-- [Custom View 만들기](./Android/Ui/README.md#custom-view-만들기)
-- [ViewGroups 이란 무엇이며 View와 어떻게 다른지?](./Android/Ui/README.md#viewgroups-이란-무엇이며-view와-어떻게-다른지)
-- [LayoutInflater와 LayoutViewpagerWithPreviewIndicatorBinding.inflate()에 대한 설명](./Android/Ui/README.md#layoutinflater와-layoutviewpagerwithpreviewindicatorbindinginflate에-대한-설명)
-- [ConstraintLayout 이란?](./Android/Ui/README.md#constraintlayout-이란)
-- [ViewTreeObserver가 무엇인지?](./Android/Ui/README.md#viewtreeobserver가-무엇인지)
-- [include, merge, ViewStub 차이](./Android/Ui/README.md#include-merge-viewstub-차이)
-- [FragmentContainerView 란?](./Android/Ui/README.md#fragmentcontainerview-란)
-- [Glide 에서 리사이즈를 처리하지 않게 하는 방법 2가지](./Android/Ui/README.md#glide-에서-리사이즈를-처리하지-않게-하는-방법-2가지)
-- [Bitmap-prepareToDraw](./Android/Ui/README.md#bitmap-preparetodraw)
-
-## [Android Compose](./Android/Compose/)
-- [Jetpack Compose란 무엇이며 Android 앱 개발을 위한 주요 기능과 이점](./Android/Compose/README.md#jetpack-compose란-무엇이며-android-앱-개발을-위한-주요-기능과-이점)
-- [Jetpack Compose와 Android의 기존 뷰 기반 UI 개발 간의 차이점](./Android/Compose/README.md#jetpack-compose와-android의-기존-뷰-기반-ui-개발-간의-차이점)
-
-## [Displaying Lists of Content](./Android/RecyclerView)
-
-- [RecyclerView](./Android/RecyclerView/README.md#recyclerview)
-- [ListView 와 RecyclerView 의 차이점](./Android/RecyclerView/README.md#listview-와-recyclerview-의-차이점)
-- [ViewHolder 패턴을 사용하는 이유](./Android/RecyclerView/README.md#viewholder-패턴을-사용하는-이유)
-- [RecyclerView 최적화 방법](./Android/RecyclerView/README.md#recyclerview-최적화-방법)
-- [SnapHelper](./Android/RecyclerView/README.md#snaphelper)
-
-## [Intent](./Android/Intent)
-
-- [Intent란?](./Android/Intent/README.md#intent란)
-
-## [Long-running Operations](./Android/LongRunningOperations)
-
-- [ANR 이 무엇이며 어떻게 방지할 수 있는지?](./Android/LongRunningOperations/README.md#anr-이-무엇이며-어떻게-방지할-수-있는지)
-- [AsyncTask 의 생명 주기와 액티비티의 관계 및 발생할수 있는 문제](./Android/LongRunningOperations/README.md#asynctask-의-생명-주기와-액티비티의-관계-및-발생할수-있는-문제)
-- [Looper, Handler and HandlerThread](./Android/LongRunningOperations/README.md#looper-handler-and-handlerthread)
-- [RxJava, Coroutine 비교](./Android/LongRunningOperations/README.md#rxjava-coroutine-비교)
-
 ## [Architecture](./Android/Architecture)
 
 - [일반 아키텍처 원칙](./Android/Architecture/GeneralArchitecture.md)
@@ -290,10 +235,6 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 - [Microsoft's original MVVM Pattern](./Android/Architecture/README.md#microsofts-original-mvvm-pattern)
 - [MVVM 패턴 비교: Microsoft MVVM vs Android Jetpack ViewModel](./Android/Architecture/README.md#mvvm-패턴-비교-microsoft-mvvm-vs-android-jetpack-viewmodel)
 
-## [ImageGraphic](./Android/ImageGraphic)
-
-- [비트맵 처리](./Android/ImageGraphic/README.md#비트맵-처리)
-
 ## [Library](./Android/Library)
 
 - [Dagger Hilt Koin 비교](./Android/Library/README.md#dagger-hilt-koin-비교)
@@ -302,10 +243,6 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 - [RxJava Backpressure(배압)](./Android/Library/README.md#rxjava-backpressure배압)
 - [Glide](./Android/Library/README.md#glide)
 - [Spotless](./Android/Library/Spotless/README.md)
-
-## [Performance](./Android/Performance)
-- [안드로이드 스튜디오 메모리 프로파일러의 각 메모리 종류 분석](./Android/Performance/memory/README.md)
-- [앱 크기 줄이기](./Android/Performance/README.md#앱-크기-줄이기)
 
 ## [Kotlin](./Kotlin)
 
