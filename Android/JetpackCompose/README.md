@@ -11,3 +11,7 @@ Jetpack Compose는 코드 재사용성 향상 및 Lifecycle, Navigation, Hilt와
 이 책은 가능한 모든 Jetpack Compose 관련 인터뷰 질문을 다루기보다는, **Compose에 대한 견고한 기초 및 심화 이해를 구축하는 것**을 목표로 합니다. **"숙련자를 위한 프로 팁"** 섹션에서는 핵심 Compose API의 내부 구현을 깊이 파고들어, 여러분이 더 깊은 전문성을 개발하는 데 도움을 줄 것입니다. 일부 개념이 처음에는 복잡해 보이더라도 위축되지 마세요. 명확해질 때까지 다시 방문하여 살펴보세요.
 
 이 질문들은 Jetpack Compose에 대한 여러분의 이해를 향상시키고 면접을 자신감 있게 준비하는 데 도움이 되도록 설계되었습니다.
+
+---
+
+- [Compose Fundamentals](./Fundamentals/README.md)
