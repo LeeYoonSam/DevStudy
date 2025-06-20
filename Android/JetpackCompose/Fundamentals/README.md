@@ -10,3 +10,4 @@ Compose 내부 동작에 대한 깊은 이해가 애플리케이션을 빌드하
 
 - [Jetpack Compose의 구조는 무엇인가?](./Structure/README.md)
 - [Compose 단계(Phase)란 무엇인가?](./ComposePhase/README.md)
+- [Jetpack Compose가 선언형 UI 프레임워크인 이유](./DeclarativeUI/README.md)

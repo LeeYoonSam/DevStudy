@@ -59,7 +59,7 @@ Jetpack Compose의 3단계 렌더링 모델은 깔끔하고 효율적이며 확�
 * `setContent` 블록이나 다른 `@Composable` 함수 내에서 호출된 최상위 `@Composable` 함수부터 시작하여, 그 안의 모든 자식 `@Composable` 함수들을 순서대로 실행합니다.
 
 #### 1.2. UI 트리(UI Tree) 생성
-* `@Composable` 함수들이 실행되면서, `Text`, `Image`, `Box`, `Column` 등과 같은 UI 요소를 **방출(emit)**합니다.
+* `@Composable` 함수들이 실행되면서, `Text`, `Image`, `Box`, `Column` 등과 같은 UI 요소를 **방출(emit)** 합니다.
 * Compose 런타임은 이 방출된 요소들을 기반으로 UI의 구조를 나타내는 **UI 트리(또는 컴포지션 트리)를 구축**합니다. 이 트리는 UI가 어떻게 구성되어 있는지에 대한 "설계도"나 "설명서"와 같습니다.
 
 #### 1.3. 상태 구독(State Subscription) 기록
