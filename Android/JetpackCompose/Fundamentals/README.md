@@ -14,3 +14,4 @@ Compose 내부 동작에 대한 깊은 이해가 애플리케이션을 빌드하
 - [리컴포지션(Recomposition)이란 무엇이며 언제 발생하나요? 또한, 앱 성능과는 어떻게 관련되나요?](./Recomposition/README.md)
 - [컴포저블 함수는 내부적으로 어떻게 작동하나요?](./Composable/README.md)
 - [Jetpack Compose의 안정성(Stability)과 성능의 관계](./Stability/README.md)
+- [안정성 향상을 통해 Compose 성능을 최적화한 경험이 있나요?](./OptimizingPerformance/README.md)
