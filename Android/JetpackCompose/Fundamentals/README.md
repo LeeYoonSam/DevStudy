@@ -17,3 +17,4 @@ Compose 내부 동작에 대한 깊은 이해가 애플리케이션을 빌드하
 - [안정성 향상을 통해 Compose 성능을 최적화한 경험이 있나요?](./OptimizingPerformance/README.md)
 - [컴포지션(Composition)이란 무엇이며 어떻게 생성하나요?](./Composition/README.md)
 - [XML 기반 프로젝트를 Jetpack Compose로 마이그레이션하는 전략은 무엇인가요?](./Migration/README.md)
+- [왜 항상 릴리스 모드에서 Compose 성능을 테스트해야 하나요?](./Performance/README.md)
