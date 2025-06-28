@@ -18,3 +18,4 @@ Compose 내부 동작에 대한 깊은 이해가 애플리케이션을 빌드하
 - [컴포지션(Composition)이란 무엇이며 어떻게 생성하나요?](./Composition/README.md)
 - [XML 기반 프로젝트를 Jetpack Compose로 마이그레이션하는 전략은 무엇인가요?](./Migration/README.md)
 - [왜 항상 릴리스 모드에서 Compose 성능을 테스트해야 하나요?](./Performance/README.md)
+- [Jetpack Compose에서 자주 사용되는 코틀린 관용구(Idiom)는 무엇인가요?](./idioms/README.md)
