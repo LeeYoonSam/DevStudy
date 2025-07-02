@@ -10,3 +10,4 @@ Compose 런타임은 내부적으로 상태를 관리하여 수동 개입의 필
 - [상태 호이스팅(State Hoisting)으로 얻을 수 있는 장점은 무엇인가요?](./StateHoisting/README.md)
 - [remember와 rememberSaveable의 차이점은 무엇인가요?](./Remember/README.md)
 - [컴포저블 함수 내에서 코루틴 스코프를 안전하게 생성하는 방법](./CoroutineScope/README.md)
+- [컴포저블 함수 내에서 부작용(Side-Effect)을 처리하는 방법](./SideEffects/README.md)
