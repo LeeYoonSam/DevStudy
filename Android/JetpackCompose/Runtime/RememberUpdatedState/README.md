@@ -98,7 +98,7 @@ fun <T> rememberUpdatedState(newValue: T): State<T> =
 
 ### 1. 문제점: 지연된 작업과 오래된(Stale) 람다
 
-`LaunchedEffect`는 컴포지션에 처음 진입하거나 `key`가 변경될 때 내부의 코루틴 블록을 시작합니다. 이때, 코루틴은 \*\*시작되던 시점의 람다를 캡처(capture)\*\*합니다.
+`LaunchedEffect`는 컴포지션에 처음 진입하거나 `key`가 변경될 때 내부의 코루틴 블록을 시작합니다. 이때, 코루틴은 **시작되던 시점의 람다를 캡처(capture)** 합니다.
 
 만약 `LaunchedEffect` 내부에서 `delay()`와 같은 `suspend` 함수가 실행되는 동안, 부모 컴포저블이 리컴포지션되어 새로운 람다를 전달하더라도, 이미 실행 중인 `LaunchedEffect`는 이 변경을 알지 못합니다. 그 결과, `delay()`가 끝난 후에는 **이전 컴포지션의 오래된(stale) 람다**를 호출하게 되어 예기치 않은 버그가 발생할 수 있습니다.
 
