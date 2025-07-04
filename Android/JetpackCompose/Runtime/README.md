@@ -13,3 +13,4 @@ Compose 런타임은 내부적으로 상태를 관리하여 수동 개입의 필
 - [컴포저블 함수 내에서 부작용(Side-Effect)을 처리하는 방법](./SideEffects/README.md)
 - [rememberUpdatedState의 목적과 작동 방식은 무엇인가요?](./RememberUpdatedState/README.md)
 - [produceState의 목적과 작동 방식은 무엇인가요?](./ProduceState/README.md)
+- [snapshotFlow란 무엇인가?](./SnapshotFlow/README.md)
