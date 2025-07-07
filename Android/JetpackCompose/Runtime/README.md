@@ -15,3 +15,4 @@ Compose 런타임은 내부적으로 상태를 관리하여 수동 개입의 필
 - [produceState의 목적과 작동 방식은 무엇인가요?](./ProduceState/README.md)
 - [snapshotFlow란 무엇인가?](./SnapshotFlow/README.md)
 - [derivedStateOf의 목적과 작동 방식은 무엇인가요?](./DerivedState/README.md)
+- [컴포저블 함수의 생명주기 단계](./ComposableFunctions/README.md)
