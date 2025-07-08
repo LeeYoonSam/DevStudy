@@ -2,6 +2,8 @@
 
 컴포저블 함수는 **초기 컴포지션(Initial Composition), 리컴포지션(Recomposition), 그리고 컴포지션을 벗어남(Leaving the Composition)** 이라는 세 가지 주요 단계를 따르는 생명주기를 가집니다. 이는 Compose 런타임에 의해 관리되며, 상태 변경에 따라 UI를 효율적으로 생성, 업데이트, 그리고 정리하는 과정을 포함합니다.
 
+![composable-lifecycle](./screenshots/composable-lifecycle.png)
+
 컴포저블 함수는 안드로이드의 전통적인 뷰(View)나 액티비티(Activity)와 같은 전통적인 생명주기를 갖지 않습니다. 대신, Compose 런타임에 의해 구동되는 **컴포지션을 인식하는(composition-aware) 생명주기**를 따릅니다.
 
 *(역자 주: 원문에 포함된 그림(Figure 27)은 컴포저블의 생명주기를 시각적으로 나타냅니다. 엔트리 -> 컴포지션/리컴포지션 -> 종료)*
