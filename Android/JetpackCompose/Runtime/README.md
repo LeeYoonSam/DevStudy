@@ -17,3 +17,4 @@ Compose 런타임은 내부적으로 상태를 관리하여 수동 개입의 필
 - [derivedStateOf의 목적과 작동 방식은 무엇인가요?](./DerivedState/README.md)
 - [컴포저블 함수의 생명주기 단계](./ComposableFunctions/README.md)
 - [SaveableStateHolder란 무엇인가?](./SaveableStateHolder/README.md)
+- [스냅샷 시스템(Snapshot System)의 목적은 무엇인가요?](./SnapshotSystem/README.md)
