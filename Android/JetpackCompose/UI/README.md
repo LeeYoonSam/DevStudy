@@ -7,3 +7,5 @@ Jetpack Compose UI는 주로 네이티브 안드로이드를 위해 설계되었
 `Modifier`와 같은 핵심 API들은 성능에 직접적인 영향을 미치고 UI 레이아웃이 얼마나 효율적이고 우아하게 구축되는지를 결정하기 때문에, Compose UI의 핵심 구성 요소를 이해하는 것은 매우 중요합니다. 이 카테고리는 여러분이 매일 사용하는 Compose UI API에 대한 더 깊은 이해를 얻는 데 도움이 될 것입니다. 그러나 이 책은 가능한 모든 Jetpack Compose 관련 인터뷰 질문을 상세히 다루기보다는, Compose UI에 대한 견고한 기초를 다지는 데 필수적인 근본적인 개념에 초점을 맞춥니다.
 
 ---
+
+- [Modifier란 무엇인가?](./Modifier/README.md)
