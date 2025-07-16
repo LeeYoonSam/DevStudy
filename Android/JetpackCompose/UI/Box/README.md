@@ -206,7 +206,7 @@ fun BoxWithConstraints(
 
 ## Q. `Box`의 `contentAlignment` 파라미터는 개별 자식에 `Modifier.align()`를 사용하는 것과 어떻게 다른가요? 둘을 함께 사용할 수 있나요?
 
-`Box`의 **`contentAlignment`** 파라미터는 **`Box` 내부의 모든 자식**에게 적용되는 **기본 정렬 규칙**을 설정합니다. 반면, **`Modifier.align()`**은 **개별 자식**에게 적용되어 `Box`의 기본 정렬을 **무시하고 자신만의 정렬을 지정**하는 데 사용됩니다. 네, 둘을 함께 사용할 수 있으며, 이때 **`Modifier.align()`이 `contentAlignment`보다 우선순위가 높습니다.**
+`Box`의 **`contentAlignment`** 파라미터는 **`Box` 내부의 모든 자식**에게 적용되는 **기본 정렬 규칙**을 설정합니다. 반면, **`Modifier.align()`** 은 **개별 자식**에게 적용되어 `Box`의 기본 정렬을 **무시하고 자신만의 정렬을 지정**하는 데 사용됩니다. 네, 둘을 함께 사용할 수 있으며, 이때 **`Modifier.align()`이 `contentAlignment`보다 우선순위가 높습니다.**
 
 -----
 
