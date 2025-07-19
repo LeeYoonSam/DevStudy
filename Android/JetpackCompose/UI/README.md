@@ -14,3 +14,4 @@ Jetpack Compose UI는 주로 네이티브 안드로이드를 위해 설계되었
 - [Arrangement와 Alignment의 차이점은 무엇인가요?](./ArrangementAlignment/README.md)
 - [Painter란 무엇인가?](./Painter/README.md)
 - [네트워크에서 이미지를 로드하는 방법](./LoadImages/README.md)
+- [UI 버벅임(jank)을 피하면서 수백 개의 아이템을 리스트로 효율적으로 렌더링하려면 어떻게 해야 할까요?](./EfficientlyRender/README.md)
