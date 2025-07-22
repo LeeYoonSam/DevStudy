@@ -17,3 +17,4 @@ Jetpack Compose UI는 주로 네이티브 안드로이드를 위해 설계되었
 - [UI 버벅임(jank)을 피하면서 수백 개의 아이템을 리스트로 효율적으로 렌더링하려면 어떻게 해야 할까요?](./EfficientlyRender/README.md)
 - [레이지 리스트(Lazy Lists)로 페이지네이션(Pagination)을 구현하는 방법](./Pagination/README.md)
 - [Canvas란 무엇인가?](./Canvas/README.md)
+- [graphicsLayer Modifier를 사용해 본 적이 있나요?](./GraphicsLayer/README.md)
