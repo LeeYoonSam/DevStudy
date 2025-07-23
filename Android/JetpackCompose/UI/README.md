@@ -18,3 +18,4 @@ Jetpack Compose UI는 주로 네이티브 안드로이드를 위해 설계되었
 - [레이지 리스트(Lazy Lists)로 페이지네이션(Pagination)을 구현하는 방법](./Pagination/README.md)
 - [Canvas란 무엇인가?](./Canvas/README.md)
 - [graphicsLayer Modifier를 사용해 본 적이 있나요?](./GraphicsLayer/README.md)
+- [Jetpack Compose에서 시각적 애니메이션을 구현하는 방법](./Animation/README.md)
