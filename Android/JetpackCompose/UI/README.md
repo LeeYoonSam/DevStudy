@@ -20,3 +20,4 @@ Jetpack Compose UI는 주로 네이티브 안드로이드를 위해 설계되었
 - [graphicsLayer Modifier를 사용해 본 적이 있나요?](./GraphicsLayer/README.md)
 - [Jetpack Compose에서 시각적 애니메이션을 구현하는 방법](./Animation/README.md)
 - [화면 간 내비게이션(이동)은 어떻게 하나요?](./Navigation/README.md)
+- [프리뷰(Preview)는 어떻게 작동하며 어떻게 처리하나요?](./Preview/README.md)
