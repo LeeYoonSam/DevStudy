@@ -1,8 +1,8 @@
 # 프리뷰(Preview)는 어떻게 작동하며 어떻게 처리하나요?
 
-Jetpack Compose의 주요 장점 중 하나는 Android Studio의 **프리뷰(Previews)** 기능입니다. 이 기능은 개발자가 전체 프로젝트를 컴파일하지 않고도 UI 컴포넌트를 점진적으로 빌드하고 시각화할 수 있게 합니다. 컴포저블 함수를 프리뷰 창에 직접 렌더링함으로써, Compose 프리뷰는 개발 워크플로우를 간소화하고, UI 변경 사항을 확인하는 데 필요한 시간을 줄이며, 생산성을 향상시킵니다.
+Jetpack Compose의 주요 장점 중 하나는 Android Studio의 [**프리뷰(Previews)**](https://developer.android.com/develop/ui/compose/tooling/previews) 기능입니다. 이 기능은 개발자가 전체 프로젝트를 컴파일하지 않고도 UI 컴포넌트를 점진적으로 빌드하고 시각화할 수 있게 합니다. 컴포저블 함수를 프리뷰 창에 직접 렌더링함으로써, Compose 프리뷰는 개발 워크플로우를 간소화하고, UI 변경 사항을 확인하는 데 필요한 시간을 줄이며, 생산성을 향상시킵니다.
 
-Compose UI 툴링 프리뷰 라이브러리는 Android Studio에서의 프리뷰 경험을 향상시키는 여러 어노테이션을 제공하여, 컴포저블을 더 쉽게 시각화하고 테스트할 수 있게 합니다. 이 섹션에서는 이러한 어노테이션들과 그것들이 어떻게 개발 프로세스를 간소화하여 Compose 프리뷰 작업 시 효율성을 향상시키는지 탐색합니다.
+[Compose UI 툴링 프리뷰 라이브러리](https://developer.android.com/develop/ui/compose/tooling)는 Android Studio에서의 프리뷰 경험을 향상시키는 여러 어노테이션을 제공하여, 컴포저블을 더 쉽게 시각화하고 테스트할 수 있게 합니다. 이 섹션에서는 이러한 어노테이션들과 그것들이 어떻게 개발 프로세스를 간소화하여 Compose 프리뷰 작업 시 효율성을 향상시키는지 탐색합니다.
 
 -----
 
@@ -65,7 +65,7 @@ fun DarkModePreview() {
 
 ## `@PreviewParameter`를 사용한 다중 프리뷰
 
-`@PreviewParameter` 어노테이션은 **`PreviewParameterProvider`** 를 활용하여 컴포저블 함수에 프리뷰 인스턴스를 주입할 수 있게 합니다. `PreviewParameterProvider` 인터페이스를 구현하는 사용자 정의 클래스를 정의하고 이를 사용하여 컴포저블에 다른 데이터 세트를 공급할 수 있습니다. 이 접근 방식은 아래 예시와 같이 다양한 입력을 가진 동적 프리뷰를 가능하게 합니다.
+`@PreviewParameter` 어노테이션은 **`PreviewParameterProvider`** 를 활용하여 컴포저블 함수에 프리뷰 인스턴스를 주입할 수 있게 합니다. [`PreviewParameterProvider`](https://developer.android.com/reference/kotlin/androidx/compose/ui/tooling/preview/PreviewParameterProvider) 인터페이스를 구현하는 사용자 정의 클래스를 정의하고 이를 사용하여 컴포저블에 다른 데이터 세트를 공급할 수 있습니다. 이 접근 방식은 아래 예시와 같이 다양한 입력을 가진 동적 프리뷰를 가능하게 합니다.
 
 ```kotlin
 public data class User(
@@ -88,7 +88,7 @@ private fun UserPreview(
 }
 ```
 
-이는 제공된 값들을 기반으로 여러 프리뷰 변형을 생성합니다. 또 다른 팁으로, Jetpack Compose UI 툴링 라이브러리에는 아래 프리뷰 이미지와 같이 미리 정의된 샘플 텍스트 문자열을 제공하는 **`LoremIpsum`** 이라는 `PreviewParameterProvider`가 포함되어 있습니다.
+이는 제공된 값들을 기반으로 여러 프리뷰 변형을 생성합니다. 또 다른 팁으로, Jetpack Compose UI 툴링 라이브러리에는 아래 프리뷰 이미지와 같이 미리 정의된 샘플 텍스트 문자열을 제공하는 [**`LoremIpsum`**](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui-tooling-preview/src/androidMain/kotlin/androidx/compose/ui/tooling/preview/datasource/LoremIpsum.android.kt;l=49?q=LoremIpsum%20compose) 이라는 `PreviewParameterProvider`가 포함되어 있습니다.
 
 ![compose-preview](./screenshots/compose-preview-2.png)
 
