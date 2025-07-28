@@ -99,7 +99,7 @@ Jetpack Compose는 `semantics`, `contentDescription`, `mergeDescendants`와 같�
 
 Jetpack Compose는 UI를 화면에 그리지만, 코드 자체만으로는 시스템의 보조 기술(예: TalkBack)이나 테스트 도구가 "이 네모난 파란색 영역이 '전송' 기능을 하는 버튼이다"라고 이해할 수 없습니다.
 
-**`Modifier.semantics`** 는 바로 이 지점에서 사용됩니다. 이 Modifier는 컴포저블에 다음과 같은 **의미론적 정보(메타데이터)**를 첨부하여, UI 트리와는 별개인 **시맨틱 트리(Semantics Tree)** 를 구성합니다.
+**`Modifier.semantics`** 는 바로 이 지점에서 사용됩니다. 이 Modifier는 컴포저블에 다음과 같은 **의미론적 정보(메타데이터)** 를 첨부하여, UI 트리와는 별개인 **시맨틱 트리(Semantics Tree)** 를 구성합니다.
 
   * **역할(Role):** 이 요소가 버튼인지, 이미지인지, 체크박스인지 등을 정의합니다.
   * **상태(State):** 체크박스가 선택되었는지, 스위치가 켜져 있는지 등의 현재 상태를 설명합니다.
