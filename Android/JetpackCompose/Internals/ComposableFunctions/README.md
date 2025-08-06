@@ -10,3 +10,4 @@
 - [위치 기억법 (Positional memoization)](./PositionalMemoization/README.md)
 - [Suspend 함수와의 유사성 (Similarities with suspend functions)](./SimilaritiesSuspend/README.md)
 - [Composable 함수의 색깔 (The color of Composable functions)](./ColorOfComposable/README.md)
+- [Composable 함수 타입 (Composable function types)](./FunctionType/README.md)
