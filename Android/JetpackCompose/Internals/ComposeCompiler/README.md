@@ -23,3 +23,4 @@ Compose에 대한 위의 구조를 처음 접하시는 분은 위 그림이 나�
 - [@InternalComposeApi](./AnnotationInternalComposeApi/README.md)
 - [@DisallowComposableCalls](./DisallowComposableCalls/README.md)
 - [@ReadOnlyComposable](./ReadOnlyComposable/README.md)
+- [@NonRestartableComposable](./NonRestartableComposable/README.md)
