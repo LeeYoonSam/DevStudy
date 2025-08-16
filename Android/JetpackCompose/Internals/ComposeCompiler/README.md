@@ -26,3 +26,4 @@ Compose에 대한 위의 구조를 처음 접하시는 분은 위 그림이 나�
 - [@NonRestartableComposable](./NonRestartableComposable/README.md)
 - [@StableMarker](./StableMarker/README.md)
 - [@Immutable](./Immutable/README.md)
+- [@Stable](./Stable/README.md)
