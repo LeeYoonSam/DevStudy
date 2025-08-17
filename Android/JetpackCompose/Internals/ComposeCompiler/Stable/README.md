@@ -14,7 +14,7 @@
   - 매개변수가 **기본 타입(primitive)** 인 경우
 
 ## Compose Runtime과의 관계
-- `Composable` 함수의 모든 매개변수가 **안정적(Stable/Immutable/Primitive)**으로 마킹되면, 컴파일러는 이전 호출과의 **값 비교**를 통해 동일하면 **recomposition을 생략**합니다.
+- `Composable` 함수의 모든 매개변수가 **안정적(Stable/Immutable/Primitive)** 으로 마킹되면, 컴파일러는 이전 호출과의 **값 비교**를 통해 동일하면 **recomposition을 생략**합니다.
 - 이는 Compose의 **위치 기억법(positional memoization)** 기반 최적화와 연동됩니다.
 
 ## 언제 `@Stable`을 사용할까?
@@ -51,7 +51,7 @@ class UserUiState(
 
 ```mermaid
 flowchart TD
-  A[Composable 호출] --> B{모든 매개변수가 안정적?\n(@Stable/@Immutable/Primitive)}
+  A[Composable 호출] --> B{모든 매개변수가 안정적?<br/>(@Stable / @Immutable / Primitive)}
   B -- 아니오 --> C[Recompose 수행]
   B -- 예 --> D{이전 호출과 값 동일?}
   D -- 예 --> E[Recomposition 생략]

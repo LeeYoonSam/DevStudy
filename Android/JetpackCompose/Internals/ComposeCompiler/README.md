@@ -27,3 +27,4 @@ Compose에 대한 위의 구조를 처음 접하시는 분은 위 그림이 나�
 - [@StableMarker](./StableMarker/README.md)
 - [@Immutable](./Immutable/README.md)
 - [@Stable](./Stable/README.md)
+- [컴파일러 확장 등록 (Registering Compiler extensions)](./CompilerExtensions/README.md)
