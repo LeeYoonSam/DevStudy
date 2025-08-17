@@ -67,9 +67,9 @@ fun NotIdealExample() {
 ```mermaid
 flowchart TD
   A["상위 상태 변경"] --> B["상위 Composable 무효화(invalidation)"]
-  B --> C{"대상 자식이 @NonRestartableComposable?"}
-  C -- "예" --> D["자식 재시작 보일러플레이트 미생성<br/>→ 자식 호출 최소화"]
-  C -- "아니오" --> E["일반 재구성 경로<br/>→ 자식 재호출 가능"]
+  B --> C{"대상 자식이 @NonRestartableComposable 인가?"}
+  C -- "예" --> D["자식 재시작 보일러플레이트 미생성 → 자식 호출 최소화"]
+  C -- "아니오" --> E["일반 재구성 경로 → 자식 재호출 가능"]
   D --> F["UI 업데이트"]
   E --> F
 ```

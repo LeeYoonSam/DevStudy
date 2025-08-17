@@ -51,11 +51,11 @@ class UserUiState(
 
 ```mermaid
 flowchart TD
-  A[Composable 호출] --> B{모든 매개변수가 안정적?<br/>(@Stable / @Immutable / Primitive)}
-  B -- 아니오 --> C[Recompose 수행]
-  B -- 예 --> D{이전 호출과 값 동일?}
-  D -- 예 --> E[Recomposition 생략]
-  D -- 아니오 --> C[Recompose 수행]
+  A["Composable 호출"] --> B{"모든 매개변수가 안정적인가? @Stable, @Immutable, Primitive"}
+  B -- "아니오" --> C["Recompose 수행"]
+  B -- "예" --> D{"이전 호출과 값이 동일한가?"}
+  D -- "예" --> E["Recomposition 생략"]
+  D -- "아니오" --> C
 ```
 
 > 참고: **`@Immutable`** 과 **`@Stable`** 은 서로 다른 의미의 약속이지만, **오늘날 Compose Compiler는 스마트 recomposition 및 생략 최적화를 위해 두 어노테이션을 실질적으로 같은 방식으로 취급**합니다. 향후 Compose의 변화에 따라 두 어노테이션의 **차별적 활용 가능성**이 열려 있으므로, 의미에 맞게 **각각을 분리하여 사용**하는 것이 중요합니다.

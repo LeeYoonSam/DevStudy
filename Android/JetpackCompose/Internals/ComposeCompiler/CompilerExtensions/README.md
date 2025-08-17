@@ -12,12 +12,12 @@ Jetpack Compose의 **Compose Compiler 플러그인**은 Kotlin 컴파일러의 *
 ## 등록 흐름
 ```mermaid
   flowchart LR
-    A[Source (Kotlin)] --> B[Kotlin Compiler]
-    B --> C[ComponentRegistrar]
-    C --> D[ComposeComponentRegistrar]
-    D --> E[Extensions 등록]
-    E --> F[IR Transform / Codegen]
-    F --> G[Compose Runtime 및 개발 도구 연계]
+    A["Kotlin Source"] --> B["Kotlin Compiler"]
+    B --> C["ComponentRegistrar"]
+    C --> D["ComposeComponentRegistrar"]
+    D --> E["Extensions 등록"]
+    E --> F["IR Transform / Codegen"]
+    F --> G["Compose Runtime 및 개발 도구 연계"]
 ```
 
 ## 주요 확장과 역할(개념)
