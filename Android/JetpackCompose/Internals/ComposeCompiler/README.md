@@ -69,6 +69,7 @@ fun Greeting(name: String) {
   - [정적 분석 (Static Analysis)](./StaticAnalysis/README.md)
   - [정적 검사기 (Static Checkers)](./StaticCheckers/README.md)
   - [호출 검사 (Call checks)](./CallChecks/README.md)
+  - [타입 검사 (Type checks)](./TypeChecks/README.md)
 
 ## 요약
 - **핵심 구성**: `Compose Compiler`와 `Compose Runtime`이 중심, `Compose UI`는 클라이언트.
