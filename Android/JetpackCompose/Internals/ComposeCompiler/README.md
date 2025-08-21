@@ -72,6 +72,7 @@ fun Greeting(name: String) {
   - [타입 검사 (Type checks)](./TypeChecks/README.md)
   - [선언 검사 (Declaration checks)](./DeclarationChecks/README.md)
   - [진단 억제기 (Diagnostic Suppression)](./DiagnosticSuppression/README.md)
+  - [런타임 버전 검사 (Runtime Version Check)](./RuntimeVersionCheck/README.md)
 
 ## 요약
 - **핵심 구성**: `Compose Compiler`와 `Compose Runtime`이 중심, `Compose UI`는 클라이언트.
