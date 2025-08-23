@@ -76,6 +76,7 @@ fun Greeting(name: String) {
   - [코드 생성 (Code Generation)](./CodeGeneration/README.md)
   - [Kotlin IR (The Kotlin IR)](./KotlinIR/README.md)
   - [낮추기 (Lowering)](./Lowering/README.md)
+  - [클래스 안정성 추론 (Inferring Class Stability)](./InferringClassStability/README.md)
 
 ## 요약
 - **핵심 구성**: `Compose Compiler`와 `Compose Runtime`이 중심, `Compose UI`는 클라이언트.
