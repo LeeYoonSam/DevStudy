@@ -78,6 +78,7 @@ fun Greeting(name: String) {
   - [낮추기 (Lowering)](./Lowering/README.md)
   - [클래스 안정성 추론 (Inferring Class Stability)](./InferringClassStability/README.md)
   - [라이브 리터럴 활성화 (Enabling Live Literals)](./EnablingLiveLiterals/README.md)
+  - [람다 메모이제이션 (Lambda Memoization)](./LambdaMemoization/README.md)
 
 ## 요약
 - **핵심 구성**: `Compose Compiler`와 `Compose Runtime`이 중심, `Compose UI`는 클라이언트.
