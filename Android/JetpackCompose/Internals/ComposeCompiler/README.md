@@ -81,6 +81,7 @@ fun Greeting(name: String) {
   - [람다 메모이제이션 (Lambda Memoization)](./LambdaMemoization/README.md)
   - [Composer 주입하기 (Injecting the Composer)](./InjectingComposer/README.md)
   - [비교 전파 (Comparison Propagation)](./ComparisonPropagation/README.md)
+  - [디폴트 매개변수 (Default Parameters)](./DefaultParameters/README.md)
 
 ## 요약
 - **핵심 구성**: `Compose Compiler`와 `Compose Runtime`이 중심, `Compose UI`는 클라이언트.
