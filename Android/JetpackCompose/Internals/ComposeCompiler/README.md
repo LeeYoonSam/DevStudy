@@ -83,6 +83,7 @@ fun Greeting(name: String) {
   - [비교 전파 (Comparison Propagation)](./ComparisonPropagation/README.md)
   - [디폴트 매개변수 (Default Parameters)](./DefaultParameters/README.md)
   - [컨트롤 플로우 그룹 생성 (Control Flow Group Generation)](./ControlFlowGroupGeneration/README.md)
+  - [Klib과 미끼(Decoy) 생성 (Klib and Decoy Generation)](./KlibDecoyGeneration/README.md)
 
 ## 요약
 - **핵심 구성**: `Compose Compiler`와 `Compose Runtime`이 중심, `Compose UI`는 클라이언트.
