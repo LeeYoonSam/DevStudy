@@ -61,3 +61,6 @@ flowchart LR
 - `Runtime`은 `Composition`을 관리하고 변경을 최소 범위로 다시 그립니다.
 - 컴파일러가 주입한 ```$composer```가 변경 추적과 상태 기록을 담당합니다.
 - `Composable` → Compiler → `Composer` → `Composition` → `Recomposition`의 흐름으로 동작합니다.
+
+## 더 학습하기
+- [슬롯 테이블과 변경 목록 (The Slot Table and the List of Changes)](./SlotTableListOfChanges/README.md)
