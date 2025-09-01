@@ -64,3 +64,4 @@ flowchart LR
 
 ## 더 학습하기
 - [슬롯 테이블과 변경 목록 (The Slot Table and the List of Changes)](./SlotTableListOfChanges/README.md)
+- [슬롯 테이블 심층 분석 (The slot table in depth)](./SlotTableInDepth/README.md)
