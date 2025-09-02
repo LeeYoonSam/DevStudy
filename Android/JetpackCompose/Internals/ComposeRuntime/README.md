@@ -63,6 +63,7 @@ flowchart LR
 - `Composable` → Compiler → `Composer` → `Composition` → `Recomposition`의 흐름으로 동작합니다.
 
 ## 더 학습하기
+- [Composer (The Composer)](./Composer/README.md)
 - [슬롯 테이블과 변경 목록 (The Slot Table and the List of Changes)](./SlotTableListOfChanges/README.md)
 - [슬롯 테이블 심층 분석 (The slot table in depth)](./SlotTableInDepth/README.md)
 - [변경 목록 (The list of changes)](./ListOfChanges/README.md)
