@@ -68,4 +68,5 @@ flowchart LR
 - [변경 목록 (The list of changes)](./ListOfChanges/README.md)
 - [Composer (The Composer)](./Composer/README.md)
 - [Composer 키우기 (Feeding the Composer)](./FeedingTheComposer/README.md)
+- [변경 사항 모델링 (Modeling the Changes)](./ModelingTheChanges/README.md)
 
