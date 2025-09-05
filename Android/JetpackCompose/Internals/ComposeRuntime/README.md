@@ -69,4 +69,5 @@ flowchart LR
 - [Composer (The Composer)](./Composer/README.md)
 - [Composer 키우기 (Feeding the Composer)](./FeedingTheComposer/README.md)
 - [변경 사항 모델링 (Modeling the Changes)](./ModelingTheChanges/README.md)
+- [작성 시기 최적화 (Optimizing when to write)](./OptimizinWhenToWrite/README.md)
 
