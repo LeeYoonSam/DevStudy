@@ -71,4 +71,4 @@ flowchart LR
 - [변경 사항 모델링 (Modeling the Changes)](./ModelingTheChanges/README.md)
 - [작성 시기 최적화 (Optimizing when to write)](./OptimizinWhenToWrite/README.md)
 - [쓰기 및 읽기 그룹 (Writing and Reading Groups)](./WritingReadingGroups/README.md)
-
+- [값 기억하기 (Remembering values)](./RememberingValues/README.md)
