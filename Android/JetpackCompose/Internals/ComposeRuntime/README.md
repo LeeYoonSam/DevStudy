@@ -72,4 +72,5 @@ flowchart LR
 - [작성 시기 최적화 (Optimizing when to write)](./OptimizinWhenToWrite/README.md)
 - [쓰기 및 읽기 그룹 (Writing and Reading Groups)](./WritingReadingGroups/README.md)
 - [값 기억하기 (Remembering values)](./RememberingValues/README.md)
- - [재구성 범위 (Recompose scopes)](./RecomposeScopes/README.md)
+- [재구성 범위 (Recompose scopes)](./RecomposeScopes/README.md)
+- [Composer와 사이드 이펙트 (SideEffects in the Composer)](./SideEffectsInTheComposer/README.md)
