@@ -74,3 +74,4 @@ flowchart LR
 - [값 기억하기 (Remembering values)](./RememberingValues/README.md)
 - [재구성 범위 (Recompose scopes)](./RecomposeScopes/README.md)
 - [Composer와 사이드 이펙트 (SideEffects in the Composer)](./SideEffectsInTheComposer/README.md)
+- [CompositionLocals 저장 (Storing CompositionLocals)](./StoringCompositionLocals/README.md)
