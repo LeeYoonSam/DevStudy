@@ -76,3 +76,4 @@ flowchart LR
 - [Composer와 사이드 이펙트 (SideEffects in the Composer)](./SideEffectsInTheComposer/README.md)
 - [CompositionLocals 저장 (Storing CompositionLocals)](./StoringCompositionLocals/README.md)
 - [소스 정보 저장 (Storing Source Information)](./StoringSourceInformation/README.md)
+- [CompositionContext를 이용한 Composition 연결 (Linking Compositions)](./LinkingCompositions/README.md)
