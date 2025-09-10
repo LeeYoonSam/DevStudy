@@ -77,3 +77,4 @@ flowchart LR
 - [CompositionLocals 저장 (Storing CompositionLocals)](./StoringCompositionLocals/README.md)
 - [소스 정보 저장 (Storing Source Information)](./StoringSourceInformation/README.md)
 - [CompositionContext를 이용한 Composition 연결 (Linking Compositions)](./LinkingCompositions/README.md)
+- [현재 상태 스냅샷에 접근 (Accessing the current State snapshot)](./AccessingTheCurrentStateSnapshot/README.md)
