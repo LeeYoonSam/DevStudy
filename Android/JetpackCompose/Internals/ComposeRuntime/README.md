@@ -80,3 +80,4 @@ flowchart LR
 - [현재 상태 스냅샷에 접근 (Accessing the current State snapshot)](./AccessingTheCurrentStateSnapshot/README.md)
 - [노드 탐색 (Navigating the nodes)](./NavigatingTheNodes/README.md)
 - [구독자와 작성자의 동기화 유지 (Keeping reader and writer in sync)](./KeepingReaderWriterInSync/README.md)
+- [변경 사항 적용하기 (Applying the changes)](./ApplyingChanges/README.md)

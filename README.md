@@ -289,3 +289,8 @@ AI 시대에 개발자로 살아남는 29가지 LLM 프롬프트 엔지니어링
 - [TCP/IP, HTTP 에 대해서 설명](./Http/README.md#tcpip-http-에-대해서-설명)
 
 ## [Bluetooth](./Bluetooth)
+
+---
+
+### Jetpack Compose Internals 문서 모음
+- [변경 사항 적용하기 (Applying the changes)](./Android/JetpackCompose/Internals/ComposeRuntime/ApplyingChanges/README.md)
