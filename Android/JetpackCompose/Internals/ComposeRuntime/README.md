@@ -81,4 +81,5 @@ flowchart LR
 - [노드 탐색 (Navigating the nodes)](./NavigatingTheNodes/README.md)
 - [구독자와 작성자의 동기화 유지 (Keeping reader and writer in sync)](./KeepingReaderWriterInSync/README.md)
 - [변경 사항 적용하기 (Applying the changes)](./ApplyingChanges/README.md)
- - [노드 트리 구축 시 성능 (Performance when building the node tree)](./PerformanceBuildingNodeTree/README.md)
+- [노드 트리 구축 시 성능 (Performance when building the node tree)](./PerformanceBuildingNodeTree/README.md)
+- [변경 사항이 적용되는 방식 (How Changes Are Applied)](./HowChangesAreApplied/README.md)
