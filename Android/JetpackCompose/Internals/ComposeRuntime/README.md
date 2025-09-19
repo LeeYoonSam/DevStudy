@@ -86,3 +86,4 @@ flowchart LR
 - [노드 연결 및 그리기 (Attaching and Drawing Nodes)](./AttachingDrawingNodes/README.md)
 - [Composition](./Composition/README.md)
 - [Composition 생성하기 (Creating a Composition)](./CreatingComposition/README.md)
+- [초기 Composition 과정 (The initial Composition process)](./InitialCompositionProcess/README.md)
