@@ -87,3 +87,4 @@ flowchart LR
 - [Composition](./Composition/README.md)
 - [Composition 생성하기 (Creating a Composition)](./CreatingComposition/README.md)
 - [초기 Composition 과정 (The initial Composition process)](./InitialCompositionProcess/README.md)
+- [초기 Composition 후 변경 사항 적용 (Applying Changes After Initial Composition)](./ApplyingChangesAfterInitialComposition/README.md)
