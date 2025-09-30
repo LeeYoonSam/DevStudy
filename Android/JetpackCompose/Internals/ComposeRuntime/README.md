@@ -92,4 +92,5 @@ flowchart LR
 - [Recomposer (The Recomposer)](./Recomposer/README.md)
 - [Recomposer 생성 (Spawning the Recomposer)](./SpawningRecomposer/README.md)
 - [Recomposition 프로세스 (Recomposition process)](./RecompositionProcess/README.md)
-  - [Recomposition의 동시성 (Concurrent recomposition)](./ConcurrentRecomposition/README.md)
+- [Recomposition의 동시성 (Concurrent recomposition)](./ConcurrentRecomposition/README.md)
+- [Recomposer의 상태 (Recomposer states)](./RecomposerStates/README.md)
