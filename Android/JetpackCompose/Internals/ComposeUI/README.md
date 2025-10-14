@@ -74,3 +74,7 @@ flowchart TD
 - Compose Runtime은 다양한 플랫폼을 위한 클라이언트 라이브러리를 가질 수 있으며, Android UI용 Compose UI, 웹용 Compose for Web, CLI용 Mosaic 등이 대표적인 예입니다
 - 효과적인 학습을 위해서는 공식 오픈 소스 코드를 직접 확인하며 학습하는 것이 권장되며, 코드 변경 내역을 추적하여 설계 의도와 결정 과정을 이해하는 것이 중요합니다
 - 이 책의 마지막 장에서는 Compose를 위한 커스텀 클라이언트 라이브러리를 작성하는 방법에 대해 심층적으로 다룹니다
+
+## 관련 문서
+
+- [Compose UI와 런타임의 통합](./IntegratingUI/README.md)
