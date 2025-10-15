@@ -78,3 +78,4 @@ flowchart TD
 ## 관련 문서
 
 - [Compose UI와 런타임의 통합](./IntegratingUI/README.md)
+- [예약된 변경 목록을 실제 트리의 변경 목록으로 대응](./ScheduledToActualChanges/README.md)
