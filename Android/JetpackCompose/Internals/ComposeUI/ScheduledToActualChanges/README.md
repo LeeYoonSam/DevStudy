@@ -1,8 +1,4 @@
-# 예약된 변경 목록을 실제 트리의 변경 목록으로 대응 
-(Mapping scheduled changes to actual changes 
-to the tree)
-
-> Mapping scheduled changes to actual changes to the tree
+# 예약된 변경 목록을 실제 트리의 변경 목록으로 대응 (Mapping scheduled changes to actual changes to the tree)
 
 ## 개요
 
