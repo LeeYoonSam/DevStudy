@@ -82,3 +82,4 @@ flowchart TD
 - [Compose UI 관점에서의 Composition](./CompositionFromThePointOfViewOfComposeUI/README.md)
 - [Compose UI 관점에서의 Subcomposition](./SubcompositionFromComposeUI/README.md)
 - [UI에 변경사항 반영하기](./ReflectingChangesInTheUI/README.md)
+- [다양한 타입의 Applier들](./DifferentTypesOfAppliers/README.md)
