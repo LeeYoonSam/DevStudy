@@ -81,3 +81,4 @@ flowchart TD
 - [예약된 변경 목록을 실제 트리의 변경 목록으로 대응](./ScheduledToActualChanges/README.md)
 - [Compose UI 관점에서의 Composition](./CompositionFromThePointOfViewOfComposeUI/README.md)
 - [Compose UI 관점에서의 Subcomposition](./SubcompositionFromComposeUI/README.md)
+- [UI에 변경사항 반영하기](./ReflectingChangesInTheUI/README.md)
