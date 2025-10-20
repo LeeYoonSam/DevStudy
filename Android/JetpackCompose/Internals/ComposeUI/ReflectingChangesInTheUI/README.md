@@ -32,6 +32,6 @@ graph LR
 ## 요약
 
 - **Composition과 Recomposition**은 UI 노드를 방출하고 런타임에 제공하는 과정임
-- **구체화(Materialization)**는 노드 트리의 변경사항을 실제 UI에 반영하는 핵심 과정
+- **구체화(Materialization)** 는 노드 트리의 변경사항을 실제 UI에 반영하는 핵심 과정
 - Compose UI와 같은 클라이언트 라이브러리가 구체화 작업을 담당
 - 변경사항의 실제 UI 반영을 통해 사용자가 업데이트된 화면을 경험할 수 있음
