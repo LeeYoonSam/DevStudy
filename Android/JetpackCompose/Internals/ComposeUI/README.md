@@ -85,3 +85,4 @@ flowchart TD
 - [다양한 타입의 Applier들](./DifferentTypesOfAppliers/README.md)
 - [새로운 LayoutNode를 구체화하기](./MaterializingNewLayoutNode/README.md)
 - [전체 과정의 마무리](./ClosingTheCircle/README.md)
+- [노드 제거를 위한 변경 사항 구체화](./MaterializingChangeToRemoveNodes/README.md)
