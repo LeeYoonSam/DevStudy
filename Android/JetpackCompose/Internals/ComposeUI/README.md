@@ -84,3 +84,4 @@ flowchart TD
 - [UI에 변경사항 반영하기](./ReflectingChangesInTheUI/README.md)
 - [다양한 타입의 Applier들](./DifferentTypesOfAppliers/README.md)
 - [새로운 LayoutNode를 구체화하기](./MaterializingNewLayoutNode/README.md)
+- [전체 과정의 마무리](./ClosingTheCircle/README.md)
