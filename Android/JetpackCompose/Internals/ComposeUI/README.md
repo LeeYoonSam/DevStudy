@@ -90,3 +90,4 @@ flowchart TD
 - [모든 노드를 지우는 변경 사항 구체화](./MaterializingChangeToClearAllTheNodes/README.md)
 - [Compose UI에서의 측정](./MeasuringInComposeUI/README.md)
 - [측정 정책](./MeasuringPolicies/README.md)
+- [고유 크기 측정](./IntrinsicMeasurements/README.md)
