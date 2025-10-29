@@ -99,7 +99,7 @@ minHeight == maxHeight
 
 ### 예시: LazyVerticalGrid (레거시)
 
-> ⚠️ **주의**: 아래 내용은 2024년 3월 기준, 변경되어 사라진 내용입니다. `LazyVerticalGrid`는 더 이상 내부적으로 `LazyColumn`을 사용하지 않으며, `LazyLayout`을 사용하여 재구현되었습니다. ([변경 사항 확인](https://android-review.googlesource.com/c/platform/frameworks/support/+/2010612))
+> ⚠️ **주의**: 아래 내용은 2024년 3월 기준, 변경되어 사라진 내용입니다. `LazyVerticalGrid`는 더 이상 내부적으로 `LazyColumn`을 사용하지 않으며, `LazyLayout`을 사용하여 재구현되었습니다. ([변경 사항 확인](https://cs.android.com/androidx/platform/frameworks/support/+/5d4ba61e213a26782001c25aa4f07b94cf7f6fe7))
 
 이전 `LazyVerticalGrid`는 동적인 아이템을 가지는 수직 그리드를 표시하기 위해 `LazyColumn`을 사용했으며, 각 행마다 여러 항목을 포함하는 `ItemRow`를 렌더링했습니다.
 
