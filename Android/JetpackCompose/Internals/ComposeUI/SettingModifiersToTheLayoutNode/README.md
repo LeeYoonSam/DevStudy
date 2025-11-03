@@ -176,7 +176,7 @@ fun Modifier.clickable(
 
 ### Modifier.composed의 성능 이슈
 
-공식 문서에서는 커스텀 Modifier 구현 시 `Modifier.composed` 확장 함수를 **"성능상의 이유로 추천하지 않는다"**고 안내합니다.
+공식 문서에서는 커스텀 Modifier 구현 시 `Modifier.composed` 확장 함수를 **"성능상의 이유로 추천하지 않는다"** 고 안내합니다.
 
 ### 현대적인 접근 방식
 
