@@ -178,7 +178,7 @@ flowchart LR
 
 ## 표시 목록 업데이트
 
-체인의 모든 래퍼가 그려지면, `AndroidComposeView#dispatchDraw`는 **dirty 플래그가 지정된 모든 레이어**에 대해 그들의 **표시 목록(Display List)**을 업데이트하도록 알립니다.
+체인의 모든 래퍼가 그려지면, `AndroidComposeView#dispatchDraw`는 **dirty 플래그가 지정된 모든 레이어**에 대해 그들의 **표시 목록(Display List)** 을 업데이트하도록 알립니다.
 
 ### 표시 목록 업데이트 프로세스
 
