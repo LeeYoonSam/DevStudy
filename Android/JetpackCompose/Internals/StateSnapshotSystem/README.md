@@ -7,4 +7,5 @@ Jetpack Compose에는 상태를 표현하고 상태 변경 사항을 전파하�
 ## 관련 문서
 
 - [스냅샷 상태란 (What snapshot state is)](./SnapshotState/README.md)
+- [동시성 제어 시스템 (Concurrency Control Systems)](./ConcurrencyControlSystems/README.md)
 
