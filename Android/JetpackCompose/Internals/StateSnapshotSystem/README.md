@@ -10,4 +10,5 @@ Jetpack Compose에는 상태를 표현하고 상태 변경 사항을 전파하�
 - [동시성 제어 시스템 (Concurrency Control Systems)](./ConcurrencyControlSystems/README.md)
 - [다중 버전 동시성 제어 (Multiversion Concurrency Control)](./MultiversionConcurrencyControl/README.md)
 - [스냅샷 (The Snapshot)](./Snapshot/README.md)
+- [스냅샷 트리 (The Snapshot Tree)](./SnapshotTree/README.md)
 
