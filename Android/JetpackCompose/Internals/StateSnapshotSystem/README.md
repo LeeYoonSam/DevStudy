@@ -14,4 +14,5 @@ Jetpack Compose에는 상태를 표현하고 상태 변경 사항을 전파하�
 - [스냅샷과 쓰레딩 (Snapshots and Threading)](./SnapshotsThreading/README.md)
 - [읽고 쓰기 관찰하기 (Observing reads and writes)](./ObservingReadsWrites/README.md)
 - [가변적인 스냅샷 (MutableSnapshots)](./MutableSnapshots/README.md)
+- [글로벌 스냅샷과 중첩된 스냅샷 (GlobalSnapshot and nested snapshots)](./GlobalSnapshotNestedSnapshots/README.md)
 
