@@ -17,4 +17,5 @@ Jetpack Compose에는 상태를 표현하고 상태 변경 사항을 전파하�
 - [글로벌 스냅샷과 중첩된 스냅샷 (GlobalSnapshot and nested snapshots)](./GlobalSnapshotNestedSnapshots/README.md)
 - [상태 객체 및 상태 기록 (StateObjects and StateRecords)](./StateObjectsStateRecords/README.md)
 - [읽기와 쓰기 상태 (Reading and writing state)](./ReadingWritingState/README.md)
+- [오래된 기록 제거 또는 재사용하기 (Removing or reusing obsolete records)](./RemovingReusingObsoleteRecords/README.md)
 
