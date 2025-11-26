@@ -19,4 +19,5 @@ Jetpack Compose에는 상태를 표현하고 상태 변경 사항을 전파하�
 - [읽기와 쓰기 상태 (Reading and writing state)](./ReadingWritingState/README.md)
 - [오래된 기록 제거 또는 재사용하기 (Removing or reusing obsolete records)](./RemovingReusingObsoleteRecords/README.md)
 - [변경 사항 전파하기 (Change Propagation)](./ChangePropagation/README.md)
+- [쓰기 충돌 병합하기 (Merging write conflicts)](./MergingWriteConflicts/README.md)
 
