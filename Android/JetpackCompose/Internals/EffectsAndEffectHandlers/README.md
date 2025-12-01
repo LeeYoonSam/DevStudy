@@ -7,3 +7,4 @@
 - [사이드 이펙트 소개](./IntroducingSideEffects/README.md)
 - [Compose에서의 사이드 이펙트](./SideEffectsInCompose/README.md)
 - [우리가 필요로 하는 것](./WhatWeNeed/README.md)
+- [이펙트 핸들러의 종류](./EffectHandlers/README.md)
