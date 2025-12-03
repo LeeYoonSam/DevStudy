@@ -107,3 +107,7 @@ graph TD
 - 네트워크 요청이나 외부 상태 업데이트와 같은 사이드 이펙트는 **이펙트 핸들러**를 통해 관리해야 합니다
 - Jetpack Compose는 **생명주기를 인식하는 이펙트 핸들러**를 제공하여 안전하게 사이드 이펙트를 실행하고 관리할 수 있도록 합니다
 - 이펙트 핸들러를 사용하면 여러 recomposition 동안 작업을 지속하거나 composition을 떠날 때 자동으로 취소할 수 있습니다
+
+## 관련 문서
+
+- [일시 중단 이펙트 (Suspended Effects)](./SuspendedEffects/README.md)

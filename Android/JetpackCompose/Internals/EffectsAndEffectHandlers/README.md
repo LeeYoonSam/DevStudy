@@ -9,3 +9,4 @@
 - [우리가 필요로 하는 것](./WhatWeNeed/README.md)
 - [이펙트 핸들러의 종류](./EffectHandlers/README.md)
 - [비일시 중단 이펙트](./NonSuspendedEffects/README.md)
+- [일시 중단 이펙트](./SideEffectsInCompose/SuspendedEffects/README.md)
