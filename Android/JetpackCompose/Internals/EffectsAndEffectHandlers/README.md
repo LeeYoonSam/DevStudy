@@ -10,3 +10,4 @@
 - [이펙트 핸들러의 종류](./EffectHandlers/README.md)
 - [비일시 중단 이펙트](./NonSuspendedEffects/README.md)
 - [일시 중단 이펙트](./SideEffectsInCompose/SuspendedEffects/README.md)
+- [서드 파티 라이브러리 어댑터](./ThirdPartyLibraryAdapters/README.md)
