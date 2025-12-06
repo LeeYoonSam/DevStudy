@@ -14,3 +14,4 @@
 - [4. Compose UI](./ComposeUI/README.md)
 - [5. 상태 스냅샷 시스템 (State snapshot system)](./StateSnapshotSystem/README.md)
 - [6. 이펙트 및 이펙트 핸들러 (Effects and effect handlers)](./EffectsAndEffectHandlers/README.md)
+- [7. Compose Runtime 고급 사용 사례 (Advanced Compose Runtime use cases)](./AdvancedComposeRuntimeUseCases/README.md)
