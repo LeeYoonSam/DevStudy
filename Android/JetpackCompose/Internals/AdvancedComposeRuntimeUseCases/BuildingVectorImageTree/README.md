@@ -169,7 +169,7 @@ class VectorApplier(root: VNode) : AbstractApplier<VNode>(root) {
 이렇게 여러 방법을 제공하는 것은 **성능**과 관련이 있습니다:
 
 - 일부 환경에서는 트리에 자식을 추가할 때 관련 비용이 발생 (예: 이전 안드로이드 시스템에서 `View`를 추가할 때의 재배치)
-- 벡터 사용 사례의 경우 이러한 성능 비용이 없으므로 노드는 **하향식(Top-Down)**으로 삽입
+- 벡터 사용 사례의 경우 이러한 성능 비용이 없으므로 노드는 **하향식(Top-Down)** 으로 삽입
 
 > 자세한 내용은 [Applier 문서](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/runtime/runtime/src/commonMain/kotlin/androidx/compose/runtime/Applier.kt)를 참조하세요.
 
