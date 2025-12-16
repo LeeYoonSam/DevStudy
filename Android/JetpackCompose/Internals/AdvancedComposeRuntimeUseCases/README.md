@@ -10,3 +10,4 @@
 - [벡터 이미지 트리 구축](./BuildingVectorImageTree/README.md)
 - [Compose UI에 벡터 Composition 통합하기](./IntegrationVectorComposition/README.md)
 - [Compose를 이용한 DOM 관리](./ManagingDOMWithCompose/README.md)
+- [브라우저에서의 독립 Composition](./StandaloneCompositionInTheBrowser/README.md)

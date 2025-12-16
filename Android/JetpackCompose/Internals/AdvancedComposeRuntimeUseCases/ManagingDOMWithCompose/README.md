@@ -108,7 +108,7 @@ flowchart TB
 ## 요약
 
 - **Compose 멀티플랫폼**은 런타임과 컴파일러만으로도 다양한 플랫폼에서 Composition을 생성할 수 있음
-- 브라우저의 **DOM(Document Object Model)**은 트리 형태 구조로, `HTMLElement`와 `Text` 노드로 구성됨
+- 브라우저의 **DOM(Document Object Model)** 은 트리 형태 구조로, `HTMLElement`와 `Text` 노드로 구성됨
 - `ComposeNode`를 사용해 HTML 태그를, `ReusableComposeNode`를 사용해 텍스트 요소를 Composable로 표현
 - **태그는 불변**이므로, 태그 변경 시 노드 재생성이 필요하며 별도의 Composable로 감싸는 것이 권장됨
 - **Applier**는 Compose가 DOM 요소를 조작(추가/제거/이동)하는 데 필요한 핵심 컴포넌트
